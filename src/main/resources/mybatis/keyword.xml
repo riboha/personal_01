@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.keyword.KeywordDAOInter">
+
+
+<!-- 등록  -->
+<insert id="create" parameterType="KeywordVO">
+  INSERT INTO keyword( keywordno, keyword, filmno)
+  VALUES (keyword_seq.nextval, #{keyword, jdbcType=VARCHAR}, #{filmno, jdbcType=INTEGER})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="KeywordVO">
+  SELECT keywordno, keyword, filmno, keywordseq
+  FROM keyword
+  ORDER BY filmno DESC, keywordseq ASC 
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="KeywordVO" parameterType="int">
+  SELECT keywordno, keyword, filmno, keywordseq
+  FROM keyword
+  WHERE keywordno = #{keywordno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE keyword
+  SET keyword = #{keyword}, keywordseq = #{keywordseq}
+  WHERE keywordno = #{keywordno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM keyword 
+  WHERE keywordno=#{keywordno}
+</delete>
+
+
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.director.DirectorDAOInter">
+
+
+<!-- 등록  -->
+<insert id="create" parameterType="DirectorVO">
+  <selectKey keyProperty="dirno" resultType="int" order="BEFORE">
+      SELECT director_seq.nextval FROM dual
+  </selectKey>     
+  INSERT INTO director(dirno, dirnamekr, dirnameen, dirnation, 
+                                dirphoto, dirphotosize, dirthumb)
+  VALUES (#{dirno}, #{dirnamekr, jdbcType=VARCHAR}, #{dirnameen, jdbcType=VARCHAR}, #{dirnation, jdbcType=VARCHAR}, 
+                #{dirphoto, jdbcType=VARCHAR}, #{dirphotosize, jdbcType=INTEGER}, #{dirthumb, jdbcType=VARCHAR})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="DirectorVO">
+  SELECT dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb
+  FROM director
+  ORDER BY dirno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="DirectorVO" parameterType="int">
+  SELECT dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb
+  FROM director
+  WHERE dirno = #{dirno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE director
+  SET dirnamekr=#{dirnamekr, jdbcType=VARCHAR}, dirnameen= #{dirnameen, jdbcType=VARCHAR}, dirnation= #{dirnation, jdbcType=VARCHAR},
+         dirphoto=#{dirphoto, jdbcType=VARCHAR}, dirphotosize= #{dirphotosize, jdbcType=INTEGER}, dirthumb=#{dirthumb, jdbcType=VARCHAR}
+  WHERE dirno = #{dirno, jdbcType=INTEGER}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM director
+  WHERE dirno= #{dirno}
+</delete>
+
+</mapper>

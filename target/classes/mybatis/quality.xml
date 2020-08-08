@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.quality.QualityDAOInter">
+
+<!-- 등록 -->
+<insert id="create" parameterType="HashMap">
+  INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
+  VALUES (#{filmno}, #{q576}, #{q720}, #{q1024}, #{q1440}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="QualityVO">
+  SELECT qualno, q576, q720, q1024, q1440, filmno
+  FROM quality
+  ORDER BY qualno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="QualityVO" parameterType="int">
+  SELECT qualno, q576, q720, q1024, q1440, filmno
+  FROM quality
+  WHERE filmno = #{filmno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE quality
+  SET q576=#{q576}, q720=#{q720}, q1024=#{q1024}, q1440=#{q1440}
+  WHERE filmno = #{filmno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM quality
+  WHERE filmno= #{filmno}
+</delete>
+
+</mapper>

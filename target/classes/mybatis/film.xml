@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.film.FilmDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="FilmVO">
+  <selectKey keyProperty="filmno" resultType="int" order="BEFORE">
+      SELECT film_seq.nextval FROM dual
+  </selectKey> 
+  INSERT INTO film(filmno, titlekr, titleen, lan, year, len, summary, restrict, dirno,
+                          youtube, url, poster, posterthumb, postersize)
+  VALUES (#{filmno}, #{titlekr}, #{titleen}, #{lan}, #{year}, #{len}, #{summary}, #{restrict}, #{dirno, jdbcType=INTEGER},
+              #{youtube}, #{url}, #{poster}, #{posterthumb}, #{postersize})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="FilmVO">
+  SELECT filmno, titlekr, titleen, lan, year, len, summary, restrict, dirno
+  FROM film
+  ORDER BY filmno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="FilmVO" parameterType="int">
+  SELECT filmno, titlekr, titleen, lan, year, len, summary, restrict, dirno,
+                          youtube, url, poster, posterthumb, postersize,
+                          filmseq, hit, dirno
+  FROM film
+  WHERE filmno = #{filmno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE film
+  SET titlekr=#{titlekr, jdbcType=VARCHAR}, titleen=#{titleen, jdbcType=VARCHAR}, lan=#{lan, jdbcType=VARCHAR}, year=#{year, jdbcType=INTEGER}, 
+                    len=#{len, jdbcType=INTEGER}, summary=#{summary, jdbcType=VARCHAR}, restrict=#{restrict, jdbcType=INTEGER}, dirno=#{dirno, jdbcType=INTEGER},
+                    poster=#{poster, jdbcType=VARCHAR}, posterthumb=#{posterthumb, jdbcType=VARCHAR}, postersize =#{postersize, jdbcType=INTEGER}
+  WHERE filmno = #{filmno, jdbcType=INTEGER}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM film
+  WHERE filmno= #{filmno}
+</delete>
+
+</mapper>

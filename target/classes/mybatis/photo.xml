@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.photo.PhotoDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="PhotoVO">
+  INSERT INTO photo(photono, photoname, photohumb, photosize, filmno)
+  VALUES (photo_seq.nextval,  #{photoname}, #{photohumb}, #{photosize}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="PhotoVO">
+  SELECT photono, photoname, photohumb, photosize, filmno
+  FROM photo
+  ORDER BY photono ASC, filmno DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="PhotoVO" parameterType="int">
+  SELECT photono, photoname, photohumb, photosize, filmno
+  FROM photo
+  WHERE photono = #{photono}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE photo
+  SET photoname=#{photoname}, photohumb=#{photohumb}, photosize=#{photosize}, filmno=#{filmno}
+  WHERE photono = #{photono}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM photo
+  WHERE photono= #{photono}
+</delete>
+
+</mapper>

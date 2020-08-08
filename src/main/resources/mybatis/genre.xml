@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.genre.GenreDAOInter">
+
+
+<!-- 등록  -->
+<insert id="create" parameterType="GenreVO">
+  INSERT INTO genre(genreno, genrename, genreseq)
+  VALUES (genre_seq.nextval, #{genrename}, #{genreseq})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="GenreVO">
+  SELECT genreno, genrename, genreseq
+  FROM genre
+  ORDER BY genreseq DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="GenreVO" parameterType="int">
+  SELECT genreno, genrename, genreseq
+  FROM genre
+  WHERE gereno = #{gereno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE genre
+  SET genrename = #{genrename}, genreseq = #{genreseq} 
+  WHERE genreno = #{genreno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM genre 
+  WHERE genreno=#{genreno}
+</delete>
+
+
+</mapper>

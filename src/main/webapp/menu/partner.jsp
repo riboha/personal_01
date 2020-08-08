@@ -1,0 +1,70 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}" /> 
+
+    <!-- partners -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <!-- section title -->
+                <div class="col-12">
+                    <h2 class="section__title section__title--no-margin">Our Partners</h2>
+                </div>
+                <!-- end section title -->
+
+                <!-- section text -->
+                <div class="col-12">
+                    <p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
+                </div>
+                <!-- end section text -->
+
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="${root}/img/partners/themeforest-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
+
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="${root}/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
+
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="${root}/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
+
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="${root}/img/partners/photodune-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
+
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="${root}/img/partners/activeden-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
+
+                <!-- partner -->
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="partner">
+                        <img src="${root}/img/partners/3docean-light-background.png" alt="" class="partner__img">
+                    </a>
+                </div>
+                <!-- end partner -->
+            </div>
+        </div>
+    </section>
+    <!-- end partners -->

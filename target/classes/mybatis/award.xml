@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.award.AwardDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="AwardVO">
+  INSERT INTO award(awardno, awardname, prize, year, filmno)
+  VALUES (award_seq.nextval, #{awardname}, #{prize}, #{year}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="AwardVO">
+  SELECT awardno, awardname, prize, year, filmno, awardseq
+  FROM award
+  ORDER BY filmno ASC, awardno DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="AwardVO" parameterType="int">
+  SELECT awardno, awardname, prize, year, filmno
+  FROM award
+  WHERE awardno = #{awardno}
+  
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="AwardVO" >
+  UPDATE award
+  SET awardname = #{awardname}, prize = #{prize}, year = #{year}, awardseq = #{awardseq}
+  WHERE awardno = #{awardno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM award
+  WHERE awardno= #{awardno}
+</delete>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.promotion.PromotionDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="PromotionVO">
+  INSERT INTO promotion(promono, promotitle, promocontent, promodisc, filmno)
+  VALUES (promo_seq.nextval, #{promotitle}, #{promocontent}, #{promodisc}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="PromotionVO">
+  SELECT promono, promotitle, promocontent, promodisc, filmno
+FROM promotion
+ORDER BY promono
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="PromotionVO" parameterType="int">
+  SELECT promono, promotitle, promocontent, promodisc, filmno
+  FROM promotion
+  WHERE promono = #{promono}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE promotion
+  SET promotitle=#{promotitle}, promocontent=#{promocontent}, promodisc=#{promodisc}, filmno=#{filmno}
+  WHERE promono = #{promono}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM promotion
+  WHERE promono= #{promono}
+</delete>
+
+</mapper>
