@@ -71,6 +71,7 @@
                                         <li><a href="${root }/film/list.do">Film</a></li>
                                         <li><a href="${root }/director/list.do">Director</a></li>
                                         <li><a href="${root }/member/list.do">Member</a></li>
+                                        <li><a href="${root }/qcate/list.do">Q Cate</a></li>
                                     </ul>
                                 </li>
                                 <!-- end dropdown -->

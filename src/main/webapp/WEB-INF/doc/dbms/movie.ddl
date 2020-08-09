@@ -293,14 +293,16 @@ COMMENT ON COLUMN notice.adminno is '관리자 번호';
 /* Table Name: 문의 카테고리 */
 /**********************************/
 CREATE TABLE qcate(
-		qcateno                       		NUMBER(3)		 NOT NULL		 PRIMARY KEY,
-		qcatetitle                    		VARCHAR2(10)		 NOT NULL,
-		qcateseq                      		NUMBER(10)		 NOT NULL
+		qcateno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		qcatetitle                    		VARCHAR2(100)		 NOT NULL,
+		qcateicon                     		VARCHAR2(100)		 NOT NULL,
+		qcateseq                      		NUMBER(10)		 DEFAULT 1		 NOT NULL
 );
 
 COMMENT ON TABLE qcate is '문의 카테고리';
 COMMENT ON COLUMN qcate.qcateno is '문의 카테 번호';
 COMMENT ON COLUMN qcate.qcatetitle is '문의 카테 제목';
+COMMENT ON COLUMN qcate.qcateicon is '문의 카테 아이콘';
 COMMENT ON COLUMN qcate.qcateseq is '문의 카테 순서';
 
 
@@ -315,9 +317,11 @@ CREATE TABLE ques(
 		qcateno                       		NUMBER(3)		 NOT NULL,
 		memberno                      		NUMBER(10)		 NOT NULL,
 		payno                         		NUMBER(10)		 NULL ,
+		filmno                        		NUMBER(10)		 NULL ,
   FOREIGN KEY (qcateno) REFERENCES qcate (qcateno),
   FOREIGN KEY (memberno) REFERENCES member (memberno),
-  FOREIGN KEY (payno) REFERENCES pay (payno)
+  FOREIGN KEY (payno) REFERENCES pay (payno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE ques is '문의사항';
@@ -328,6 +332,7 @@ COMMENT ON COLUMN ques.quesdate is '문의사항 날짜';
 COMMENT ON COLUMN ques.qcateno is '문의 카테 번호';
 COMMENT ON COLUMN ques.memberno is '회원 번호';
 COMMENT ON COLUMN ques.payno is '결제 세부 번호';
+COMMENT ON COLUMN ques.filmno is '영화 번호';
 
 
 /**********************************/
@@ -432,11 +437,11 @@ COMMENT ON COLUMN cart.filmno is '영화 번호';
 /**********************************/
 CREATE TABLE faq(
 		faqno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		faqtitle                      		VARCHAR2(60)		 NOT NULL,
+		faqtitle                      		VARCHAR2(100)		 NOT NULL,
 		faqq                          		CLOB(10)		 NOT NULL,
-		faqa                          		INTEGER(10)		 NOT NULL,
-		faqhit                        		NUMBER(10)		 NOT NULL,
-		qcateno                       		NUMBER(3)		 NOT NULL,
+		faqa                          		CLOB(10)		 NOT NULL,
+		faqhit                        		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		qcateno                       		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (qcateno) REFERENCES qcate (qcateno)
 );
 
@@ -446,7 +451,7 @@ COMMENT ON COLUMN faq.faqtitle is '자묻질 제목';
 COMMENT ON COLUMN faq.faqq is '자묻질 내용';
 COMMENT ON COLUMN faq.faqa is '자묻질 답변';
 COMMENT ON COLUMN faq.faqhit is '자묻질 조회수';
-COMMENT ON COLUMN faq.qcateno is '문의사항 카테 번호';
+COMMENT ON COLUMN faq.qcateno is '문의 카테 번호';
 
 
 /**********************************/

@@ -37,7 +37,10 @@
                                 dev.mvc.language,
                                 dev.mvc.photo,
                                 dev.mvc.promotion,
-                                dev.mvc.quality
+                                dev.mvc.quality,
+                                dev.mvc.qcate,
+                                dev.mvc.faq,
+                                dev.mvc.ques
                      " />
       <property name="mapperLocations" value="classpath:mybatis/*.xml" />
     </bean>

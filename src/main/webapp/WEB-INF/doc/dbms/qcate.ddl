@@ -4,28 +4,18 @@
 
 DROP TABLE qcate CASCADE CONSTRAINTS;
 
-
 CREATE TABLE qcate(
-        qcateno                             NUMBER(3)        NOT NULL        PRIMARY KEY,
-        qcatetitle                          VARCHAR2(10)         NOT NULL,
-        qcateseq                            NUMBER(10)       NOT NULL
+        qcateno                             NUMBER(10)       NOT NULL        PRIMARY KEY,
+        qcatetitle                          VARCHAR2(100)        NOT NULL,
+        qcateicon                           VARCHAR2(100)        NOT NULL,
+        qcateseq                            NUMBER(10)       DEFAULT 1       NOT NULL
 );
 
 COMMENT ON TABLE qcate is '문의 카테고리';
 COMMENT ON COLUMN qcate.qcateno is '문의 카테 번호';
 COMMENT ON COLUMN qcate.qcatetitle is '문의 카테 제목';
+COMMENT ON COLUMN qcate.qcateicon is '문의 카테 아이콘';
 COMMENT ON COLUMN qcate.qcateseq is '문의 카테 순서';
-
-
-DROP SEQUENCE genre_seq;
-
-CREATE SEQUENCE genre_seq
-  START WITH 1              -- 시작 번호
-  INCREMENT BY 1          -- 증가값
-  MAXVALUE 9999999999 -- 최대값: 9999999999 --> NUMBER(10) 대응
-  CACHE 2                       -- 2번은 메모리에서만 계산
-  NOCYCLE;                     -- 다시 1부터 생성되는 것을 방지
-  
 
 --------------------------------------------------------------------------------------------
 
@@ -33,20 +23,45 @@ CREATE SEQUENCE genre_seq
 
 -- ♣CREATE♣
 
-INSERT INTO genre(genreno, genrename, genreseq)
-VALUES (genre_seq.nextval, 'Drama', 1);
+INSERT INTO qcate(qcateno, qcatetitle, qcateicon)
+VALUES ((SELECT NVL(MAX(qcateno), 0) + 1 as qcateno FROM qcate), '콘텐츠', 'tv');
 
-INSERT INTO genre(genreno, genrename, genreseq)
-VALUES (genre_seq.nextval, 'Mystery', 2);
+INSERT INTO qcate(qcateno, qcatetitle, qcateicon)
+VALUES ((SELECT NVL(MAX(qcateno), 0) + 1 as qcateno FROM qcate), '결제', 'film');
 
-INSERT INTO genre(genreno, genrename, genreseq)
-VALUES (genre_seq.nextval, 'Crime', 3);
+INSERT INTO qcate(qcateno, qcatetitle, qcateicon)
+VALUES ((SELECT NVL(MAX(qcateno), 0) + 1 as qcateno FROM qcate), '기기', 'download');
+
+INSERT INTO qcate(qcateno, qcatetitle, qcateicon)
+VALUES ((SELECT NVL(MAX(qcateno), 0) + 1 as qcateno FROM qcate), '계정', 'search');
+
+INSERT INTO qcate(qcateno, qcatetitle, qcateicon)
+VALUES ((SELECT NVL(MAX(qcateno), 0) + 1 as qcateno FROM qcate), '기타', 'chatbubbles');
 
 COMMIT;
 
 
+
 -- ♣LIST♣
 
-SELECT genreno, genrename, genreseq
-FROM genre
-ORDER BY genreno DESC;
+SELECT qcateno, qcatetitle, qcateicon, qcateseq
+FROM qcate
+ORDER BY qcateseq DESC;
+
+
+
+-- ♣UPDATE♣
+
+UPDATE qcate
+SET qcatetitle = '공포', qcateicon=2, qcateseq=6
+WHERE qcateno = 2;
+
+
+
+-- ♣DELETE♣
+
+DELETE 
+FROM qcate ;
+WHERE qcateno=3;  
+
+

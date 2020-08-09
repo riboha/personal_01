@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.qcate.QcateDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="QcateVO">
+  INSERT INTO qcate(qcateno, qcatetitle, qcateicon)
+  VALUES ((SELECT NVL(MAX(qcateno), 0) + 1 as qcateno FROM qcate), #{qcatetitle, jdbcType=VARCHAR}, #{qcateicon, jdbcType=VARCHAR})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="QcateVO">
+  SELECT qcateno, qcatetitle, qcateicon, qcateseq
+  FROM qcate
+  ORDER BY qcateseq DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="QcateVO" parameterType="int">
+  SELECT qcateno, qcatetitle, qcateicon, qcateseq
+  FROM qcate
+  WHERE qcateno = #{qcateno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE qcate
+  SET qcatetitle = #{qcatetitle}, qcateicon = #{qcateicon}, qcateseq = #{qcateseq}
+  WHERE qcateno = #{qcateno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM qcate 
+  WHERE qcateno=#{qcateno}
+</delete>
+
+</mapper>

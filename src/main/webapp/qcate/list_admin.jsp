@@ -158,7 +158,7 @@
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">Award List</h2>
+						<h2 class="section__title">Q Cate List</h2>
 						<!-- end section title -->
 						
 						  <!-- breadcrumb -->
@@ -182,11 +182,10 @@
 			      <TABLE style = "width:100%; margin: 30px 25px;">
 					  <colgroup>
 					    <col style="width: 5%;"/>
-					    <col style="width: 5%;"/>
-					    <col style='width: 20%;'/>
-					    <col style='width: 10%;'/>
-					    <col style='width: 20%;'/>    
-					    <col style='width: 15%;'/>
+					    <col style="width: 10%;"/>
+					    <col style='width: 25%;'/>
+					    <col style='width: 25%;'/>
+					    <col style='width: 25%;'/>
 					    <col style='width: 15%;'/>
 					  </colgroup>
 					  
@@ -194,58 +193,51 @@
 					  <TR >
 					    <TH style="text-align: center;"><span>#</span></TH>
 					    <TH style="text-align: center;">출력 순서</TH>
-					    <TH style="text-align: center;">영화</TH>
-					    <TH style="text-align: center;">년도</TH>
-					    <TH style="text-align: center;">시상식명</TH>
-					    <TH style="text-align: center;">부문</TH>
+					    <TH style="text-align: center;">제목</TH>
+					    <TH style="text-align: center;">아이콘</TH>
 					    <TH style="text-align: center;"></TH>
 					  </TR>
 					  </thead>    
 					          
 					  <tbody>
 					  <c:forEach var="VO" items="${list }">  <!-- request 객체에 접근 -->
-                        <c:set var="awardno" value="${VO.awardno}" />
+                        <c:set var="qcateno" value="${VO.qcateno}" />
                         
 					    <TR>
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${awardno}</span>
+					           <span style="margin: 0px;">${qcateno}</span>
 					      </TD>
 					      
 					      <TD style="text-align: center;">
 					           <%-- <span style="margin: 0px;">${VO.keywordseq}</span> --%>
-						       <div id="awardseq_show_${awardno}"  style="display:block; margin: 0px;" >${VO.awardseq}</div>
+						       <div id="awardseq_show_${qcateno}"  style="display:block; margin: 0px;" >${VO.qcateseq}</div>
 					           <input type="number" style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; display:none; margin: 0px;" 
-                                           id="awardseq_${awardno}" name="awardseq_${awardno}"  value="${VO.awardseq}" min="1" >
+                                           id="awardseq_${qcateno}" name="awardseq_${qcateno}"  value="${VO.qcateseq}" min="1" >
 					      </TD>
 					      
 					      <TD style="text-align: center;">
-						       <div id="film_show_${awardno}"  style="display:block;" >${VO.filmno}</div>
+						       <div id="film_show_${qcateno}"  style="display:block;" >${VO.qcatetitle}</div>
 						       <input type="text" style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; display:none;" 
-						                   id="film_${awardno}" name="film_${awardno}"   value="${VO.filmno}" >
+						                   id="film_${qcateno}" name="film_${qcateno}"   value="${VO.qcateno}" >
 					      </TD>
 					      
 					      <TD style="text-align: center;">
-						       <div id="year_show_${awardno}"  style="display:block;" >${VO.year}</div>
+						       <div id="year_show_${qcateno}"  style="display:block;" >${VO.qcateicon}</div>
 						       <input type="text" style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; display:none;" 
-						                   id="year_${awardno}" name="year_${awardno}"   value="${VO.year}" >
+						                   id="year_${qcateno}" name="year_${qcateno}"   value="${VO.qcateicon}" >
 					      </TD>
 					      
 					      <TD style="text-align: center;">
-						       <div id="awardname_show_${awardno}"  style="display:block;" >${VO.awardname}</div>
-						       <input type="text" style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; display:none;" 
-						                   id="awardname_${awardno}" name="awardname_${awardno}"   value="${VO.awardname}" >
+						       <i class="icon ion-ios-${VO.qcateicon} feature__icon"></i>
+						       <ion-icon name="airplane-outline"></ion-icon>
+						       
 					      </TD>
 					      
-					      <TD style="text-align: center;">
-						       <div id="prize_show_${awardno}"  style="display:block;" >${VO.prize}</div>
-						       <input type="text" style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; display:none;" 
-						                   id="prize_${awardno}" name="prize_${awardno}"   value="${VO.prize}" >
-					      </TD>
 					      
 					      <TD style="text-align: center;">
-						      <button onclick="update_form('${awardno}')"  id="btn_update_form_${awardno }" name="btn_update_form" style="width:25%; height:100%; margin: 0px; display: inline-block;"><span class=" glyphicon glyphicon-pencil"></span></button>
-						      <button onclick="delete_proc('${awardno}')" id="btn_delete_proc_${awardno }"  name="btn_delete_proc_${awardno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;"><span class="glyphicon glyphicon-trash"></span></button>
-						      <button onclick="update_proc('${awardno}')" id="btn_update_proc_${awardno }" name="btn_update_proc" style="width:25%; height:100%; margin: 0px; display: none;"><span class="glyphicon glyphicon-check"></span></button>
+						      <button onclick="update_form('${qcateno}')"  id="btn_update_form_${qcateno }" name="btn_update_form" style="width:25%; height:100%; margin: 0px; display: inline-block;"><span class=" glyphicon glyphicon-pencil"></span></button>
+						      <button onclick="delete_proc('${qcateno}')" id="btn_delete_proc_${qcateno }"  name="btn_delete_proc_${qcateno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;"><span class="glyphicon glyphicon-trash"></span></button>
+						      <button onclick="update_proc('${qcateno}')" id="btn_update_proc_${qcateno }" name="btn_update_proc" style="width:25%; height:100%; margin: 0px; display: none;"><span class="glyphicon glyphicon-check"></span></button>
 					      </TD>
 					                   
 					    </TR>
