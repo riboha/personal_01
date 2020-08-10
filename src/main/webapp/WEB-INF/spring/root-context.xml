@@ -42,7 +42,12 @@
                                 dev.mvc.faq,
                                 dev.mvc.ques,
                                 dev.mvc.actor,
-                                dev.mvc.member
+                                dev.mvc.member,
+                                dev.mvc.cart,
+                                dev.mvc.pay,
+                                dev.mvc.paytotal,
+                                dev.mvc.promotion,
+                                dev.mvc.promofilm
                      " />
       <property name="mapperLocations" value="classpath:mybatis/*.xml" />
     </bean>

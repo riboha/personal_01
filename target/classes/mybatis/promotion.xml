@@ -7,20 +7,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 등록  -->
 <insert id="create" parameterType="PromotionVO">
-  INSERT INTO promotion(promono, promotitle, promocontent, promodisc, filmno)
-  VALUES (promo_seq.nextval, #{promotitle}, #{promocontent}, #{promodisc}, #{filmno})
+  INSERT INTO promotion(promono, promotitle, promocontent, promodisc)
+  VALUES (promo_seq.nextval, #{promotitle}, #{promocontent}, #{promodisc})
 </insert>
 
 <!-- 목록 -->
 <select id="list" resultType="PromotionVO">
-  SELECT promono, promotitle, promocontent, promodisc, filmno
-FROM promotion
-ORDER BY promono
+  SELECT promono, promotitle, promocontent, promodisc
+  FROM promotion
+  ORDER BY promono
 </select>
 
 <!-- 조회 -->
 <select id="read" resultType="PromotionVO" parameterType="int">
-  SELECT promono, promotitle, promocontent, promodisc, filmno
+  SELECT promono, promotitle, promocontent, promodisc
   FROM promotion
   WHERE promono = #{promono}
 </select>
@@ -28,7 +28,7 @@ ORDER BY promono
 <!-- 수정 -->
 <update id="update" parameterType="HashMap" >
   UPDATE promotion
-  SET promotitle=#{promotitle}, promocontent=#{promocontent}, promodisc=#{promodisc}, filmno=#{filmno}
+  SET promotitle=#{promotitle}, promocontent=#{promocontent}, promodisc=#{promodisc}
   WHERE promono = #{promono}
 </update>
 

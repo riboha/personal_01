@@ -1,4 +1,4 @@
-package dev.mvc.promotion;
+package dev.mvc.promofilm;
 
 import java.util.ArrayList;
 
@@ -12,41 +12,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class PromotionCont {
+public class PromofilmCont {
   
   @Autowired
-  @Qualifier("dev.mvc.promotion.PromotionProc")
-  private PromotionProcInter promotionProc;
+  @Qualifier("dev.mvc.promofilm.PromofilmProc")
+  private PromofilmProcInter promofilmProc;
   
 
   /**
    * 등록 폼
    * @return
-   *  http://localhost:9090/movie/promotion/create.do
+   *  http://localhost:9090/movie/promofilm/create.do
    */
-  @RequestMapping(value = "/promotion/create.do",
+  @RequestMapping(value = "/promofilm/create.do",
                             method = RequestMethod.GET)
   public ModelAndView create () {
     ModelAndView mav = new ModelAndView();
-    mav.setViewName("/promotion/create");
+    mav.setViewName("/promofilm/create");
     return mav;
   }
   
   
   /**
    * 등록 처리
-   * @param promotionVO
+   * @param promofilmVO
    * @return
    */
   @ResponseBody
-  @RequestMapping(value = "/promotion/create.do",
+  @RequestMapping(value = "/promofilm/create.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String create (PromotionVO promotionVO) {
+  public String create (PromofilmVO promofilmVO) {
     
     System.out.println("Controller 진입");
     
-    int cnt = this.promotionProc.create(promotionVO);
+    int cnt = this.promofilmProc.create(promofilmVO);
     
     System.out.println("처리 결과 cnt: " + cnt);
       
@@ -60,30 +60,30 @@ public class PromotionCont {
   /**
    * 조회
    * @return
-   *  http://localhost:9090/movie/promotion/read.do?dirno=1
+   *  http://localhost:9090/movie/promofilm/read.do?dirno=1
    */
-  @RequestMapping(value = "/promotion/read.do",
+  @RequestMapping(value = "/promofilm/read.do",
                             method = RequestMethod.GET)
-  public ModelAndView read (int promotionno) {
+  public ModelAndView read (int promofilmno) {
     ModelAndView mav = new ModelAndView();
-    PromotionVO promotionVO = this.promotionProc.read(promotionno);
-    mav.addObject("promotionVO", promotionVO);
-    mav.setViewName("/promotion/read");
+    PromofilmVO promofilmVO = this.promofilmProc.read(promofilmno);
+    mav.addObject("promofilmVO", promofilmVO);
+    mav.setViewName("/promofilm/read");
     return mav;
   } 
   
   /**
    * 목록
    * @return
-   *  http://localhost:9090/movie/promotion/list.do
+   *  http://localhost:9090/movie/promofilm/list.do
    */
-  @RequestMapping(value = "/promotion/list.do",
+  @RequestMapping(value = "/promofilm/list.do",
                             method = RequestMethod.GET)
   public ModelAndView list () {
     ModelAndView mav = new ModelAndView();
-    ArrayList<PromotionVO> list = this.promotionProc.list();
+    ArrayList<PromofilmVO> list = this.promofilmProc.list();
     mav.addObject("list", list);
-    mav.setViewName("/promotion/list");
+    mav.setViewName("/promofilm/list");
     return mav;
   }
   
@@ -92,32 +92,32 @@ public class PromotionCont {
   /**
    * 수정 폼
    * @return
-   *  http://localhost:9090/movie/promotion/update.do
+   *  http://localhost:9090/movie/promofilm/update.do
    */
-  @RequestMapping(value = "/promotion/update.do",
+  @RequestMapping(value = "/promofilm/update.do",
       method = RequestMethod.GET)
-  public ModelAndView update (int promotionno) {
+  public ModelAndView update (int promofilmno) {
     ModelAndView mav = new ModelAndView();
-    PromotionVO promotionVO = this.promotionProc.read(promotionno);
-    mav.addObject("promotionVO", promotionVO);
-    mav.setViewName("/promotion/update");
+    PromofilmVO promofilmVO = this.promofilmProc.read(promofilmno);
+    mav.addObject("promofilmVO", promofilmVO);
+    mav.setViewName("/promofilm/update");
     return mav;
   }
   
   /**
    * 수정 처리
-   * @param promotionVO
+   * @param promofilmVO
    * @param request 
    * @return
    */
   @ResponseBody
-  @RequestMapping(value = "/promotion/update.do",
+  @RequestMapping(value = "/promofilm/update.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  public String update (PromotionVO promotionVO) {
+  public String update (PromofilmVO promofilmVO) {
     
     
-    int cnt = this.promotionProc.update(promotionVO);
+    int cnt = this.promofilmProc.update(promofilmVO);
     System.out.println("처리 결과: " + cnt);
     
     JSONObject json = new JSONObject();
@@ -130,16 +130,16 @@ public class PromotionCont {
   
   /**
    * 삭제 처리
-   * @param promotionVO
+   * @param promofilmVO
    * @return
    */
   @ResponseBody
-  @RequestMapping(value = "/promotion/delete.do",
+  @RequestMapping(value = "/promofilm/delete.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String delete (int promotionno) {
+  public String delete (int promofilmno) {
     
-    int cnt = this.promotionProc.delete(promotionno);
+    int cnt = this.promofilmProc.delete(promofilmno);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);

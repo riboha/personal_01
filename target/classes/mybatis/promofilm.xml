@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.promofilm.PromofilmDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="PromofilmVO">
+  INSERT INTO promofilm(promofilmno, promono, filmno)
+  VALUES (promofilm_seq.nextval, #{promono}, #{filmno})
+</insert>
+
+
+<!-- 목록 -->
+<select id="list" resultType="PromofilmVO" parameterType="int">
+  SELECT promofilmno, promono, filmno
+  FROM promofilm
+  ORDER BY promofilmno DESC
+</select>
+
+
+<!-- 수정 -->
+<update id="update" parameterType="PromofilmVO" >
+  UPDATE promofilm
+  SET promono = #{promono, jdbcType=INTEGER}, filmno = #{filmno, jdbcType=INTEGER}
+  WHERE promofilmno = #{promofilmno, jdbcType=INTEGER}
+</update>
+
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM promofilm
+  WHERE promofilmno= #{promofilmno}
+</delete>
+
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.cart.CartDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="CartVO">
+  INSERT INTO cart(cartno, memberno, filmno)
+  VALUES (cart_seq.nextval, #{memberno}, #{filmno})
+</insert>
+
+
+<!-- 목록 -->
+<select id="list" resultType="CartVO" parameterType="int">
+  SELECT cartno, memberno, filmno
+  FROM cart
+  WHERE memberno = #{memberno}
+  ORDER BY cartno DESC
+</select>
+
+
+<!-- 수정 -->
+<update id="update" parameterType="CartVO" >
+  UPDATE cart
+  SET memberno = #{memberno, jdbcType=INTEGER}, filmno = #{filmno, jdbcType=INTEGER}
+  WHERE cartno = #{cartno, jdbcType=INTEGER}
+</update>
+
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM cart
+  WHERE cartno= #{cartno}
+</delete>
+
+</mapper>

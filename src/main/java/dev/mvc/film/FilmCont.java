@@ -134,7 +134,7 @@ public class FilmCont {
   
   
   /**
-   * 조회
+   * 조회 (관리자)
    * @return
    *  http://localhost:9090/movie/film/read.do?filmno=1
    */
@@ -149,6 +149,25 @@ public class FilmCont {
     mav.addObject("languageVO", languageVO);
     mav.addObject("qualityVO", qualityVO);
     mav.setViewName("/film/read");
+    return mav;
+  } 
+  
+  /**
+   * 조회 (회원)
+   * @return
+   *  http://localhost:9090/movie/film/read.do?filmno=1
+   */
+  @RequestMapping(value = "/film/read_customer.do",
+      method = RequestMethod.GET)
+  public ModelAndView read_customer (int filmno) {
+    ModelAndView mav = new ModelAndView();
+    FilmVO filmVO = this.filmProc.read(filmno);
+    LanguageVO languageVO = this.languageProc.read(filmno);
+    QualityVO qualityVO = this.qualityProc.read(filmno);
+    mav.addObject("filmVO", filmVO);
+    mav.addObject("languageVO", languageVO);
+    mav.addObject("qualityVO", qualityVO);
+    mav.setViewName("/film/read_customer");
     return mav;
   } 
 

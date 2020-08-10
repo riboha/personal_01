@@ -35,11 +35,18 @@
 	<context:component-scan base-package="dev.mvc.photo" />
 	<context:component-scan base-package="dev.mvc.promotion" />
 	<context:component-scan base-package="dev.mvc.quality" />
+  
 	<context:component-scan base-package="dev.mvc.qcate" />
 	<context:component-scan base-package="dev.mvc.faq" />
 	<context:component-scan base-package="dev.mvc.ques" />
 	<context:component-scan base-package="dev.mvc.actor" />
 	<context:component-scan base-package="dev.mvc.member" />
+  
+	<context:component-scan base-package="dev.mvc.cart" />
+	<context:component-scan base-package="dev.mvc.pay" />
+	<context:component-scan base-package="dev.mvc.paytotal" />
+	<context:component-scan base-package="dev.mvc.promotion" />
+	<context:component-scan base-package="dev.mvc.promofilm" />
   
     <!-- FORM의 FILE 태그를 읽어 MultipartFile 객체로 변환 -->
     <beans:bean id="multipartResolver"

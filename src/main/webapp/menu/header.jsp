@@ -72,6 +72,9 @@
                                         <li><a href="${root }/director/list.do">Director</a></li>
                                         <li><a href="${root }/member/list.do">Member</a></li>
                                         <li><a href="${root }/qcate/list.do">Q Cate</a></li>
+                                        <li><a href="${root }/award/list.do">Award</a></li>
+                                        <li><a href="${root }/cart/list.do">Cart</a></li>
+                                        <li><a href="${root }/actor/list.do">Actor</a></li>
                                     </ul>
                                 </li>
                                 <!-- end dropdown -->

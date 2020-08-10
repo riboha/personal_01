@@ -44,7 +44,7 @@ COMMENT ON COLUMN language.kr is 'ÇÑ±¹¾î';
 -- languageno = filmno
 
 INSERT INTO language( languageno, filmno, en, kr )
-VALUES (1, 1,  1, 1);
+VALUES (14, 14,  1, 1);
 
 INSERT INTO language( languageno, filmno, en, kr )
 VALUES (2, 2, 1, 1);
@@ -67,7 +67,7 @@ ORDER BY filmno;
 
 SELECT languageno, filmno, en, ch, es, fr, ar, rs, pt, de, jp, hi, kr
 FROM language
-WHERE filmno = 1;
+WHERE filmno = 14;
 
 
 -- ¢ÀUPDATE¢À
