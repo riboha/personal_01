@@ -40,7 +40,9 @@
                                 dev.mvc.quality,
                                 dev.mvc.qcate,
                                 dev.mvc.faq,
-                                dev.mvc.ques
+                                dev.mvc.ques,
+                                dev.mvc.actor,
+                                dev.mvc.member
                      " />
       <property name="mapperLocations" value="classpath:mybatis/*.xml" />
     </bean>

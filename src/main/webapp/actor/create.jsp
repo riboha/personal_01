@@ -101,7 +101,7 @@
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">FAQ</h2>
+						<h2 class="section__title">배우 등록</h2>
 						<!-- end section title -->
 
 						<!-- breadcrumb -->
@@ -123,21 +123,41 @@
 			<div class="row">
 				<div class="col-12">
 				    <div class="sign__content">
-					    <form id = 'frm' name = 'frm' class="sign__form" method='POST' action="./create.do" >
-					        <h3 class="faq__title">FAQ 등록</h3>
-							<div class="faq">
+					    <form id = 'frm' name = 'frm' class="sign__form" method='POST' action="./create.do" enctype="multipart/form-data">
+					        <h3 class="faq__title">배우 등록</h3>
+							<div class="faq" style="width: 100%;">
 							
 							    <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 15px;  margin: 0px ; padding: 10px; display:inline; " > 카테 제목 </label>
-                                    <input type="text"  id='filmno' name='filmno' class=" sign__input " style = "display:inline;"  placeholder="" >
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >한글이름</label>
+                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
     							</div>
-                                    
+    							
 							    <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 15px;  margin: 0px ; padding: 10px; display:inline; " > 아이콘　 </label>
-                                    <input type="text"  id='keyword' name='keyword' class=" sign__input " style = "display:inline;"  placeholder="" >
-							    </div>
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >영문이름</label>
+                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  " >
+    							</div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　생일　</label>
+                                    <input type="text"  id='birth' name='birth' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　국적　</label>
+                                    <input type="text"  id='nation' name='nation' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　프로필</label>
+                                    <input type="file"  id='actorpicMF' name='actorpicMF' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
+
+    							
 							    
 							    <div class="sign__group"  style="width: 100%; margin: 0px;" >
                                     <button class="sign__btn"  id='btn_create' name="btn_create"  type="button"  style = "width:49%; display: inline; margin: 1px; " >등록</button>

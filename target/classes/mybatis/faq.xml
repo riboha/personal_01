@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.faq.FaqDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="FaqVO">
+  INSERT INTO faq(faqno, faqtitle, faqq, faqa, qcateno)
+  VALUES (faq_seq.nextval, #{faqtitle, jdbcType=VARCHAR}, #{faqq, jdbcType=VARCHAR}, #{faqa, jdbcType=VARCHAR}, #{qcateno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="FaqVO">
+  SELECT faqno, faqtitle, faqq, faqa, qcateno, faqhit
+  FROM faq
+  ORDER BY faqhit DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="FaqVO" parameterType="int">
+  SELECT faqno, faqtitle, faqq, faqa, qcateno, faqhit
+  FROM faq
+  WHERE faqno = #{faqno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE faq
+  SET faqtitle = #{faqtitle}, faqq = #{faqq}, faqa = #{faqa}, qcateno=#{qcateno}
+  WHERE faqno = #{faqno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM faq 
+  WHERE faqno=#{faqno}
+</delete>
+
+</mapper>

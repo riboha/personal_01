@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.actor.ActorDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="ActorVO">
+  INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
+  VALUES (actor_seq.nextval, #{actornameen}, #{actornamekr}, #{birth}, #{nation}, #{actorpic}, #{actorthumb}, #{actorpicsize})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="ActorVO">
+  SELECT actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize
+  FROM actor
+  ORDER BY actorno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="ActorVO" parameterType="int">
+  SELECT actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize
+  FROM actor
+  WHERE actorno = #{actorno}
+  
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="ActorVO" >
+  UPDATE actor
+  SET actornameen = #{actornameen, jdbcType=VARCHAR}, actornamekr = #{actornamekr, jdbcType=VARCHAR}, 
+        birth = #{birth, jdbcType=VARCHAR}, nation = #{nation, jdbcType=VARCHAR},
+        actorpic = #{actorpic, jdbcType=VARCHAR}, actorthumb = #{actorthumb, jdbcType=VARCHAR}, actorpicsize = #{actorpicsize, jdbcType=INTEGER}
+  WHERE actorno = #{actorno, jdbcType=INTEGER}
+</update>
+
+<!-- 이미지 삭제 -->
+<delete id="delete_img" parameterType="int">
+  UPDATE actor 
+  SET actorpic = null, actorthumb = null, actorpicsize = 0
+  WHERE actorno= #{actorno}
+</delete>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM actor
+  WHERE actorno= #{actorno}
+</delete>
+
+</mapper>

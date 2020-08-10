@@ -68,22 +68,26 @@ COMMENT ON COLUMN film.dirno is '감독 번호';
 /**********************************/
 CREATE TABLE actor(
 		actorno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		actorname                     		VARCHAR2(10)		 NOT NULL,
-		born                          		VARCHAR2(8)		 NOT NULL,
-		nation                        		VARCHAR2(60)		 NOT NULL,
+		actornameen                   		VARCHAR2(100)		 NOT NULL,
+		actornamekr                   		VARCHAR2(100)		 NOT NULL,
+		birth                         		DATE		 NOT NULL,
+		nation                        		VARCHAR2(100)		 NOT NULL,
 		actorpic                      		VARCHAR2(100)		 NULL ,
 		actorthumb                    		VARCHAR2(100)		 NULL ,
-		actorpicsize                  		NUMBER(10)		 DEFAULT 0		 NOT NULL
+		actorpicsize                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		actorhit                      		NUMBER(10)		 DEFAULT 0		 NOT NULL
 );
 
 COMMENT ON TABLE actor is '배우';
 COMMENT ON COLUMN actor.actorno is '배우 번호';
-COMMENT ON COLUMN actor.actorname is '이름';
-COMMENT ON COLUMN actor.born is '생일';
+COMMENT ON COLUMN actor.actornameen is '영문 이름';
+COMMENT ON COLUMN actor.actornamekr is '한글 이름';
+COMMENT ON COLUMN actor.birth is '생년월일';
 COMMENT ON COLUMN actor.nation is '국적';
 COMMENT ON COLUMN actor.actorpic is '프로필';
 COMMENT ON COLUMN actor.actorthumb is '썸네일';
 COMMENT ON COLUMN actor.actorpicsize is '프로필 크기';
+COMMENT ON COLUMN actor.actorhit is '좋아요수';
 
 
 /**********************************/
@@ -96,10 +100,10 @@ CREATE TABLE member(
 		nick                          		VARCHAR2(60)		 NOT NULL,
 		tel                           		NUMBER(11)		 NOT NULL,
 		pnt                           		NUMBER(10)		 DEFAULT 0		 NOT NULL,
-		birth                         		VARCHAR2(8)		 NOT NULL,
+		birth                         		DATE		 NOT NULL,
 		email                         		VARCHAR2(100)		 NULL ,
 		memthumb                      		VARCHAR2(60)		 NULL ,
-		memfpic                       		VARCHAR2(60)		 NULL ,
+		mempic                        		VARCHAR2(60)		 NULL ,
 		mempicsize                    		NUMBER(10)		 DEFAULT 0		 NOT NULL
 );
 
@@ -113,7 +117,7 @@ COMMENT ON COLUMN member.pnt is '포인트';
 COMMENT ON COLUMN member.birth is '생년월일';
 COMMENT ON COLUMN member.email is '이메일';
 COMMENT ON COLUMN member.memthumb is '썸네일';
-COMMENT ON COLUMN member.memfpic is '프로필';
+COMMENT ON COLUMN member.mempic is '프로필';
 COMMENT ON COLUMN member.mempicsize is '프로필 크기';
 
 
@@ -328,7 +332,7 @@ COMMENT ON TABLE ques is '문의사항';
 COMMENT ON COLUMN ques.quesno is '문의 번호';
 COMMENT ON COLUMN ques.questitle is '문의 제목';
 COMMENT ON COLUMN ques.quescontent is '문의 내용';
-COMMENT ON COLUMN ques.quesdate is '문의사항 날짜';
+COMMENT ON COLUMN ques.quesdate is '문의 날짜';
 COMMENT ON COLUMN ques.qcateno is '문의 카테 번호';
 COMMENT ON COLUMN ques.memberno is '회원 번호';
 COMMENT ON COLUMN ques.payno is '결제 세부 번호';

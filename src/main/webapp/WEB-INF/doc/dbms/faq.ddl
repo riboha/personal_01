@@ -20,7 +20,7 @@ COMMENT ON COLUMN faq.faqtitle is '자묻질 제목';
 COMMENT ON COLUMN faq.faqq is '자묻질 내용';
 COMMENT ON COLUMN faq.faqa is '자묻질 답변';
 COMMENT ON COLUMN faq.faqhit is '자묻질 조회수';
-COMMENT ON COLUMN faq.faqno is '문의 카테 번호';
+COMMENT ON COLUMN faq.qcateno is '문의 카테 번호';
 
 
 
@@ -40,11 +40,11 @@ CREATE SEQUENCE faq_seq
 -- ♣CREATE♣
 
 INSERT INTO faq(faqno, faqtitle, faqq, faqa, qcateno)
-VALUES (genre_seq.nextval, '콘텐츠 재생이 안돼요',  'faqq', 'faqa', 1);
+VALUES (faq_seq.nextval, '콘텐츠 재생이 안돼요',  'faqq', 'faqa', 1);
 INSERT INTO faq(faqno, faqtitle, faqq, faqa, qcateno)
-VALUES (genre_seq.nextval, '콘텐츠 자막이 안떠요',  'faqq', 'faqa', 1);
+VALUES (faq_seq.nextval, '콘텐츠 자막이 안떠요',  'faqq', 'faqa', 1);
 INSERT INTO faq(faqno, faqtitle, faqq, faqa, qcateno)
-VALUES (genre_seq.nextval, '콘텐츠 화질이 너무 낮아요',  'faqq', 'faqa', 1);
+VALUES (faq_seq.nextval, '콘텐츠 화질이 너무 낮아요',  'faqq', 'faqa', 1);
 
 COMMIT;
 
@@ -52,7 +52,7 @@ COMMIT;
 
 -- ♣LIST♣
 
-SELECT faqno, faqtitle, faqq, faqa, qcateno
+SELECT faqno, faqtitle, faqq, faqa, qcateno, faqhit
 FROM faq
 ORDER BY faqhit DESC;
 

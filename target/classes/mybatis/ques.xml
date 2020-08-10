@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.ques.QuesDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="QuesVO">
+  INSERT INTO ques (quesno, questitle, quescontent, quesdate, qcateno, memberno, payno, filmno )
+  VALUES (ques_seq.nextval, #{questitle, jdbcType=VARCHAR}, #{quescontent}, sysdate, #{qcateno}, #{memberno}, #{payno}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="QuesVO">
+  SELECT quesno, questitle, quescontent, quesdate, qcateno, memberno, payno, filmno 
+  FROM ques
+  ORDER BY quesno DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="QuesVO" parameterType="int">
+  SELECT quesno, questitle, quescontent, quesdate, qcateno, memberno, payno, filmno 
+  FROM ques
+  WHERE quesno = #{quesno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="HashMap" >
+  UPDATE ques
+  SET questitle = #{questitle}, quescontent = #{quescontent}, qcateno = #{qcateno}, payno = #{payno}, filmno = #{filmno}
+  WHERE quesno = #{quesno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM ques 
+  WHERE quesno=#{quesno}
+</delete>
+
+</mapper>

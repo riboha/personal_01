@@ -25,7 +25,7 @@ COMMENT ON TABLE ques is '문의사항';
 COMMENT ON COLUMN ques.quesno is '문의 번호';
 COMMENT ON COLUMN ques.questitle is '문의 제목';
 COMMENT ON COLUMN ques.quescontent is '문의 내용';
-COMMENT ON COLUMN ques.quesdate is '문의사항 날짜';
+COMMENT ON COLUMN ques.quesdate is '문의 날짜';
 COMMENT ON COLUMN ques.quesno is '문의 카테 번호';
 COMMENT ON COLUMN ques.memberno is '회원 번호';
 COMMENT ON COLUMN ques.payno is '결제 세부 번호';
@@ -48,7 +48,7 @@ CREATE SEQUENCE ques_seq
 
 -- ♣CREATE♣
 
-INSERT INTO ques (quesno, questitle, quescontent, quesdate, qcateno, memberno, payno, filmno )
+INSERT INTO ques (quesno, questitle, `, quesdate, qcateno, memberno, payno, filmno )
 VALUES (ques_seq.nextval, '도와주세요', '이상해요', sysdate, 1, 1, 1, 1);
 
 COMMIT;
