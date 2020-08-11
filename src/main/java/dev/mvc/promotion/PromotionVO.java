@@ -12,6 +12,9 @@ public class PromotionVO {
   private String promotitle; /**프로모션 제목*/
   private String promocontent; /**프로모션 내용*/
   private int promodisc; /**프로모션 할인율*/
+  private int promovalid; /**프로모션 진행 여부*/
+  private String promostart; /**프로모션 시작*/
+  private String promoend; /**프로모션 종료*/
   
   public int getPromono() {
     return promono;
@@ -36,6 +39,24 @@ public class PromotionVO {
   }
   public void setPromodisc(int promodisc) {
     this.promodisc = promodisc;
+  }
+  public int getPromovalid() {
+    return promovalid;
+  }
+  public void setPromovalid(int promovalid) {
+    this.promovalid = promovalid;
+  }
+  public String getPromostart() {
+    return promostart;
+  }
+  public void setPromostart(String promostart) {
+    this.promostart = promostart;
+  }
+  public String getPromoend() {
+    return promoend;
+  }
+  public void setPromoend(String promoend) {
+    this.promoend = promoend;
   }
 
 }

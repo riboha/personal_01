@@ -75,6 +75,9 @@
                                         <li><a href="${root }/award/list.do">Award</a></li>
                                         <li><a href="${root }/cart/list.do">Cart</a></li>
                                         <li><a href="${root }/actor/list.do">Actor</a></li>
+                                        <li><a href="${root }/photo/list.do">Photo</a></li>
+                                        <li><a href="${root }/promotion/list.do">Promotion</a></li>
+                                        <li><a href="${root }/actor/list.do">Actor</a></li>
                                     </ul>
                                 </li>
                                 <!-- end dropdown -->

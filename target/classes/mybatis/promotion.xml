@@ -7,20 +7,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 등록  -->
 <insert id="create" parameterType="PromotionVO">
-  INSERT INTO promotion(promono, promotitle, promocontent, promodisc)
-  VALUES (promo_seq.nextval, #{promotitle}, #{promocontent}, #{promodisc})
+  INSERT INTO promotion(promono, promotitle, promocontent, promodisc, 
+                                promovalid, promostart, promoend )
+  VALUES (promo_seq.nextval, #{promotitle}, #{promocontent}, #{promodisc},
+              #{promovalid}, #{promostart}, #{promoend})
 </insert>
 
 <!-- 목록 -->
 <select id="list" resultType="PromotionVO">
-  SELECT promono, promotitle, promocontent, promodisc
+  SELECT promono, promotitle, promocontent, promodisc, promovalid, promostart, promoend
   FROM promotion
   ORDER BY promono
 </select>
 
 <!-- 조회 -->
 <select id="read" resultType="PromotionVO" parameterType="int">
-  SELECT promono, promotitle, promocontent, promodisc
+  SELECT promono, promotitle, promocontent, promodisc, promovalid, promostart, promoend
   FROM promotion
   WHERE promono = #{promono}
 </select>
@@ -28,8 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 수정 -->
 <update id="update" parameterType="HashMap" >
   UPDATE promotion
-  SET promotitle=#{promotitle}, promocontent=#{promocontent}, promodisc=#{promodisc}
-  WHERE promono = #{promono}
+  SET promotitle=#{promotitle, jdbcType=VARCHAR}, promocontent=#{promocontent, jdbcType=VARCHAR}, promodisc=#{promodisc, jdbcType=INTEGER},
+        promovalid=#{promovalid, jdbcType=INTEGER}, promostart=#{promostart, jdbcType=VARCHAR}, promoend=#{promoend, jdbcType=VARCHAR}
+  WHERE promono = #{promono, jdbcType=INTEGER}
 </update>
 
 <!-- 삭제 -->

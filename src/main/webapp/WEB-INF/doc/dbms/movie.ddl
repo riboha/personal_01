@@ -1,8 +1,36 @@
+DROP TABLE promofilm  CASCADE CONSTRAINTS;
+DROP TABLE fgenre CASCADE CONSTRAINTS;
+DROP TABLE favmovie CASCADE CONSTRAINTS;
+DROP TABLE favdirector CASCADE CONSTRAINTS;
+DROP TABLE favactor CASCADE CONSTRAINTS;
+DROP TABLE photo CASCADE CONSTRAINTS;
+DROP TABLE wish CASCADE CONSTRAINTS;
+DROP TABLE genre CASCADE CONSTRAINTS;
+DROP TABLE faq CASCADE CONSTRAINTS;
+DROP TABLE cart CASCADE CONSTRAINTS;
+DROP TABLE quality CASCADE CONSTRAINTS;
+DROP TABLE language CASCADE CONSTRAINTS;
+DROP TABLE award CASCADE CONSTRAINTS;
+DROP TABLE ques CASCADE CONSTRAINTS;
+DROP TABLE qcate CASCADE CONSTRAINTS;
+DROP TABLE notice CASCADE CONSTRAINTS;
+DROP TABLE admin CASCADE CONSTRAINTS;
+DROP TABLE keyword CASCADE CONSTRAINTS;
+DROP TABLE cast CASCADE CONSTRAINTS;
+DROP TABLE review CASCADE CONSTRAINTS;
+DROP TABLE pay CASCADE CONSTRAINTS;
+DROP TABLE promotion CASCADE CONSTRAINTS;
+DROP TABLE paytotal CASCADE CONSTRAINTS;
+DROP TABLE member CASCADE CONSTRAINTS;
+DROP TABLE actor CASCADE CONSTRAINTS;
+DROP TABLE film CASCADE CONSTRAINTS;
+DROP TABLE director CASCADE CONSTRAINTS;
+
 /**********************************/
 /* Table Name: 감독 */
 /**********************************/
 CREATE TABLE director(
-		dirno                         		NUMBER(10)		 NOT NULL,
+		dirno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		dirnamekr                     		VARCHAR2(200)		 NOT NULL,
 		dirnameen                     		VARCHAR2(200)		 NOT NULL,
 		dirnation                     		VARCHAR2(100)		 NOT NULL,
@@ -25,7 +53,7 @@ COMMENT ON COLUMN director.dirphotosize is '감독 사진 크기';
 /* Table Name: 영화 */
 /**********************************/
 CREATE TABLE film(
-		filmno                        		NUMBER(10)		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		titlekr                       		VARCHAR2(100)		 NOT NULL,
 		titleen                       		VARCHAR2(100)		 NOT NULL,
 		lan                           		VARCHAR2(60)		 NOT NULL,
@@ -40,7 +68,8 @@ CREATE TABLE film(
 		postersize                    		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		filmseq                       		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		hit                           		NUMBER(10)		 DEFAULT 0		 NOT NULL,
-		dirno                         		NUMBER(10)		 NOT NULL
+		dirno                         		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (dirno) REFERENCES director (dirno)
 );
 
 COMMENT ON TABLE film is '영화';
@@ -66,7 +95,7 @@ COMMENT ON COLUMN film.dirno is '감독 번호';
 /* Table Name: 배우 */
 /**********************************/
 CREATE TABLE actor(
-		actorno                       		NUMBER(10)		 NOT NULL,
+		actorno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		actornameen                   		VARCHAR2(100)		 NOT NULL,
 		actornamekr                   		VARCHAR2(100)		 NOT NULL,
 		birth                         		DATE		 NOT NULL,
@@ -93,7 +122,7 @@ COMMENT ON COLUMN actor.actorhit is '좋아요수';
 /* Table Name: 회원 */
 /**********************************/
 CREATE TABLE member(
-		memberno                      		NUMBER(10)		 NOT NULL,
+		memberno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		id                            		VARCHAR2(60)		 NOT NULL,
 		pw                            		VARCHAR2(60)		 NOT NULL,
 		nick                          		VARCHAR2(60)		 NOT NULL,
@@ -124,7 +153,7 @@ COMMENT ON COLUMN member.mempicsize is '프로필 크기';
 /* Table Name: 총결제 */
 /**********************************/
 CREATE TABLE paytotal(
-		paytotalno                    		NUMBER(10)		 NOT NULL,
+		paytotalno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		totalprice                    		NUMBER(10)		 NOT NULL,
 		method                        		NUMBER(1)		 NOT NULL,
 		paydate                       		DATE		 NOT NULL
@@ -141,10 +170,13 @@ COMMENT ON COLUMN paytotal.paydate is '결제 일자';
 /* Table Name: 프로모션 */
 /**********************************/
 CREATE TABLE promotion(
-		promono                       		NUMBER(10)		 NOT NULL,
+		promono                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		promotitle                    		VARCHAR2(300)		 NOT NULL,
 		promocontent                  		CLOB(300)		 NOT NULL,
-		promodisc                     		NUMBER(3)		 DEFAULT 0		 NOT NULL
+		promodisc                     		NUMBER(3)		 DEFAULT 0		 NOT NULL,
+		promovalid                    		NUMBER(1)		 DEFAULT 1		 NOT NULL,
+		promostart                    		DATE		 NOT NULL,
+		promoend                      		DATE		 NOT NULL
 );
 
 COMMENT ON TABLE promotion is '프로모션';
@@ -152,13 +184,16 @@ COMMENT ON COLUMN promotion.promono is '프로모션 번호';
 COMMENT ON COLUMN promotion.promotitle is '프로모션 제목';
 COMMENT ON COLUMN promotion.promocontent is '프로모션 내용';
 COMMENT ON COLUMN promotion.promodisc is '프로모션 할인율';
+COMMENT ON COLUMN promotion.promovalid is '프로모션 진행 여부';
+COMMENT ON COLUMN promotion.promostart is '프로모션 시작';
+COMMENT ON COLUMN promotion.promoend is '프로모션 종료';
 
 
 /**********************************/
 /* Table Name: 결제 */
 /**********************************/
 CREATE TABLE pay(
-		payno                         		NUMBER(10)		 NOT NULL,
+		payno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		promodisc                     		NUMBER(3)		 NOT NULL,
 		pointdisc                     		NUMBER(10)		 NOT NULL,
 		originalprice                 		NUMBER(10)		 NOT NULL,
@@ -166,7 +201,11 @@ CREATE TABLE pay(
 		memberno                      		NUMBER(10)		 NOT NULL,
 		paytotalno                    		NUMBER(10)		 NOT NULL,
 		promono                       		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
+  FOREIGN KEY (promono) REFERENCES promotion (promono),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE pay is '결제';
@@ -185,13 +224,16 @@ COMMENT ON COLUMN pay.filmno is '영화 번호';
 /* Table Name: 리뷰 */
 /**********************************/
 CREATE TABLE review(
-		reviewno                      		NUMBER(10)		 NOT NULL,
+		reviewno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		memberno                      		NUMBER(10)		 NOT NULL,
 		payno                         		NUMBER(10)		 NOT NULL,
 		words                         		VARCHAR2(1000)		 NULL ,
 		rate                          		NUMBER(5)		 NOT NULL,
 		rdate                         		DATE		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (payno) REFERENCES pay (payno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE review is '리뷰';
@@ -208,10 +250,12 @@ COMMENT ON COLUMN review.filmno is '영화 번호';
 /* Table Name: 출연진 */
 /**********************************/
 CREATE TABLE cast(
-		castno                        		NUMBER(10)		 NOT NULL,
+		castno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		actorno                       		NUMBER(10)		 NOT NULL,
 		role                          		VARCHAR2(60)		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (actorno) REFERENCES actor (actorno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE cast is '출연진';
@@ -225,10 +269,11 @@ COMMENT ON COLUMN cast.filmno is '영화 번호';
 /* Table Name: 키워드 */
 /**********************************/
 CREATE TABLE keyword(
-		keywordno                     		NUMBER(10)		 NOT NULL,
+		keywordno                     		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		keyword                       		VARCHAR2(60)		 NOT NULL,
 		keywordseq                    		NUMBER(30)		 DEFAULT 1		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE keyword is '키워드';
@@ -242,10 +287,10 @@ COMMENT ON COLUMN keyword.filmno is '영화 번호';
 /* Table Name: 관리자 */
 /**********************************/
 CREATE TABLE admin(
-		adminno                       		NUMBER(10)		 NOT NULL,
+		adminno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		adminid                       		VARCHAR2(60)		 NOT NULL,
 		adminpw                       		VARCHAR2(60)		 NOT NULL,
-		admingrade                    		NUMBER(1)		 NOT NULL
+		admingrade                    		NUMBER(1)		 DEFAULT 1		 NOT NULL
 );
 
 COMMENT ON TABLE admin is '관리자';
@@ -259,13 +304,14 @@ COMMENT ON COLUMN admin.admingrade is '등급';
 /* Table Name: 공지 */
 /**********************************/
 CREATE TABLE notice(
-		noticeno                      		NUMBER(10)		 NOT NULL,
-		noticetitle                   		VARCHAR2(2000)		 NOT NULL,
+		noticeno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		noticetitle                   		VARCHAR2(200)		 NOT NULL,
 		noticecontent                 		CLOB(10)		 NOT NULL,
-		noticedate                    		VARCHAR2(8)		 NOT NULL,
-		noticeshow                    		NUMBER(0)		 DEFAULT 1		 NOT NULL,
-		noticeseq                     		NUMBER(10)		 NOT NULL,
-		adminno                       		NUMBER(10)		 NULL 
+		noticedate                    		DATE		 NOT NULL,
+		noticeshow                    		NUMBER(1)		 DEFAULT 1		 NOT NULL,
+		noticeseq                     		NUMBER(10)		 DEFAULT 1		 NOT NULL,
+		adminno                       		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (adminno) REFERENCES admin (adminno)
 );
 
 COMMENT ON TABLE notice is '공지';
@@ -282,7 +328,7 @@ COMMENT ON COLUMN notice.adminno is '관리자 번호';
 /* Table Name: 문의 카테고리 */
 /**********************************/
 CREATE TABLE qcate(
-		qcateno                       		NUMBER(10)		 NOT NULL,
+		qcateno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		qcatetitle                    		VARCHAR2(100)		 NOT NULL,
 		qcateicon                     		VARCHAR2(100)		 NOT NULL,
 		qcateseq                      		NUMBER(10)		 DEFAULT 1		 NOT NULL
@@ -299,14 +345,18 @@ COMMENT ON COLUMN qcate.qcateseq is '문의 카테 순서';
 /* Table Name: 문의사항 */
 /**********************************/
 CREATE TABLE ques(
-		quesno                        		NUMBER(10)		 NOT NULL,
+		quesno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		questitle                     		VARCHAR2(1000)		 NOT NULL,
 		quescontent                   		CLOB(10)		 NOT NULL,
 		quesdate                      		DATE		 NOT NULL,
 		qcateno                       		NUMBER(3)		 NOT NULL,
 		memberno                      		NUMBER(10)		 NOT NULL,
 		payno                         		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (qcateno) REFERENCES qcate (qcateno),
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (payno) REFERENCES pay (payno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE ques is '문의사항';
@@ -324,12 +374,13 @@ COMMENT ON COLUMN ques.filmno is '영화 번호';
 /* Table Name: 수상 */
 /**********************************/
 CREATE TABLE award(
-		awardno                       		NUMBER(10)		 NOT NULL,
+		awardno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		awardname                     		VARCHAR2(100)		 NOT NULL,
 		prize                         		VARCHAR2(100)		 NOT NULL,
 		year                          		NUMBER(4)		 NOT NULL,
 		awardseq                      		NUMBER(30)		 DEFAULT 1		 NOT NULL,
-		filmno                        		NUMBER(10)		 NOT NULL
+		filmno                        		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE award is '수상';
@@ -345,7 +396,7 @@ COMMENT ON COLUMN award.filmno is '영화 번호';
 /* Table Name: 지원 언어 */
 /**********************************/
 CREATE TABLE language(
-		languageno                    		NUMBER(10)		 NOT NULL,
+		languageno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		en                            		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		ch                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		es                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
@@ -357,7 +408,8 @@ CREATE TABLE language(
 		jp                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		hi                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		kr                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE language is '지원 언어';
@@ -380,12 +432,13 @@ COMMENT ON COLUMN language.filmno is '영화 번호';
 /* Table Name: 지원 화질 */
 /**********************************/
 CREATE TABLE quality(
-		qualno                        		NUMBER(10)		 NOT NULL,
+		qualno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		q576                          		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		q720                          		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		q1024                         		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		q1440                         		NUMBER(1)		 DEFAULT 1		 NOT NULL,
-		filmno                        		NUMBER(10)		 NOT NULL
+		filmno                        		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE quality is '지원 화질';
@@ -401,9 +454,11 @@ COMMENT ON COLUMN quality.filmno is '영화 번호';
 /* Table Name: 장바구니 */
 /**********************************/
 CREATE TABLE cart(
-		cartno                        		NUMBER(10)		 NOT NULL,
+		cartno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		memberno                      		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE cart is '장바구니';
@@ -416,12 +471,13 @@ COMMENT ON COLUMN cart.filmno is '영화 번호';
 /* Table Name: 자주묻는질문 */
 /**********************************/
 CREATE TABLE faq(
-		faqno                         		NUMBER(10)		 NOT NULL,
+		faqno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		faqtitle                      		VARCHAR2(100)		 NOT NULL,
 		faqq                          		CLOB(10)		 NOT NULL,
 		faqa                          		CLOB(10)		 NOT NULL,
 		faqhit                        		NUMBER(10)		 DEFAULT 0		 NOT NULL,
-		qcateno                       		NUMBER(10)		 NOT NULL
+		qcateno                       		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (qcateno) REFERENCES qcate (qcateno)
 );
 
 COMMENT ON TABLE faq is '자주묻는질문';
@@ -437,7 +493,7 @@ COMMENT ON COLUMN faq.qcateno is '문의 카테 번호';
 /* Table Name: 장르 */
 /**********************************/
 CREATE TABLE genre(
-		genreno                       		NUMBER(10)		 NOT NULL,
+		genreno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		genrename                     		VARCHAR2(60)		 NOT NULL,
 		genreseq                      		NUMBER(10)		 NOT NULL
 );
@@ -452,9 +508,11 @@ COMMENT ON COLUMN genre.genreseq is '출력순서';
 /* Table Name: 보고싶은 영화 */
 /**********************************/
 CREATE TABLE wish(
-		wishno                        		NUMBER(10)		 NOT NULL,
+		wishno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		memberno                      		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE wish is '보고싶은 영화';
@@ -464,21 +522,24 @@ COMMENT ON COLUMN wish.filmno is '영화 번호';
 
 
 /**********************************/
-/* Table Name: 사진 */
+/* Table Name: 영화 사진 */
 /**********************************/
 CREATE TABLE photo(
-		photono                       		NUMBER(10)		 NOT NULL,
+		photono                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		photoname                     		VARCHAR2(300)		 NOT NULL,
-		photohumb                     		VARCHAR2(300)		 NOT NULL,
-		photosize                     		NUMBER(10)		 NOT NULL,
-		filmno                        		NUMBER(10)		 NOT NULL
+		photoalt                      		VARCHAR2(1000)		 NULL ,
+		photothumb                    		VARCHAR2(300)		 NOT NULL,
+		photosize                     		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
-COMMENT ON TABLE photo is '사진';
-COMMENT ON COLUMN photo.photono is '사진 번호';
-COMMENT ON COLUMN photo.photoname is '사진 파일명';
-COMMENT ON COLUMN photo.photohumb is '사진 썸네일';
-COMMENT ON COLUMN photo.photosize is '사진 사이즈';
+COMMENT ON TABLE photo is '영화 사진';
+COMMENT ON COLUMN photo.photono is '영화 사진 번호';
+COMMENT ON COLUMN photo.photoname is '영화 사진';
+COMMENT ON COLUMN photo.photoalt is '영화 사진 설명';
+COMMENT ON COLUMN photo.photothumb is '영화 사진 썸네일';
+COMMENT ON COLUMN photo.photosize is '영화 사진 사이즈';
 COMMENT ON COLUMN photo.filmno is '영화 번호';
 
 
@@ -486,9 +547,11 @@ COMMENT ON COLUMN photo.filmno is '영화 번호';
 /* Table Name: 좋아하는 배우 */
 /**********************************/
 CREATE TABLE favactor(
-		favactorno                    		NUMBER(10)		 NOT NULL,
+		favactorno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		actorno                       		NUMBER(10)		 NULL ,
-		memberno                      		NUMBER(10)		 NULL 
+		memberno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (actorno) REFERENCES actor (actorno),
+  FOREIGN KEY (memberno) REFERENCES member (memberno)
 );
 
 COMMENT ON TABLE favactor is '좋아하는 배우';
@@ -501,9 +564,11 @@ COMMENT ON COLUMN favactor.memberno is '회원 번호';
 /* Table Name: 좋아하는 감독 */
 /**********************************/
 CREATE TABLE favdirector(
-		favedirno                     		NUMBER(10)		 NULL ,
+		favedirno                     		NUMBER(10)		 NULL 		 PRIMARY KEY,
 		memberno                      		NUMBER(10)		 NULL ,
-		dirno                         		NUMBER(10)		 NULL 
+		dirno                         		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (dirno) REFERENCES director (dirno)
 );
 
 COMMENT ON TABLE favdirector is '좋아하는 감독';
@@ -516,9 +581,11 @@ COMMENT ON COLUMN favdirector.dirno is '감독 번호';
 /* Table Name: 좋아하는 영화 */
 /**********************************/
 CREATE TABLE favmovie(
-		favmovieno                    		NUMBER(10)		 NOT NULL,
+		favmovieno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		memberno                      		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL 
+		filmno                        		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE favmovie is '좋아하는 영화';
@@ -531,9 +598,11 @@ COMMENT ON COLUMN favmovie.filmno is '영화 번호';
 /* Table Name: 영화 장르 */
 /**********************************/
 CREATE TABLE fgenre(
-		fgenreno                      		NUMBER(38)		 NOT NULL,
+		fgenreno                      		NUMBER(38)		 NOT NULL		 PRIMARY KEY,
 		genreno                       		NUMBER(10)		 NOT NULL,
-		filmno                        		NUMBER(10)		 NOT NULL
+		filmno                        		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (genreno) REFERENCES genre (genreno),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE fgenre is '영화 장르';
@@ -546,9 +615,11 @@ COMMENT ON COLUMN fgenre.filmno is '영화 번호';
 /* Table Name: 프로모션 영화 */
 /**********************************/
 CREATE TABLE promofilm (
-		promofilmno                   		NUMBER(10)		 NOT NULL,
+		promofilmno                   		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		promono                       		NUMBER(10)		 NOT NULL,
-		filmno                        		NUMBER(10)		 NOT NULL
+		filmno                        		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (promono) REFERENCES promotion (promono),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
 COMMENT ON TABLE promofilm  is '프로모션 영화';
@@ -556,94 +627,4 @@ COMMENT ON COLUMN promofilm .promofilmno is '프로모션 영화 번호';
 COMMENT ON COLUMN promofilm .promono is '프로모션 번호';
 COMMENT ON COLUMN promofilm .filmno is '영화 번호';
 
-
-
-ALTER TABLE director ADD CONSTRAINT IDX_director_PK PRIMARY KEY (dirno);
-
-ALTER TABLE film ADD CONSTRAINT IDX_film_PK PRIMARY KEY (filmno);
-ALTER TABLE film ADD CONSTRAINT IDX_film_FK0 FOREIGN KEY (dirno) REFERENCES director (dirno);
-
-ALTER TABLE actor ADD CONSTRAINT IDX_actor_PK PRIMARY KEY (actorno);
-
-ALTER TABLE member ADD CONSTRAINT IDX_member_PK PRIMARY KEY (memberno);
-
-ALTER TABLE paytotal ADD CONSTRAINT IDX_paytotal_PK PRIMARY KEY (paytotalno);
-
-ALTER TABLE promotion ADD CONSTRAINT IDX_promotion_PK PRIMARY KEY (promono);
-
-ALTER TABLE pay ADD CONSTRAINT IDX_pay_PK PRIMARY KEY (payno);
-ALTER TABLE pay ADD CONSTRAINT IDX_pay_FK0 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE pay ADD CONSTRAINT IDX_pay_FK1 FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno);
-ALTER TABLE pay ADD CONSTRAINT IDX_pay_FK2 FOREIGN KEY (promono) REFERENCES promotion (promono);
-ALTER TABLE pay ADD CONSTRAINT IDX_pay_FK3 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE review ADD CONSTRAINT IDX_review_PK PRIMARY KEY (reviewno);
-ALTER TABLE review ADD CONSTRAINT IDX_review_FK0 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE review ADD CONSTRAINT IDX_review_FK1 FOREIGN KEY (payno) REFERENCES pay (payno);
-ALTER TABLE review ADD CONSTRAINT IDX_review_FK2 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE cast ADD CONSTRAINT IDX_cast_PK PRIMARY KEY (castno);
-ALTER TABLE cast ADD CONSTRAINT IDX_cast_FK0 FOREIGN KEY (actorno) REFERENCES actor (actorno);
-ALTER TABLE cast ADD CONSTRAINT IDX_cast_FK1 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE keyword ADD CONSTRAINT IDX_keyword_PK PRIMARY KEY (keywordno);
-ALTER TABLE keyword ADD CONSTRAINT IDX_keyword_FK0 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE admin ADD CONSTRAINT IDX_admin_PK PRIMARY KEY (adminno);
-
-ALTER TABLE notice ADD CONSTRAINT IDX_notice_PK PRIMARY KEY (noticeno);
-ALTER TABLE notice ADD CONSTRAINT IDX_notice_FK0 FOREIGN KEY (adminno) REFERENCES admin (adminno);
-
-ALTER TABLE qcate ADD CONSTRAINT IDX_qcate_PK PRIMARY KEY (qcateno);
-
-ALTER TABLE ques ADD CONSTRAINT IDX_ques_PK PRIMARY KEY (quesno);
-ALTER TABLE ques ADD CONSTRAINT IDX_ques_FK0 FOREIGN KEY (qcateno) REFERENCES qcate (qcateno);
-ALTER TABLE ques ADD CONSTRAINT IDX_ques_FK1 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE ques ADD CONSTRAINT IDX_ques_FK2 FOREIGN KEY (payno) REFERENCES pay (payno);
-ALTER TABLE ques ADD CONSTRAINT IDX_ques_FK3 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE award ADD CONSTRAINT IDX_award_PK PRIMARY KEY (awardno);
-ALTER TABLE award ADD CONSTRAINT IDX_award_FK0 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE language ADD CONSTRAINT IDX_language_PK PRIMARY KEY (languageno);
-ALTER TABLE language ADD CONSTRAINT IDX_language_FK0 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE quality ADD CONSTRAINT IDX_quality_PK PRIMARY KEY (qualno);
-ALTER TABLE quality ADD CONSTRAINT IDX_quality_FK0 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE cart ADD CONSTRAINT IDX_cart_PK PRIMARY KEY (cartno);
-ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK0 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE cart ADD CONSTRAINT IDX_cart_FK1 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE faq ADD CONSTRAINT IDX_faq_PK PRIMARY KEY (faqno);
-ALTER TABLE faq ADD CONSTRAINT IDX_faq_FK0 FOREIGN KEY (qcateno) REFERENCES qcate (qcateno);
-
-ALTER TABLE genre ADD CONSTRAINT IDX_genre_PK PRIMARY KEY (genreno);
-
-ALTER TABLE wish ADD CONSTRAINT IDX_wish_PK PRIMARY KEY (wishno);
-ALTER TABLE wish ADD CONSTRAINT IDX_wish_FK0 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE wish ADD CONSTRAINT IDX_wish_FK1 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE photo ADD CONSTRAINT IDX_photo_PK PRIMARY KEY (photono);
-ALTER TABLE photo ADD CONSTRAINT IDX_photo_FK0 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE favactor ADD CONSTRAINT IDX_favactor_PK PRIMARY KEY (favactorno);
-ALTER TABLE favactor ADD CONSTRAINT IDX_favactor_FK0 FOREIGN KEY (actorno) REFERENCES actor (actorno);
-ALTER TABLE favactor ADD CONSTRAINT IDX_favactor_FK1 FOREIGN KEY (memberno) REFERENCES member (memberno);
-
-ALTER TABLE favdirector ADD CONSTRAINT IDX_favdirector_PK PRIMARY KEY (favedirno);
-ALTER TABLE favdirector ADD CONSTRAINT IDX_favdirector_FK0 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE favdirector ADD CONSTRAINT IDX_favdirector_FK1 FOREIGN KEY (dirno) REFERENCES director (dirno);
-
-ALTER TABLE favmovie ADD CONSTRAINT IDX_favmovie_PK PRIMARY KEY (favmovieno);
-ALTER TABLE favmovie ADD CONSTRAINT IDX_favmovie_FK0 FOREIGN KEY (memberno) REFERENCES member (memberno);
-ALTER TABLE favmovie ADD CONSTRAINT IDX_favmovie_FK1 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE fgenre ADD CONSTRAINT IDX_fgenre_PK PRIMARY KEY (fgenreno);
-ALTER TABLE fgenre ADD CONSTRAINT IDX_fgenre_FK0 FOREIGN KEY (genreno) REFERENCES genre (genreno);
-ALTER TABLE fgenre ADD CONSTRAINT IDX_fgenre_FK1 FOREIGN KEY (filmno) REFERENCES film (filmno);
-
-ALTER TABLE promofilm  ADD CONSTRAINT IDX_promofilm _PK PRIMARY KEY (promofilmno);
-ALTER TABLE promofilm  ADD CONSTRAINT IDX_promofilm _FK0 FOREIGN KEY (promono) REFERENCES promotion (promono);
-ALTER TABLE promofilm  ADD CONSTRAINT IDX_promofilm _FK1 FOREIGN KEY (filmno) REFERENCES film (filmno);
 

@@ -33,6 +33,7 @@ public class PromotionCont {
   }
   
   
+  
   /**
    * 등록 처리
    * @param promotionVO
@@ -57,6 +58,7 @@ public class PromotionCont {
   }
   
 
+  
   /**
    * 조회
    * @return
@@ -64,13 +66,15 @@ public class PromotionCont {
    */
   @RequestMapping(value = "/promotion/read.do",
                             method = RequestMethod.GET)
-  public ModelAndView read (int promotionno) {
+  public ModelAndView read (int promono) {
     ModelAndView mav = new ModelAndView();
-    PromotionVO promotionVO = this.promotionProc.read(promotionno);
-    mav.addObject("promotionVO", promotionVO);
+    PromotionVO promotionVO = this.promotionProc.read(promono);
+    mav.addObject("VO", promotionVO);
     mav.setViewName("/promotion/read");
     return mav;
   } 
+  
+  
   
   /**
    * 목록
@@ -83,26 +87,12 @@ public class PromotionCont {
     ModelAndView mav = new ModelAndView();
     ArrayList<PromotionVO> list = this.promotionProc.list();
     mav.addObject("list", list);
-    mav.setViewName("/promotion/list");
+    mav.setViewName("/promotion/list_admin");
     return mav;
   }
   
 
 
-  /**
-   * 수정 폼
-   * @return
-   *  http://localhost:9090/movie/promotion/update.do
-   */
-  @RequestMapping(value = "/promotion/update.do",
-      method = RequestMethod.GET)
-  public ModelAndView update (int promotionno) {
-    ModelAndView mav = new ModelAndView();
-    PromotionVO promotionVO = this.promotionProc.read(promotionno);
-    mav.addObject("promotionVO", promotionVO);
-    mav.setViewName("/promotion/update");
-    return mav;
-  }
   
   /**
    * 수정 처리
@@ -137,19 +127,14 @@ public class PromotionCont {
   @RequestMapping(value = "/promotion/delete.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String delete (int promotionno) {
+  public String delete (int promono) {
     
-    int cnt = this.promotionProc.delete(promotionno);
+    int cnt = this.promotionProc.delete(promono);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
     
     return json.toString();
   }
-  
-
-  
-  
-  
 
 }

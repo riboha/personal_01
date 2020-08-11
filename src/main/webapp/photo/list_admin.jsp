@@ -91,62 +91,60 @@
 			      <TABLE style = "width:100%; margin: 30px 25px;">
 					  <colgroup>
 					    <col style="width: 5%;"/>
+					    <col style='width: 20%;'/>
+					    <col style='width: 20%;'/>
+					    <col style='width: 20%;'/>
 					    <col style='width: 10%;'/>
-					    <col style='width: 15%;'/>
-					    <col style='width: 15%;'/>
-					    <col style='width: 15%;'/>
 					    <col style='width: 15%;'/>
 					  </colgroup>
 					  
 					  <thead>  
 					  <TR >
 					    <TH style="text-align: center;"><span>#</span></TH>
-					    <TH style="text-align: center;"></TH>
-					    <TH style="text-align: center;">이름</TH>
-					    <TH style="text-align: center;">생년월일</TH>
-					    <TH style="text-align: center;">국적</TH>
+					    <TH style="text-align: center;">영화</TH>
+					    <TH style="text-align: center;">사진</TH>
+					    <TH style="text-align: center;">사진명</TH>
+					    <TH style="text-align: center;">설명</TH>
+					    <TH style="text-align: center;">썸네일명</TH>
+					    <TH style="text-align: center;">크기</TH>
 					    <TH style="text-align: center;"></TH>
 					  </TR>
 					  </thead>    
 					          
 					  <tbody>
 					  <c:forEach var="VO" items="${list }">  <!-- refaqt 객체에 접근 -->
-                        <c:set var="actorno" value="${VO.actorno}" />
-                        
-					    <TR class='clickable-row' data-href= "./read.do?actorno=${actorno }">
+                        <c:set var="photono" value="${VO.photono}" />
+                        <TR>
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${actorno}</span>
+					           <span style="margin: 0px;">${photono}</span>
 					      </TD>
 
 					      <TD style="text-align: center;">
 					           <span style="margin: 0px;">
-					               <img alt="" src="./prof/${VO.actorthumb }" style="height: 60px;">
+					               <img alt="" src="./repository/${VO.filmno }/${VO.photothumb }" style="height: 60px;">
 					           </span>
 					      </TD>
 
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${VO.actornameen} <br> ${VO.actornamekr}  </span>
+					           <span style="margin: 0px;">${VO.photoname}</span>
 					      </TD>
 					      
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${VO.birth}</span>
+					           <span style="margin: 0px;">${VO.photosize}</span>
 					      </TD>
 					      
-					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${VO.nation}</span>
-					      </TD>
 					      
 					      <TD style="text-align: center;"> <p></p>
 					      </TD>
+				      </TR>
 					                   
-					    </TR>
 					  </c:forEach>
 					  </tbody>
 					  </TABLE>
 			</div>
 		</div>
 	</section>
-	<!-- end actor -->
+	<!-- end photo -->
 	
 	<!-- JS -->
     <script src="../js/jquery-3.3.1.min.js"></script>

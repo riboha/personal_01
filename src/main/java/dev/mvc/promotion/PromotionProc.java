@@ -27,8 +27,8 @@ public class PromotionProc implements PromotionProcInter{
 
   // 조회
   @Override
-  public PromotionVO read(int promotionno) {
-    PromotionVO promotionVO = this.promotionDAO.read(promotionno);
+  public PromotionVO read(int promono) {
+    PromotionVO promotionVO = this.promotionDAO.read(promono);
     return promotionVO;
   }
 
@@ -41,8 +41,8 @@ public class PromotionProc implements PromotionProcInter{
 
   // 삭제
   @Override
-  public int delete(int promotionno) {
-    int cnt = this.promotionDAO.delete(promotionno);
+  public int delete(int promono) {
+    int cnt = this.promotionDAO.delete(promono);
     return cnt;
   }
 

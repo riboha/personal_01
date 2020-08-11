@@ -129,14 +129,38 @@
 							
 							    <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >promocontent</label>
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >제목</label>
                                     <input type="text"  id='promotitle' name='promotitle' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
     							</div>
     							
     							<div class="sign__group " >
                                     <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 내용 </label>
-                                    <textarea id='summary' name='summary'  class="sign__input"  style = "width: 80%; display:inline;" rows="60" cols="60" placeholder=""></textarea>
+                                    <textarea id='promocontent' name='promocontent'  class="sign__input"  style = "width: 80%; display:inline;" rows="60" cols="60" placeholder=""></textarea>
                                 </div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >할인율</label>
+                                    <input type="number"  id='promodisc' name='promodisc' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >진행 여부</label>
+                                    <input type="text"  id='promovalid' name='promovalid' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >시작</label>
+                                    <input type="text"  id='promostart' name='promostart' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
+    							
+							    <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >종료</label>
+                                    <input type="text"  id='promoend' name='promoend' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+    							</div>
     							
 							    <div class="sign__group"  style="width: 100%; margin: 0px;" >
                                     <button class="sign__btn"  id='btn_create' name="btn_create"  type="button"  style = "width:49%; display: inline; margin: 1px; " >등록</button>

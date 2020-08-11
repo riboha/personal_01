@@ -55,13 +55,12 @@
 	  // ▶ 문의 레코드 수정 폼
 	  function update_form () {
 
-	  $("input[name='actornameen']").attr("readonly", false);
-	  $("input[name='actornamekr']").attr("readonly", false);
-	  $("input[name='birth']").attr("readonly", false);
-	  $("input[name='nation']").attr("readonly", false);
+	  $("input[name='promotitle']").attr("readonly", false);
+	  $("input[name='promocontent']").attr("readonly", false);
+	  $("input[name='promodisc']").attr("readonly", false);
+	  $("input[name='promostart']").attr("readonly", false);
+	  $("input[name='promoend']").attr("readonly", false);
 	
-	  document.getElementById("actorpicMF_div").style.display = "block";
-
 	  document.getElementById("btn_update_form").style.display = "none";
 	  document.getElementById("btn_update_proc").style.display = "inline-block";
 	  document.getElementById("btn_update_proc").style.width = "49%";
@@ -118,15 +117,15 @@
 
       alert('실행');
 		  
-	      var actorno = ${VO.actorno};
-	      alert('actorno; ' + actorno);
+	      var promono = ${VO.promono};
+	      alert('promono; ' + promono);
 	      $.ajax({
 	        url: "./delete.do", 
 	        type: "post",          
 	        cache: false,          // 브러우저의 캐시영역 사용안함.
 	        async: true,           // true: 비동기
 	        dataType: "json",   
-	        data: {'actorno':actorno}, 
+	        data: {'promono':promono}, 
 	        success: function(rdata) {
 	          var msg = ""; // 메시지 출력
 	          if (rdata.cnt == 1) {
@@ -146,7 +145,7 @@
 
 	  function delete_img () {
 		  alert('이미지 삭제 실행'); 
-      var actorno = ${VO.actorno};
+      var promono = ${VO.promono};
 		  
 		  $.ajax({
 	        url: "./delete_img.do", 
@@ -154,7 +153,7 @@
 	        cache: false,          // 브러우저의 캐시영역 사용안함.
 	        async: true,           // true: 비동기
 	        dataType: "json",   
-	        data: {'actorno':actorno}, 
+	        data: {'promono':promono}, 
 	        success: function(rdata) {
 	          if (rdata.cnt == 1) {
 	              alert('삭제 성공');
@@ -209,44 +208,44 @@
 				<div class="col-12">
 				    <div class="sign__content">
 					    <form id = 'frm' name = 'frm' class="sign__form" method='POST' action="./create.do"  enctype="multipart/form-data">
-					        <h3 class="faq__title">배우 조회</h3>
+					        <h3 class="faq__title">프로모션 조회</h3>
 							<div class="faq" style="width: 100%;">
 							
-								 <div class="sign__group" style="text-align: center; top: 0;">
-	                                <img src="prof/${VO.actorthumb}"  id="img" style ="width: 200px; border-radius: 50%; margin: 0px; text-align: center;" onclick=""> 
-	                            </div>
-							
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >한글이름</label>
-                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  "  value="${VO.actornamekr }">
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >제목</label>
+                                    <input type="text"  id='promotitle' name='promotitle' class=" sign__input " style = "display:inline;  font-size: 12px;  "  value="${VO.promotitle }" readonly="readonly">
                                 </div>
                                 
-                                <div class="sign__group" >
+                                <div class="sign__group " >
                                     <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >영문이름</label>
-                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.actornameen }" >
-                                </div>
-                                
-                                <div class="sign__group" >
-                                    <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　생일　</label>
-                                    <input type="text"  id='birth' name='birth' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.birth }" >
-                                </div>
-                                
-                                <div class="sign__group" >
-                                    <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　국적　</label>
-                                    <input type="text"  id='nation' name='nation' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.nation }"  >
-                                </div>
-                                
-                                <div class="sign__group" id='actorpicMF_div' style = "display:none; ">
-                                    <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　프로필</label>
-                                    <input type="file"  id='actorpicMF' name='actorpicMF' class=" sign__input " style = "display:inline;  font-size: 12px;  ">
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " > 내용 </label>
+                                    <textarea id='promocontent' name='promocontent'  class="sign__input"  style = "width: 80%; display:inline;" rows="60" cols="60" readonly="readonly">${VO.promocontent }</textarea>
                                 </div>
 
-                                <input type="hidden"  id='actorno' name='actorno'  value="${VO.actorno }">
+                                <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　할인율　</label>
+                                    <input type="number"  id='promodisc' name='promodisc' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.promodisc }" readonly="readonly">
+                                </div> 
+                                <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　진행 여부　</label>
+                                    <input type="number"  id='promovalid' name='promovalid' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.promovalid }" readonly="readonly">
+                                </div>
+                                <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　시작　</label>
+                                    <input type="text"  id='promostart' name='promostart' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.promostart }" readonly="readonly">
+                                </div>
+                                <div class="sign__group" >
+                                    <label class="feature__text  sign__input "  
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　종료　</label>
+                                    <input type="text"  id='promoend' name='promoend' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.promoend }"  readonly="readonly">
+                                </div>
+                                
+
+                                <input type="hidden"  id='promono' name='promono'  value="${VO.promono }">
                                
                                 
                                 <div class="sign__group"  style="width: 100%; margin: 0px;" >

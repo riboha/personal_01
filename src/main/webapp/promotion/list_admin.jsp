@@ -91,49 +91,63 @@
 			      <TABLE style = "width:100%; margin: 30px 25px;">
 					  <colgroup>
 					    <col style="width: 5%;"/>
+					    
+					    <col style='width: 15%;'/>
+					    <col style='width: 25%;'/>
+					    <col style='width: 5%;'/>
+					    <col style='width: 5%;'/>
+					    
 					    <col style='width: 10%;'/>
-					    <col style='width: 15%;'/>
-					    <col style='width: 15%;'/>
-					    <col style='width: 15%;'/>
+					    <col style='width: 10%;'/>
+					    
 					    <col style='width: 15%;'/>
 					  </colgroup>
 					  
 					  <thead>  
 					  <TR >
 					    <TH style="text-align: center;"><span>#</span></TH>
-					    <TH style="text-align: center;"></TH>
-					    <TH style="text-align: center;">이름</TH>
-					    <TH style="text-align: center;">생년월일</TH>
-					    <TH style="text-align: center;">국적</TH>
+					    
+					    <TH style="text-align: center;">제목</TH>
+					    <TH style="text-align: center;">내용</TH>
+					    <TH style="text-align: center;">할인율</TH>
+					    <TH style="text-align: center;">진행 여부</TH>
+					    <TH style="text-align: center;">시작</TH>
+					    <TH style="text-align: center;">종료</TH>
 					    <TH style="text-align: center;"></TH>
 					  </TR>
 					  </thead>    
 					          
 					  <tbody>
 					  <c:forEach var="VO" items="${list }">  <!-- refaqt 객체에 접근 -->
-                        <c:set var="actorno" value="${VO.actorno}" />
+                        <c:set var="promono" value="${VO.promono}" />
                         
-					    <TR class='clickable-row' data-href= "./read.do?actorno=${actorno }">
+					    <TR class='clickable-row' data-href= "./read.do?promono=${promono }">
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${actorno}</span>
+					           <span style="margin: 0px;">${promono}</span>
 					      </TD>
 
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">
-					               <img alt="" src="./prof/${VO.actorthumb }" style="height: 60px;">
-					           </span>
-					      </TD>
-
-					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${VO.actornameen} <br> ${VO.actornamekr}  </span>
+					           <span style="margin: 0px;">${VO.promotitle} </span>
 					      </TD>
 					      
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${VO.birth}</span>
+					           <span style="margin: 0px;">${VO.promocontent}</span>
 					      </TD>
 					      
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">${VO.nation}</span>
+					           <span style="margin: 0px;">${VO.promodisc}</span>
+					      </TD>
+					      
+					      <TD style="text-align: center;">
+					           <span style="margin: 0px;">${VO.promovalid}</span>
+					      </TD>
+					      
+					      <TD style="text-align: center;">
+					           <span style="margin: 0px;">${VO.promostart}</span>
+					      </TD>
+					      
+					      <TD style="text-align: center;">
+					           <span style="margin: 0px;">${VO.promoend}</span>
 					      </TD>
 					      
 					      <TD style="text-align: center;"> <p></p>

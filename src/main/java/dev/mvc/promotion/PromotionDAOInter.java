@@ -8,11 +8,11 @@ public interface PromotionDAOInter {
   
   public ArrayList<PromotionVO> list ();
   
-  public PromotionVO read (int promotionno);
+  public PromotionVO read (int promono);
   
   public int update (PromotionVO promotionVO);
   
-  public int delete (int promotionno);
+  public int delete (int promono);
   
 
 }

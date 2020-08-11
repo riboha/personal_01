@@ -219,31 +219,31 @@
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >한글이름</label>
-                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  "  value="${VO.actornamekr }">
+                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  "  value="${VO.actornamekr }" readonly="readonly">
                                 </div>
                                 
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >영문이름</label>
-                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.actornameen }" >
+                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.actornameen }"  readonly="readonly">
                                 </div>
                                 
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　생일　</label>
-                                    <input type="text"  id='birth' name='birth' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.birth }" >
+                                    <input type="text"  id='birth' name='birth' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.birth }"  readonly="readonly">
                                 </div>
                                 
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　국적　</label>
-                                    <input type="text"  id='nation' name='nation' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.nation }"  >
+                                    <input type="text"  id='nation' name='nation' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.nation }"  readonly="readonly" >
                                 </div>
                                 
                                 <div class="sign__group" id='actorpicMF_div' style = "display:none; ">
                                     <label class="feature__text  sign__input "  
-                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　프로필</label>
-                                    <input type="file"  id='actorpicMF' name='actorpicMF' class=" sign__input " style = "display:inline;  font-size: 12px;  ">
+                                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; "  >　프로필</label>
+                                    <input type="file"  id='actorpicMF' name='actorpicMF' class=" sign__input " style = "display:inline;  font-size: 12px;  " readonly="readonly">
                                 </div>
 
                                 <input type="hidden"  id='actorno' name='actorno'  value="${VO.actorno }">

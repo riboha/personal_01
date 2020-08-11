@@ -7,28 +7,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 등록  -->
 <insert id="create" parameterType="PhotoVO">
-  INSERT INTO photo(photono, photoname, photohumb, photosize, filmno)
-  VALUES (photo_seq.nextval,  #{photoname}, #{photohumb}, #{photosize}, #{filmno})
+  INSERT INTO photo(photono, photoname, photoalt, photothumb, photosize, filmno)
+  VALUES (photo_seq.nextval, #{photoname, jdbcType=VARCHAR}, #{photoalt, jdbcType=VARCHAR}, #{photothumb, jdbcType=VARCHAR}, #{photosize, jdbcType=INTEGER}, #{filmno, jdbcType=INTEGER})
 </insert>
 
 <!-- 목록 -->
 <select id="list" resultType="PhotoVO">
-  SELECT photono, photoname, photohumb, photosize, filmno
+  SELECT photono, photoname, photoalt, photothumb, photosize, filmno
   FROM photo
   ORDER BY photono ASC, filmno DESC
 </select>
 
 <!-- 조회 -->
 <select id="read" resultType="PhotoVO" parameterType="int">
-  SELECT photono, photoname, photohumb, photosize, filmno
+  SELECT photono, photoname, photoalt, photothumb, photosize, filmno
   FROM photo
   WHERE photono = #{photono}
 </select>
 
 <!-- 수정 -->
-<update id="update" parameterType="HashMap" >
+<update id="update" parameterType="PhotoVO" >
   UPDATE photo
-  SET photoname=#{photoname}, photohumb=#{photohumb}, photosize=#{photosize}, filmno=#{filmno}
+  SET photoname=#{photoname}, photoalt=#{photoalt}, photothumb=#{photothumb}, photosize=#{photosize}, filmno=#{filmno}
   WHERE photono = #{photono}
 </update>
 

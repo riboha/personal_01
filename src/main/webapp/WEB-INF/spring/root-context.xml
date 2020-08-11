@@ -47,7 +47,9 @@
                                 dev.mvc.pay,
                                 dev.mvc.paytotal,
                                 dev.mvc.promotion,
-                                dev.mvc.promofilm
+                                dev.mvc.promofilm,
+                                dev.mvc.admin,
+                                dev.mvc.notice
                      " />
       <property name="mapperLocations" value="classpath:mybatis/*.xml" />
     </bean>

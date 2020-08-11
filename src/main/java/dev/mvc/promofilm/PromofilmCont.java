@@ -18,7 +18,7 @@ public class PromofilmCont {
   @Qualifier("dev.mvc.promofilm.PromofilmProc")
   private PromofilmProcInter promofilmProc;
   
-
+  
   /**
    * 등록 폼
    * @return
@@ -44,12 +44,8 @@ public class PromofilmCont {
                             produces = "text/plain;charset=UTF-8")
   public String create (PromofilmVO promofilmVO) {
     
-    System.out.println("Controller 진입");
-    
     int cnt = this.promofilmProc.create(promofilmVO);
     
-    System.out.println("처리 결과 cnt: " + cnt);
-      
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
     
@@ -71,6 +67,7 @@ public class PromofilmCont {
     mav.setViewName("/promofilm/read");
     return mav;
   } 
+  
   
   /**
    * 목록
@@ -118,7 +115,6 @@ public class PromofilmCont {
     
     
     int cnt = this.promofilmProc.update(promofilmVO);
-    System.out.println("처리 결과: " + cnt);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -146,8 +142,6 @@ public class PromofilmCont {
     
     return json.toString();
   }
-  
-
   
   
   
