@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.review.ReviewDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="ReviewVO">
+  INSERT INTO review(reviewno, title, review, rate, rdate, payno, memberno, filmno)
+  VALUES (review_seq.nextval, #{title}, #{review}, #{rate}, sysdate, #{payno}, #{memberno}, #{filmno})
+</insert>
+
+
+<!-- 목록 (회원번호 별)-->
+<select id="review_list_by_memberno" resultType="Member_Review_VO" parameterType="int">
+  SELECT m.memberno as m_memberno, m.nick, m.memthumb, 
+           r.title, r.review, r.rate, r.rdate, r.payno, r.memberno r_memberno, r.filmno
+  FROM member m , review r
+  WHERE  m.memberno = r.memberno  AND r.filmno = #{filmno}
+  ORDER BY r.rdate DESC
+</select>
+
+
+<!-- 수정 -->
+<update id="update" parameterType="ReviewVO" >
+  UPDATE review
+  SET title = #{title}, title = #{title}, rate = #{rate}
+  WHERE reviewno = #{reviewno, jdbcType=INTEGER}
+</update>
+
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM review
+  WHERE reviewno= #{reviewno}
+</delete>
+
+</mapper>

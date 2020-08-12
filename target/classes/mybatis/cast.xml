@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.cast.CastDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="CastVO">
+  INSERT INTO cast(castno, actorno, role, filmno)
+  VALUES (cast_seq.nextval, #{actorno}, #{role}, #{filmno})
+</insert>
+
+
+<!-- 목록 (영화번호 별) -->
+<select id="list_by_filmno" resultType="CastVO" parameterType="int">
+  SELECT castno, actorno, role, filmno
+  FROM cast
+  WHERE filmno = #{filmno}
+  ORDER BY castno DESC
+</select>
+
+
+<!-- 목록 (배우번호 별) -->
+<select id="list_by_actorno" resultType="CastVO" parameterType="int">
+  SELECT castno, actorno, role, filmno
+  FROM cast
+  WHERE actorno = #{actorno}
+  ORDER BY castno DESC
+</select>
+
+<!-- 배우별 출연 목록 -->
+<select id="cast_list_by_actorno" resultType="Film_Actor_VO" parameterType="int">
+  SELECT a.actorno, a.actornameen, a.actornamekr,
+             f.filmno, f.titleen, f.titlekr,
+             c.castno, c.actorno as c_actorno, c.role, c.filmno as c_filmno
+  FROM actor a, film f, cast c
+  WHERE c.filmno = f.filmno AND c.actorno = a.actorno AND a.actorno = #{actorno}
+  ORDER BY c.castno DESC
+</select>
+
+<!-- 영화별 출연진 목록 -->
+<select id="cast_list_by_filmno" resultType="Film_Actor_VO" parameterType="int">
+  SELECT a.actorno, a.actornameen, a.actornamekr,
+             f.filmno, f.titleen, f.titlekr,
+             c.castno, c.actorno as c_actorno, c.role, c.filmno as c_filmno
+  FROM actor a, film f, cast c
+  WHERE f.filmno = c.filmno AND c.actorno = a.actorno AND f.filmno = #{filmno}
+  ORDER BY c.castno DESC
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="CastVO" >
+  UPDATE cast
+  SET promono = #{promono, jdbcType=INTEGER}, filmno = #{filmno, jdbcType=INTEGER}
+  WHERE castno = #{castno, jdbcType=INTEGER}
+</update>
+
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM cast
+  WHERE castno= #{castno}
+</delete>
+
+</mapper>
