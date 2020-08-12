@@ -39,7 +39,7 @@
     <script type="text/javascript">
 
 
-		// ▶ 영화 장바구니에 담기
+		// ▶ 장바구니에 담기
 	    function cart () {
 
 		    var memberno = 1;
@@ -50,17 +50,18 @@
 	            type : "post",
 	            cache : false,
 	            async : false,
-	            processData: false, // multifile 객체 전송시 필요
-	            contentType: false, // multifile 객체 전송시 필요   
 	            dataType : "json",
 	            data : datas,
 	            success : function(rdata) {
 	                if (rdata.cnt >= 1) {
-	                    alert('등록 성공');
+	                    alert('장바구니 등록 성공');
 	                    window.location.reload();
 	                } else {
-	                    alert('등록 실패');
-	                    window.location.reload();
+	                    if (rdata.duplicate >= 1) {
+	                      alert('이미 장바구니에 담긴 영화입니다');
+	                    } else {
+	                      alert('장바구니 등록 실패');
+	                    }
 	                }
 	            },
 	            error : function(request, status, error) {
@@ -74,8 +75,6 @@
 	    
 		// ▶ 영화 결제창에 담기
 	    function pay () {
-
-
 	        var memberno = 1;
 	        var datas= 'memberno='+ memberno + '&filmno=' + ${filmVO.filmno};
 	        
@@ -84,17 +83,18 @@
 	            type : "post",
 	            cache : false,
 	            async : false,
-	            processData: false, // multifile 객체 전송시 필요
-	            contentType: false, // multifile 객체 전송시 필요   
 	            dataType : "json",
 	            data : datas,
 	            success : function(rdata) {
 	                if (rdata.cnt >= 1) {
-	                    alert('등록 성공');
+	                    alert('결제창 등록 성공');
 	                    window.location.reload();
 	                } else {
-	                    alert('등록 실패');
-	                    window.location.reload();
+	                    if (rdata.duplicate >= 1) {
+	                      alert('이미 결제창에 담긴 영화입니다');
+	                    } else {
+	                      alert('결제창 등록 실패');
+	                    }
 	                }
 	            },
 	            error : function(request, status, error) {
@@ -105,6 +105,77 @@
 	            }
 	        });
 	    }
+
+	 // ▶ 보고싶은 영화에 담기
+      function wish () {
+
+          var memberno = 1;
+          var datas= 'memberno='+ memberno + '&filmno=' + ${filmVO.filmno};
+          
+          $.ajax({
+              url : "../filmwish/create.do",
+              type : "post",
+              cache : false,
+              async : false,
+              dataType : "json",
+              data : datas,
+              // data : {'filmno': ${filmVO.filmno}, 'memberno': memberno},
+              success : function(rdata) {
+                  if (rdata.cnt >= 1) {
+                      alert('보고싶은 영화 등록 성공');
+                      window.location.reload();
+                  } else {
+                    if (rdata.duplicate >= 1) {
+                      alert('이미 보고싶은 영화에 등록된 영화입니다');
+                    } else {
+                      alert('보고싶은 영화 등록 실패');
+                    }
+                  }
+              },
+              error : function(request, status, error) {
+                alert('등록 실패');
+                  var msg = 'ERROR<br><br>';
+                  msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+                  msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+                  console.log(msg);
+              }
+          });
+      }
+      
+      // ▶ 좋아하는 영화에 담기
+      function fav () {
+
+          var memberno = 1;
+          var datas= 'memberno='+ memberno + '&filmno=' + ${filmVO.filmno};
+          
+          $.ajax({
+              url : "../filmfav/create.do",
+              type : "post",
+              cache : false,
+              async : false,
+              dataType : "json",
+              data : datas,
+              success : function(rdata) {
+                  if (rdata.cnt >= 1) {
+                      alert('등록 성공');
+                      window.location.reload();
+                  } else {
+                    if (rdata.duplicate >= 1) {
+                      alert('이미 좋아하는 영화에 등록된 영화입니다');
+                    } else {
+                      alert('좋아하는 영화에 등록 실패');
+                    }
+                  }
+              },
+              error : function(request, status, error) {
+                  var msg = 'ERROR<br><br>';
+                  msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+                  msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+                  console.log(msg);
+              }
+          });
+      }
+      
   </script>
 
 </head>
@@ -134,7 +205,7 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
                                 <div class="card__cover">
-                                    <img src="./poster/covers/${filmVO.poster }" alt="">
+                                    <img src="./poster/${filmVO.poster }" alt="">
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -155,8 +226,12 @@
                                     </div>
 
                                     <ul class="card__meta">
-                                        <li><span>장르:</span> <a href="#">Action</a><a href="#">Triler</a></li>
-                                        <li><span>감독:</span> ${filmVO.dirno }</li>
+                                        <li><span>장르:</span> 
+                                            <c:forEach var="film_genre_VO_list" items="${film_genre_VO_list }">
+                                                <a href="#">${film_genre_VO_list.genrename }</a>
+                                            </c:forEach>
+                                        </li>
+                                        <li><span>감독:</span> <a href="#">${dirnamekr }</a></li>
                                         <li><span>개봉 년도:</span> ${filmVO.year }</li>
                                         <li><span>길이:</span> ${filmVO.len } min</li>
                                         <li><span>언어:</span> <a href="#">${filmVO.lan }</a> </li>
@@ -188,25 +263,11 @@
                 </div>
                 <!-- end content -->
 
-                <!-- player -->
+                <!-- Youtube -->
                 <div class="col-12 col-xl-6">
-                    <video controls crossorigin playsinline poster="../../../cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
-                        <!-- Video files -->
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4" size="1080">
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4" type="video/mp4" size="1440">
-
-                        <!-- Caption files -->
-                        <track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-                            default>
-                        <track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-                        <!-- Fallback for browsers that don't support the <video> element -->
-                        <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
-                    </video>
+                    ${filmVO.youtube}
                 </div>
-                <!-- end player -->
+                <!-- end Youtube -->
 
                 <div class="col-12">
                     <div class="details__wrap">
@@ -215,7 +276,10 @@
                             <span class="details__devices-title"></span>
                             <ul class="details__devices-list">
                                 <li><i class="icon ion-ios-cart"  id="btn_cart"  onclick="cart();"></i><span>장바구니</span></li>
-                                <li><i class="icon ion-ios-card" id="btn_pay" onclick="pay();"></i><span>바로구매</span></li>
+                                <li><i class="icon ion-ios-card" id="btn_pay" onclick="pay();"></i><span>구매</span></li>
+                                <li><i class="icon ion-ios-add" id="btn_pay" onclick="wish();"></i><span>보고싶어요</span></li>
+                                <li><i class="icon ion-ios-heart" id="btn_pay" onclick="fav();"></i><span>좋아해요</span></li>
+                                
                             </ul>
                         </div>
                         <!-- end availables -->
@@ -465,59 +529,20 @@
                             <!-- project gallery -->
                             <div class="gallery" itemscope>
                                 <div class="row">
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-1.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-1.jpg" itemprop="thumbnail" alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 1</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
 
-                                    <!-- gallery item -->
+                              <!-- gallery item -->
+                                <c:forEach var="photoVO_list" items="${photoVO_list }">
+                                    <c:set var="photono" value="${photoVO_list.photono }"/>
+                                    <c:set var="folder" value="${photoVO_list.filmno }"/>
                                     <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-2.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-2.jpg" itemprop="thumbnail" alt="Image description" />
+                                        <a href="../photo/repository/${folder }/${photoVO_list.photoname}" itemprop="contentUrl" data-size="1920x1280">
+                                            <img src="../photo/repository/${folder }/${photoVO_list.photothumb}" itemprop="thumbnail" alt="Image description" />
                                         </a>
-                                        <figcaption itemprop="caption description">Some image caption 2</figcaption>
+                                        <figcaption itemprop="caption description">${photoVO_list.photoname} <br> ${photoVO_list.photoalt}</figcaption>
                                     </figure>
-                                    <!-- end gallery item -->
+                                </c:forEach>
+                              <!-- end gallery item -->
 
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-3.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-3.jpg" itemprop="thumbnail" alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 3</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-4.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-4.jpg" itemprop="thumbnail" alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 4</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-5.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-5.jpg" itemprop="thumbnail" alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 5</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
-
-                                    <!-- gallery item -->
-                                    <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                                        <a href="img/gallery/project-6.jpg" itemprop="contentUrl" data-size="1920x1280">
-                                            <img src="img/gallery/project-6.jpg" itemprop="thumbnail" alt="Image description" />
-                                        </a>
-                                        <figcaption itemprop="caption description">Some image caption 6</figcaption>
-                                    </figure>
-                                    <!-- end gallery item -->
                                 </div>
                             </div>
                             <!-- end project gallery -->

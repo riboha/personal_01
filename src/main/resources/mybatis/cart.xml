@@ -20,6 +20,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY cartno DESC
 </select>
 
+<!-- 중복 확인-->
+<select id="findduplicate" resultType="int" parameterType="CartVO">
+  SELECT COUNT(cartno) as cnt
+  FROM cart
+  WHERE memberno=#{memberno} AND filmno = #{filmno}
+</select>
+
 
 <!-- 수정 -->
 <update id="update" parameterType="CartVO" >

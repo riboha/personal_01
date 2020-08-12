@@ -24,6 +24,12 @@ public class PhotoProc implements PhotoProcInter {
   }
 
   @Override
+  public ArrayList<PhotoVO> list_by_filmno(int filmno) {
+    ArrayList<PhotoVO> list = this.photoDAO.list_by_filmno(filmno);
+    return list;
+  }
+
+  @Override
   public PhotoVO read(int photono) {
     PhotoVO photoVO = this.photoDAO.read(photono);
     return photoVO;
@@ -40,8 +46,5 @@ public class PhotoProc implements PhotoProcInter {
     int cnt = this.photoDAO.delete(photono);
     return cnt;
   }
-
-
-  
 
 }

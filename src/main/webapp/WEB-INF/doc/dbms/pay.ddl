@@ -1,38 +1,45 @@
 /**********************************/
-/* Table Name: 배우 */
+/* Table Name: 결제 */
 /**********************************/
-DROP TABLE actor CASCADE CONSTRAINTS;
 
-CREATE TABLE actor(
-        actorno                             NUMBER(10)       NOT NULL        PRIMARY KEY,
-        actornameen                         VARCHAR2(100)        NOT NULL,
-        actornamekr                         VARCHAR2(100)        NOT NULL,
-        birth                               DATE         NOT NULL,
-        nation                              VARCHAR2(100)        NOT NULL,
-        actorpic                            VARCHAR2(100)        NULL ,
-        actorthumb                          VARCHAR2(100)        NULL ,
-        actorpicsize                        NUMBER(10)       DEFAULT 0       NOT NULL,
-        actorhit                            NUMBER(10)       DEFAULT 0       NOT NULL
+DROP TABLE pay CASCADE CONSTRAINTS;
+
+CREATE TABLE pay(
+        payno                               NUMBER(10)       NOT NULL        PRIMARY KEY,
+        pntdisc                             NUMBER(10)       DEFAULT 0       NOT NULL,
+        promodiscper                        NUMBER(10)       DEFAULT 0       NOT NULL,
+        promodiscsub                        NUMBER(10)       DEFAULT 0       NOT NULL,
+        priceoriginal                       NUMBER(10)       DEFAULT 0       NOT NULL,
+        price                               NUMBER(10)       NOT NULL,
+        memberno                            NUMBER(10)       NOT NULL,
+        paytotalno                          NUMBER(10)       NOT NULL,
+        promono                             NUMBER(10)       NOT NULL,
+        filmno                              NUMBER(10)       NOT NULL,
+  FOREIGN KEY (memberno) REFERENCES member (memberno),
+  FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
+  FOREIGN KEY (promono) REFERENCES promotion (promono),
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
-COMMENT ON TABLE actor is '배우';
-COMMENT ON COLUMN actor.actorno is '배우 번호';
-COMMENT ON COLUMN actor.actornameen is '영문 이름';
-COMMENT ON COLUMN actor.actornamekr is '한글 이름';
-COMMENT ON COLUMN actor.birth is '생년월일';
-COMMENT ON COLUMN actor.nation is '국적';
-COMMENT ON COLUMN actor.actorpic is '프로필';
-COMMENT ON COLUMN actor.actorthumb is '프로필 썸네일';
-COMMENT ON COLUMN actor.actorpicsize is '프로필 크기';
-COMMENT ON COLUMN actor.actorhit is '좋아요수';
+COMMENT ON TABLE pay is '결제';
+COMMENT ON COLUMN pay.payno is '결제 번호';
+COMMENT ON COLUMN pay.pntdisc is '포인트 할인액';
+COMMENT ON COLUMN pay.promodiscper is '프로모션 할인율';
+COMMENT ON COLUMN pay.promodiscsub is '프로모션 할인액';
+COMMENT ON COLUMN pay.priceoriginal is '결제 원 금액';
+COMMENT ON COLUMN pay.price is '결제 최종 금액';
+COMMENT ON COLUMN pay.memberno is '회원 번호';
+COMMENT ON COLUMN pay.paytotalno is '총결제 번호';
+COMMENT ON COLUMN pay.promono is '프로모션 번호';
+COMMENT ON COLUMN pay.filmno is '영화 번호';
 
 
-DESC actor;
+DESC pay;
 
 
-DROP SEQUENCE actor_seq;
+DROP SEQUENCE pay_seq;
 
-CREATE SEQUENCE actor_seq
+CREATE SEQUENCE pay_seq
   START WITH 1              -- 시작 번호
   INCREMENT BY 1          -- 증가값
   MAXVALUE 9999999999 -- 최대값: 9999999999 --> NUMBER(10) 대응
@@ -46,76 +53,63 @@ CREATE SEQUENCE actor_seq
 
 -- ♣CREATE♣
 
-INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
-VALUES (actor_seq.nextval, 'Zooey Deschanel', '주이 디샤넬', '1980-01-17', 'USA', null, null, 0);
+INSERT INTO pay (payno, 
+                        pntdisc, promodiscsub, promodiscper, 
+                        priceoriginal, price, 
+                        memberno, paytotalno, promono, filmno)
+VALUES (pay_seq.nextval, 
+            0, 1000, 15,
+            10000,  7650,
+            1, 1, 1, 8);
+            
+INSERT INTO pay (payno, 
+                        pntdisc, promodiscsub, promodiscper, 
+                        priceoriginal, price, 
+                        memberno, paytotalno, promono, filmno)
+VALUES (pay_seq.nextval, 
+            500, 1000, 20,
+            20000,  14800,
+            1, 1, 1, 8);
 
-INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
-VALUES (actor_seq.nextval, 'Chris Hemsworth', '크리스 햄스워스', '1983-08-11', 'Australia', null, null, 0);
-
-INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
-VALUES (actor_seq.nextval, 'Sarah Shahi', '사라 샤히', '1980-01-10', 'USA', null, null, 0);
-
+INSERT INTO pay (payno, 
+                        pntdisc, promodiscsub, promodiscper, 
+                        priceoriginal, price, 
+                        memberno, paytotalno, promono, filmno)
+VALUES (pay_seq.nextval, 
+            0, 1000, 15,
+            10000,  7650,
+            1, 1, 1, 8);
+            
 COMMIT;
 
 -- ♣LIST♣
 
-SELECT actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize
-FROM actor
-ORDER BY actorno;
+SELECT payno, pntdisc, promodiscper,  promodiscsub, priceoriginal, price, 
+            memberno, paytotalno, promono, filmno
+FROM pay
+ORDER BY payno;
 
 
 -- ♣READ♣
 
-SELECT actorno, actornameen, actornamekr, birth, nation, actorpic, actorthumb, actorpicsize
-FROM actor
-WHERE actorno = 4;
+SELECT payno, pntdisc, promodiscper,  promodiscsub, priceoriginal, price, 
+            memberno, paytotalno, promono, filmno
+FROM pay
+WHERE payno = 1;
 
 
 -- ♣UPDATE♣
 
-UPDATE actor
-SET actornameen = 'Maya Hawke', actornamekr='마야 호크', birth='1998-07-08', nation='USA', 
-        actorpic=null, actorthumb=null, actorpicsize=0
-WHERE actorno = 1;
-
-  UPDATE actor 
-  SET actorpic = null, actorthumb = null, actorpicsize = 0
-  WHERE actorno= 1;
+UPDATE pay
+SET paynameen = 'Maya Hawke', paynamekr='마야 호크', birth='1998-07-08', nation='USA', 
+        paypic=null, paythumb=null, paypicsize=0
+WHERE payno = 1;
 
 
 -- ♣DELETE♣
 
 DELETE 
-FROM actor
-WHERE actorno=1;  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+FROM pay
+WHERE payno=1;  
 
 

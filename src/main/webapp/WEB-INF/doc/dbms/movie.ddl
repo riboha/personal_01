@@ -1,10 +1,10 @@
 DROP TABLE promofilm  CASCADE CONSTRAINTS;
-DROP TABLE fgenre CASCADE CONSTRAINTS;
-DROP TABLE favmovie CASCADE CONSTRAINTS;
-DROP TABLE favdirector CASCADE CONSTRAINTS;
-DROP TABLE favactor CASCADE CONSTRAINTS;
+DROP TABLE filmgenre CASCADE CONSTRAINTS;
+DROP TABLE filmfav CASCADE CONSTRAINTS;
+DROP TABLE directorfav CASCADE CONSTRAINTS;
+DROP TABLE actorfav CASCADE CONSTRAINTS;
 DROP TABLE photo CASCADE CONSTRAINTS;
-DROP TABLE wish CASCADE CONSTRAINTS;
+DROP TABLE filmwish CASCADE CONSTRAINTS;
 DROP TABLE genre CASCADE CONSTRAINTS;
 DROP TABLE faq CASCADE CONSTRAINTS;
 DROP TABLE cart CASCADE CONSTRAINTS;
@@ -154,16 +154,21 @@ COMMENT ON COLUMN member.mempicsize is '프로필 크기';
 /**********************************/
 CREATE TABLE paytotal(
 		paytotalno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		totalprice                    		NUMBER(10)		 NOT NULL,
+		pricetotal                    		NUMBER(10)		 NOT NULL,
+		pntsave                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		method                        		NUMBER(1)		 NOT NULL,
-		paydate                       		DATE		 NOT NULL
+		paydate                       		DATE		 NOT NULL,
+		memberno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno)
 );
 
 COMMENT ON TABLE paytotal is '총결제';
 COMMENT ON COLUMN paytotal.paytotalno is '총결제 번호';
-COMMENT ON COLUMN paytotal.totalprice is '총 결제액';
+COMMENT ON COLUMN paytotal.pricetotal is '총 결제액';
+COMMENT ON COLUMN paytotal.pntsave is '적립 포인트';
 COMMENT ON COLUMN paytotal.method is '결제 방식';
 COMMENT ON COLUMN paytotal.paydate is '결제 일자';
+COMMENT ON COLUMN paytotal.memberno is '회원 번호';
 
 
 /**********************************/
@@ -194,14 +199,15 @@ COMMENT ON COLUMN promotion.promoend is '프로모션 종료';
 /**********************************/
 CREATE TABLE pay(
 		payno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		promodisc                     		NUMBER(3)		 NOT NULL,
-		pointdisc                     		NUMBER(10)		 NOT NULL,
-		originalprice                 		NUMBER(10)		 NOT NULL,
-		payprice                      		NUMBER(10)		 NOT NULL,
+		pntdisc                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		promodiscper                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		promodiscsub                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		priceoriginal                 		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		price                         		NUMBER(10)		 NOT NULL,
 		memberno                      		NUMBER(10)		 NOT NULL,
 		paytotalno                    		NUMBER(10)		 NOT NULL,
-		promono                       		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL ,
+		promono                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
   FOREIGN KEY (promono) REFERENCES promotion (promono),
@@ -210,10 +216,11 @@ CREATE TABLE pay(
 
 COMMENT ON TABLE pay is '결제';
 COMMENT ON COLUMN pay.payno is '결제 번호';
-COMMENT ON COLUMN pay.promodisc is '결제 할인율';
-COMMENT ON COLUMN pay.pointdisc is '포인트 할인액';
-COMMENT ON COLUMN pay.originalprice is '결제 원 금액';
-COMMENT ON COLUMN pay.payprice is '결제 최종 금액';
+COMMENT ON COLUMN pay.pntdisc is '포인트 할인액';
+COMMENT ON COLUMN pay.promodiscper is '프로모션 할인율';
+COMMENT ON COLUMN pay.promodiscsub is '프로모션 할인액';
+COMMENT ON COLUMN pay.priceoriginal is '결제 원 금액';
+COMMENT ON COLUMN pay.price is '결제 최종 금액';
 COMMENT ON COLUMN pay.memberno is '회원 번호';
 COMMENT ON COLUMN pay.paytotalno is '총결제 번호';
 COMMENT ON COLUMN pay.promono is '프로모션 번호';
@@ -225,12 +232,12 @@ COMMENT ON COLUMN pay.filmno is '영화 번호';
 /**********************************/
 CREATE TABLE review(
 		reviewno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		memberno                      		NUMBER(10)		 NOT NULL,
-		payno                         		NUMBER(10)		 NOT NULL,
-		words                         		VARCHAR2(1000)		 NULL ,
-		rate                          		NUMBER(5)		 NOT NULL,
+		review                        		VARCHAR2(1000)		 NOT NULL,
+		rate                          		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		rdate                         		DATE		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL ,
+		payno                         		NUMBER(10)		 NOT NULL,
+		memberno                      		NUMBER(10)		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (payno) REFERENCES pay (payno),
   FOREIGN KEY (filmno) REFERENCES film (filmno)
@@ -238,11 +245,11 @@ CREATE TABLE review(
 
 COMMENT ON TABLE review is '리뷰';
 COMMENT ON COLUMN review.reviewno is '리뷰 번호';
-COMMENT ON COLUMN review.memberno is '회원 번호';
-COMMENT ON COLUMN review.payno is '결제 세부 번호';
-COMMENT ON COLUMN review.words is '리뷰';
+COMMENT ON COLUMN review.review is '리뷰';
 COMMENT ON COLUMN review.rate is '평점';
 COMMENT ON COLUMN review.rdate is '리뷰 날짜';
+COMMENT ON COLUMN review.payno is '결제 세부 번호';
+COMMENT ON COLUMN review.memberno is '회원 번호';
 COMMENT ON COLUMN review.filmno is '영화 번호';
 
 
@@ -507,18 +514,18 @@ COMMENT ON COLUMN genre.genreseq is '출력순서';
 /**********************************/
 /* Table Name: 보고싶은 영화 */
 /**********************************/
-CREATE TABLE wish(
-		wishno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		memberno                      		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL ,
+CREATE TABLE filmwish(
+		filmwishno                    		NUMBER(30)		 NOT NULL		 PRIMARY KEY,
+		memberno                      		NUMBER(10)		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
-COMMENT ON TABLE wish is '보고싶은 영화';
-COMMENT ON COLUMN wish.wishno is '회원 위시 번호';
-COMMENT ON COLUMN wish.memberno is '회원 번호';
-COMMENT ON COLUMN wish.filmno is '영화 번호';
+COMMENT ON TABLE filmwish is '보고싶은 영화';
+COMMENT ON COLUMN filmwish.filmwishno is '보고싶은 영화 번호';
+COMMENT ON COLUMN filmwish.memberno is '회원 번호';
+COMMENT ON COLUMN filmwish.filmno is '영화 번호';
 
 
 /**********************************/
@@ -546,69 +553,69 @@ COMMENT ON COLUMN photo.filmno is '영화 번호';
 /**********************************/
 /* Table Name: 좋아하는 배우 */
 /**********************************/
-CREATE TABLE favactor(
-		favactorno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		actorno                       		NUMBER(10)		 NULL ,
-		memberno                      		NUMBER(10)		 NULL ,
+CREATE TABLE actorfav(
+		actorfavno                    		NUMBER(30)		 NOT NULL		 PRIMARY KEY,
+		actorno                       		NUMBER(10)		 NOT NULL,
+		memberno                      		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (actorno) REFERENCES actor (actorno),
   FOREIGN KEY (memberno) REFERENCES member (memberno)
 );
 
-COMMENT ON TABLE favactor is '좋아하는 배우';
-COMMENT ON COLUMN favactor.favactorno is '좋아하는 배우 번호';
-COMMENT ON COLUMN favactor.actorno is '배우 번호';
-COMMENT ON COLUMN favactor.memberno is '회원 번호';
+COMMENT ON TABLE actorfav is '좋아하는 배우';
+COMMENT ON COLUMN actorfav.actorfavno is '좋아하는 배우 번호';
+COMMENT ON COLUMN actorfav.actorno is '배우 번호';
+COMMENT ON COLUMN actorfav.memberno is '회원 번호';
 
 
 /**********************************/
 /* Table Name: 좋아하는 감독 */
 /**********************************/
-CREATE TABLE favdirector(
-		favedirno                     		NUMBER(10)		 NULL 		 PRIMARY KEY,
-		memberno                      		NUMBER(10)		 NULL ,
-		dirno                         		NUMBER(10)		 NULL ,
+CREATE TABLE directorfav(
+		dirfavno                      		NUMBER(30)		 NOT NULL		 PRIMARY KEY,
+		memberno                      		NUMBER(10)		 NOT NULL,
+		dirno                         		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (dirno) REFERENCES director (dirno)
 );
 
-COMMENT ON TABLE favdirector is '좋아하는 감독';
-COMMENT ON COLUMN favdirector.favedirno is '좋아하는 감독 번호';
-COMMENT ON COLUMN favdirector.memberno is '회원 번호';
-COMMENT ON COLUMN favdirector.dirno is '감독 번호';
+COMMENT ON TABLE directorfav is '좋아하는 감독';
+COMMENT ON COLUMN directorfav.dirfavno is '좋아하는 감독 번호';
+COMMENT ON COLUMN directorfav.memberno is '회원 번호';
+COMMENT ON COLUMN directorfav.dirno is '감독 번호';
 
 
 /**********************************/
 /* Table Name: 좋아하는 영화 */
 /**********************************/
-CREATE TABLE favmovie(
-		favmovieno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		memberno                      		NUMBER(10)		 NULL ,
-		filmno                        		NUMBER(10)		 NULL ,
+CREATE TABLE filmfav(
+		filmfavno                     		NUMBER(30)		 NOT NULL		 PRIMARY KEY,
+		memberno                      		NUMBER(10)		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
-COMMENT ON TABLE favmovie is '좋아하는 영화';
-COMMENT ON COLUMN favmovie.favmovieno is '좋아하는 영화 번호';
-COMMENT ON COLUMN favmovie.memberno is '회원 번호';
-COMMENT ON COLUMN favmovie.filmno is '영화 번호';
+COMMENT ON TABLE filmfav is '좋아하는 영화';
+COMMENT ON COLUMN filmfav.filmfavno is '좋아하는 영화 번호';
+COMMENT ON COLUMN filmfav.memberno is '회원 번호';
+COMMENT ON COLUMN filmfav.filmno is '영화 번호';
 
 
 /**********************************/
 /* Table Name: 영화 장르 */
 /**********************************/
-CREATE TABLE fgenre(
-		fgenreno                      		NUMBER(38)		 NOT NULL		 PRIMARY KEY,
+CREATE TABLE filmgenre(
+		filmgenreno                   		NUMBER(30)		 NOT NULL		 PRIMARY KEY,
 		genreno                       		NUMBER(10)		 NOT NULL,
 		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (genreno) REFERENCES genre (genreno),
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
-COMMENT ON TABLE fgenre is '영화 장르';
-COMMENT ON COLUMN fgenre.fgenreno is '영화 장르 번호';
-COMMENT ON COLUMN fgenre.genreno is '장르 번호';
-COMMENT ON COLUMN fgenre.filmno is '영화 번호';
+COMMENT ON TABLE filmgenre is '영화 장르';
+COMMENT ON COLUMN filmgenre.filmgenreno is '영화 장르 번호';
+COMMENT ON COLUMN filmgenre.genreno is '장르 번호';
+COMMENT ON COLUMN filmgenre.filmno is '영화 번호';
 
 
 /**********************************/

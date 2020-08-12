@@ -49,8 +49,13 @@
 		
 	});
 
-	function create () {
 
+	function create () {
+	var genrelist =  [];
+	$("input:checkbox[name=genrevolist]:checked").each(function(){
+	  genrelist.push($(this).val());
+    });
+  alert('genrelist' + genrelist);
 	   // $('#btn_create').click(function(){
 		var frm = $('#frm')[0];
 		var formData = new FormData(frm);
@@ -66,7 +71,7 @@
 	        processData: false, // multifile 객체 전송시 필요
 	        contentType: false, // multifile 객체 전송시 필요   
 		    dataType : "json",
-		    data : formData,
+		    data : {"formData": formData, "genrelist" : genrelist},
 		    success : function(rdata) {
 		        if (rdata.cnt >= 1) {
 			        alert('등록 성공');
@@ -125,12 +130,12 @@
 					        <h3 class="faq__title">영화 등록</h3>
 							<div class="faq" style="width:100%;">
 							
+							     <!-- 
 			                    <div class="sign__group" >
 				                    <label class="col-md-2 feature__text  sign__input "  
 				                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 18px;  margin: 0px ; padding: 10px; display:inline; " > 영문 제목 </label>
 			                        <input type="text"  id='titleen' name='titleen' class=" sign__input " style = "width: 80%; display:inline;"  placeholder="" >
 			                    </div>
-			                    
 			                    <div class="sign__group " >
 				                    <label class=" col-md-2 feature__text  sign__input "   style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 한글 제목 </label>
 			                        <input type="text"  id='titlekr' name='titlekr' class="sign__input " style = "width: 80%; display:inline;"   placeholder="">
@@ -173,32 +178,45 @@
 			                    </div>
 
 	                            <div class="sign__group " >
-			                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 언어 </label>
+			                        <label class="col-md-2  feature__text  sign__input"   style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 언어 </label>
 		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline;" >
-		                                <input id="kr" name="kr" type="checkbox" checked="checked" value="1"> <label for="kr">KR</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="en" name="en" type="checkbox" checked="checked" value="1"> <label for="en">EN</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="es" name="es" type="checkbox" checked="checked" value="1"> <label for="es">ES</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="fr" name="fr" type="checkbox" checked="checked" value="1"> <label for="fr">FR</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="pt" name="pt" type="checkbox" checked="checked" value="1"> <label for="pt">PT</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="rs" name="rs" type="checkbox" checked="checked" value="1"> <label for="rs">RS</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="ar" name="ar" type="checkbox" checked="checked" value="1"> <label for="ar">AR</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="hi" name="hi" type="checkbox" checked="checked" value="1"> <label for="hi">HI</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="de" name="de" type="checkbox" checked="checked" value="1"> <label for="de">DE</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		                                <input id="jp" name="jp" type="checkbox" checked="checked" value="1"> <label for="jp">JP</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		                                <input id="kr" name="kr" type="checkbox" checked="checked" value="1"> <label for="kr">KR</label>
+		                                <input id="en" name="en" type="checkbox" checked="checked" value="1"> <label for="en">EN</label> ;
+		                                <input id="es" name="es" type="checkbox" checked="checked" value="1"> <label for="es">ES</label> 
+		                                <input id="fr" name="fr" type="checkbox" checked="checked" value="1"> <label for="fr">FR</label> 
+		                                <input id="pt" name="pt" type="checkbox" checked="checked" value="1"> <label for="pt">PT</label> 
+		                                <input id="rs" name="rs" type="checkbox" checked="checked" value="1"> <label for="rs">RS</label>
+		                                <input id="ar" name="ar" type="checkbox" checked="checked" value="1"> <label for="ar">AR</label>
+		                                <input id="hi" name="hi" type="checkbox" checked="checked" value="1"> <label for="hi">HI</label>
+		                                <input id="de" name="de" type="checkbox" checked="checked" value="1"> <label for="de">DE</label>
+		                                <input id="jp" name="jp" type="checkbox" checked="checked" value="1"> <label for="jp">JP</label>
 		                                <input id="ch" name="ch" type="checkbox" checked="checked" value="1"> <label for="ch">CH</label>
 		                            </div>
 	                            </div>
 	                            
 	                            <div class="sign__group " >
-	                            <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 화질 </label>
+	                                <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 화질 </label>
 		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
-	                                    <input id="q576" name="q576" type="checkbox" checked="checked" value="1"> <label for="q576">576</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                                    <input id="q720" name="q720" type="checkbox" checked="checked" value="1"> <label for="q720">720</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-	                                    <input id="q1024" name="q1024" type="checkbox" checked="checked" value="1"> <label for="q1024">1024</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                                    <input id="q576" name="q576" type="checkbox" checked="checked" value="1"> <label for="q576">576</label>
+	                                    <input id="q720" name="q720" type="checkbox" checked="checked" value="1"> <label for="q720">720</label>　
+	                                    <input id="q1024" name="q1024" type="checkbox" checked="checked" value="1"> <label for="q1024">1024</label>　
 	                                    <input id="q1440" name="q1440" type="checkbox" checked="checked" value="1"> <label for="q1440">1440</label>
 	                                </div>      
                                 </div>      
-
+                                 -->
+	                            <div class="sign__group " >
+	                            <label class="col-md-2  feature__text "  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 장르 </label>
+		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
+		                            <c:forEach var="list" items="${genreVO_list }">
+		                            <c:set var="genreno" value="${list.genreno }"/>
+		                            <c:set var="genrename" value="${list.genrename }"/>
+	                                    <input id="${genrename }" name="genrevolist" type="checkbox"  value="${genreno }"> <label for="${genrename }">${genrename }</label>  　
+		                            </c:forEach>
+	                                </div>      
+                                </div>      
+                                
+                                <br>
+                                <br>
 			                    <div class="col-md-12 sign__group " style="width: 100%; ">
     								<button class="sign__btn"  id='btn_create' name="btn_create"  type="button"  style = "width:49%; display: inline-block; margin: 3px;">등록</button>
     								<button class="sign__btn"  id='btn_create' name="btn_create"  type="button"  style = "width:49%; display: inline-block; margin: 3px; " 

@@ -18,6 +18,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY photono ASC, filmno DESC
 </select>
 
+
+<!-- 목록 (영화 번호별)-->
+<select id="list_by_filmno" resultType="PhotoVO" parameterType="int">
+  SELECT photono, photoname, photoalt, photothumb, photosize, filmno
+  FROM photo
+  WHERE filmno = #{filmno}
+  ORDER BY photono ASC, filmno DESC
+</select>
+
+
 <!-- 조회 -->
 <select id="read" resultType="PhotoVO" parameterType="int">
   SELECT photono, photoname, photoalt, photothumb, photosize, filmno
@@ -25,12 +35,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE photono = #{photono}
 </select>
 
+
 <!-- 수정 -->
 <update id="update" parameterType="PhotoVO" >
   UPDATE photo
   SET photoname=#{photoname}, photoalt=#{photoalt}, photothumb=#{photothumb}, photosize=#{photosize}, filmno=#{filmno}
   WHERE photono = #{photono}
 </update>
+
 
 <!-- 삭제 -->
 <delete id="delete" parameterType="int">

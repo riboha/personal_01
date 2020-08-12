@@ -1,7 +1,6 @@
 package dev.mvc.quality;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,8 +14,8 @@ public class QualityProc implements QualityProcInter {
 
   @Override
   // 등록
-  public int create(HashMap<String, Object> hashMap) {
-    int cnt = this.qualityDAO.create(hashMap);
+  public int create (QualityVO qualityVO) {
+    int cnt = this.qualityDAO.create(qualityVO );
     return cnt;
   }
 
@@ -36,8 +35,8 @@ public class QualityProc implements QualityProcInter {
 
   @Override
   // 수정
-  public int update(HashMap<String, Object> hashMap) {
-    int cnt = this.qualityDAO.update(hashMap);
+  public int update (QualityVO qualityVO) {
+    int cnt = this.qualityDAO.update(qualityVO);
     return cnt;
   }
 

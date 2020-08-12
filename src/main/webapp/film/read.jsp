@@ -61,15 +61,14 @@
     $("input[name='len']").attr("readonly", false);
     $("input[name='restrict']").attr("readonly", false);
     $("input[name='dirno']").attr("readonly", false);
-    $("input[name='summary']").attr("readonly", false);
-    $("input[name='youtube']").attr("readonly", false);
+    $("textarea[name='summary']").attr("readonly", false);
+    $("textarea[name='youtube']").attr("readonly", false);
     $("input[name='url']").attr("readonly", false);
-    // ("input[name='posterMF']").attr("readonly", false);
 
     document.getElementById("btn_update_form").style.display = "none";
     document.getElementById("btn_update_proc").style.display = "inline-block";
     document.getElementById("btn_update_proc").style.width = "49%";
-    // document.getElementById("posterMFdiv").style.display = "inline";
+    document.getElementById("posterMFdiv").style.display = "inline";
     document.getElementById("btn_delete").style.display = "none";
     
     document.getElementById("btn_cancel").style.width = "49%";
@@ -85,7 +84,7 @@
 	function update_proc () {
 
 	   // $('#btn_create').click(function(){
-		// var frm = $('#frm')[0];
+		var frm = $('#frm')[0];
 		var formData = new FormData(frm);
 		
 		alert('formData: '+ formData);
@@ -187,9 +186,9 @@
 							    <div class="sign__group" style="text-align: center; top: 0;">
                                     <img src="poster/${filmVO.poster} " style ="margin: 0px; width:35%; text-align: center;" alt=""> 
                                 </div>
-			                    <div class="sign__group" >
-			                        <input type="hidden"  id='filmno' name='filmno' class=" sign__input " style = "width: 80%; display:inline;" value="${filmVO.filmno }" required="required" >
-			                    </div>
+			                    
+			                    <input type="hidden"  id='filmno' name='filmno' class=" sign__input " style = "width: 80%; display:inline;" value="${filmVO.filmno }" required="required" >
+			                    
 			                    <div class="sign__group" >
 				                    <label class="col-md-2 feature__text  sign__input "  
 				                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 18px;  margin: 0px ; padding: 10px; display:inline; " > 영문 제목 </label>
@@ -200,39 +199,48 @@
 				                    <label class=" col-md-2 feature__text  sign__input "   style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 한글 제목 </label>
 			                        <input type="text"  id='titlekr' name='titlekr' class="sign__input " style = "width: 80%; display:inline;" value="${filmVO.titlekr }"  required="required" readonly="readonly">
 			                    </div>
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 언어 </label>
 			                        <input type="text"  id='lan' name='lan' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.lan }"  required="required" readonly="readonly">
 			                    </div>
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7); width: 80%;" > 년도 </label>
-			                        <input type="text"  id='year' name='year' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.year }"  required="required" readonly="readonly">
+			                        <input type="number"  id='year' name='year' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.year }"  required="required" readonly="readonly">
 			                    </div>
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 길이 </label>
-			                        <input type="text"  id='len' name='len' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.len }"  required="required" readonly="readonly">
+			                        <input type="number"  id='len' name='len' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.len }"  required="required" readonly="readonly">
 			                    </div>
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 연령가 </label>
-			                        <input type="text"  id='restrict' name='restrict' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.restrict }"  required="required" readonly="readonly">
+			                        <input type="number"  id='restrict' name='restrict' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.restrict }"  required="required" readonly="readonly">
 			                    </div>
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 감독 </label>
-			                        <input type="text"  id='dirno' name='dirno' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.dirno }"  required="required" readonly="readonly">
+			                        <input type="number"  id='dirno' name='dirno' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.dirno }"  required="required" readonly="readonly">
 			                    </div>
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 내용 </label>
 								    <textarea id='summary' name='summary'  class="sign__input"  style = "width: 80%; display:inline;" rows="60" cols="60"  required="required" readonly="readonly">${filmVO.summary }</textarea>
 								</div>
+
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > Youtube </label>
-			                        <input type="text"  id='youtube' name='youtube' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.youtube }"  readonly="readonly">
-			                    </div>
-			                    <div class="sign__group " >
-				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > URL </label>
-			                        <input type="text"  id='url' name='url' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.url }"  readonly="readonly">
-			                    </div>
-			                    <div class="sign__group "  id='posterMFdiv'  >
+								    <textarea id='youtube' name='youtube'  class="sign__input"  style = "width: 80%; display:inline;" rows="120" cols="60"  required="required" readonly="readonly">${filmVO.youtube }</textarea>
+								</div>
+								
+								<div class="sign__group " >
+                                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > URL </label>
+                                    <input type="text"  id='url' name='url' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.url }"  required="required" readonly="readonly">
+                                </div>
+			                    
+			                    <div class="sign__group "  id='posterMFdiv' style = "display:none;" >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 포스터 </label>
 			                        <input type="file"  id='posterMF' name='posterMF' class="sign__input" style = "width: 80%;  display:inline;" value=""  >
 			                    </div>

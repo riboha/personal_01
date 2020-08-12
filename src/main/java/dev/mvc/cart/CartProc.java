@@ -35,5 +35,10 @@ public class CartProc implements CartProcInter {
     return cnt;
   }
   
+  @Override
+  public int findduplicate(CartVO cartVO) {
+    int duplicate = this.cartDAO.findduplicate(cartVO);
+    return duplicate;
+  }
 
 }

@@ -5,7 +5,7 @@
 DROP TABLE promotion CASCADE CONSTRAINTS;
 
 CREATE TABLE promotion(
-        promono                             NUMBER(10)       NOT NULL,
+        promono                             NUMBER(10)       NOT NULL        PRIMARY KEY,
         promotitle                          VARCHAR2(300)        NOT NULL,
         promocontent                        CLOB        NOT NULL,
         promodisc                           NUMBER(3)        DEFAULT 0       NOT NULL,

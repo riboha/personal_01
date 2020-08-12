@@ -1,7 +1,6 @@
 package dev.mvc.film;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface FilmProcInter {
   
@@ -30,7 +29,7 @@ public interface FilmProcInter {
    * @param filmVO
    * @return
    */
-  public int update (HashMap<String, Object> hashMap);
+  public int update (FilmVO filmVO);
   
   /**
    * ªË¡¶

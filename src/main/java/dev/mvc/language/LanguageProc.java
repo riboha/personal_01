@@ -1,7 +1,6 @@
 package dev.mvc.language;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,8 +18,8 @@ public class LanguageProc implements LanguageProcInter {
    * 등록
    */
   @Override
-  public int create(HashMap<String, Object> hashMap) {
-    int cnt = this.languageDAO.create(hashMap);
+  public int create(LanguageVO languageVO) {
+    int cnt = this.languageDAO.create(languageVO);
     return cnt;
   }
 
@@ -46,8 +45,8 @@ public class LanguageProc implements LanguageProcInter {
    * 수정
    */
   @Override
-  public int update(HashMap<String, Object> hashMap) {
-    int cnt = this.languageDAO.update(hashMap);
+  public int update(LanguageVO languageVO) {
+    int cnt = this.languageDAO.update(languageVO);
     return cnt;
   }
 
@@ -59,11 +58,6 @@ public class LanguageProc implements LanguageProcInter {
     int cnt = this.languageDAO.delete(languageno);
     return cnt;
   }
-
-  
-
-
-
 
   
 }

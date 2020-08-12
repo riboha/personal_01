@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.directorfav.DirectorfavDAOInter">
+
+
+<!-- 등록  -->
+<insert id="create" parameterType="DirectorfavVO">
+  INSERT INTO directorfav(dirfavno, memberno, dirno)
+  VALUES (directorfav_seq.nextval, #{memberno}, #{dirno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="DirectorfavVO">
+  SELECT dirfavno, memberno, dirno
+  FROM directorfav
+  ORDER BY dirfavno DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="DirectorfavVO" parameterType="int">
+  SELECT dirfavno, memberno, dirno
+  FROM directorfav
+  WHERE dirfavno = #{dirfavno}
+</select>
+
+<!-- 중복 확인-->
+<select id="findduplicate" resultType="int" parameterType="DirectorfavVO">
+  SELECT COUNT(dirfavno) as cnt
+  FROM directorfav
+  WHERE memberno=#{memberno} AND dirno = #{dirno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="DirectorfavVO" >
+  UPDATE directorfav
+  SET memberno = #{memberno}, dirno = #{dirno}
+  WHERE dirfavno = #{dirfavno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM directorfav 
+  WHERE dirfavno=#{dirfavno}
+</delete>
+
+
+</mapper>

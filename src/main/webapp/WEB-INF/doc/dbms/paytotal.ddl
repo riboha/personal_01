@@ -1,38 +1,33 @@
 /**********************************/
-/* Table Name: 배우 */
+/* Table Name: 총결제 */
 /**********************************/
-DROP TABLE actor CASCADE CONSTRAINTS;
+DROP TABLE paytotal CASCADE CONSTRAINTS;
 
-CREATE TABLE actor(
-        actorno                             NUMBER(10)       NOT NULL        PRIMARY KEY,
-        actornameen                         VARCHAR2(100)        NOT NULL,
-        actornamekr                         VARCHAR2(100)        NOT NULL,
-        birth                               DATE         NOT NULL,
-        nation                              VARCHAR2(100)        NOT NULL,
-        actorpic                            VARCHAR2(100)        NULL ,
-        actorthumb                          VARCHAR2(100)        NULL ,
-        actorpicsize                        NUMBER(10)       DEFAULT 0       NOT NULL,
-        actorhit                            NUMBER(10)       DEFAULT 0       NOT NULL
+CREATE TABLE paytotal(
+        paytotalno                          NUMBER(10)       NOT NULL        PRIMARY KEY,
+        pricetotal                          NUMBER(10)       NOT NULL,
+        pntsave                             NUMBER(10)       DEFAULT 0       NOT NULL,
+        method                              NUMBER(1)        NOT NULL,
+        paydate                             DATE         NOT NULL,
+        memberno                            NUMBER(10)       NULL ,
+  FOREIGN KEY (memberno) REFERENCES member (memberno)
 );
 
-COMMENT ON TABLE actor is '배우';
-COMMENT ON COLUMN actor.actorno is '배우 번호';
-COMMENT ON COLUMN actor.actornameen is '영문 이름';
-COMMENT ON COLUMN actor.actornamekr is '한글 이름';
-COMMENT ON COLUMN actor.birth is '생년월일';
-COMMENT ON COLUMN actor.nation is '국적';
-COMMENT ON COLUMN actor.actorpic is '프로필';
-COMMENT ON COLUMN actor.actorthumb is '프로필 썸네일';
-COMMENT ON COLUMN actor.actorpicsize is '프로필 크기';
-COMMENT ON COLUMN actor.actorhit is '좋아요수';
+COMMENT ON TABLE paytotal is '총결제';
+COMMENT ON COLUMN paytotal.paytotalno is '총결제 번호';
+COMMENT ON COLUMN paytotal.pricetotal is '총 결제액';
+COMMENT ON COLUMN paytotal.pntsave is '적립 포인트';
+COMMENT ON COLUMN paytotal.method is '결제 방식';
+COMMENT ON COLUMN paytotal.paydate is '결제 일자';
+COMMENT ON COLUMN paytotal.memberno is '회원 번호';
 
 
-DESC actor;
+DESC paytotal;
 
 
-DROP SEQUENCE actor_seq;
+DROP SEQUENCE paytotal_seq;
 
-CREATE SEQUENCE actor_seq
+CREATE SEQUENCE paytotal_seq
   START WITH 1              -- 시작 번호
   INCREMENT BY 1          -- 증가값
   MAXVALUE 9999999999 -- 최대값: 9999999999 --> NUMBER(10) 대응
@@ -46,48 +41,48 @@ CREATE SEQUENCE actor_seq
 
 -- ♣CREATE♣
 
-INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
-VALUES (actor_seq.nextval, 'Zooey Deschanel', '주이 디샤넬', '1980-01-17', 'USA', null, null, 0);
+INSERT INTO paytotal(paytotalno, pricetotal, method, paydate, memberno)
+VALUES (paytotal_seq.nextval, 50000, 1, sysdate, 1);
 
-INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
-VALUES (actor_seq.nextval, 'Chris Hemsworth', '크리스 햄스워스', '1983-08-11', 'Australia', null, null, 0);
+INSERT INTO paytotal(paytotalno, pricetotal, method, paydate, memberno)
+VALUES (paytotal_seq.nextval, 50000, 2, sysdate, 1);
 
-INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
-VALUES (actor_seq.nextval, 'Sarah Shahi', '사라 샤히', '1980-01-10', 'USA', null, null, 0);
+INSERT INTO paytotal(paytotalno, pricetotal, method, paydate, memberno)
+VALUES (paytotal_seq.nextval, 50000, 3, sysdate, 1);
 
 COMMIT;
 
 -- ♣LIST♣
 
-SELECT actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize
-FROM actor
-ORDER BY actorno;
+SELECT paytotalno, pricetotal, method, paydate, memberno, pntsave
+FROM paytotal
+ORDER BY paytotalno;
+
+SELECT paytotalno, pricetotal, method, paydate, memberno, pntsave
+FROM paytotal
+WHERE memberno = 1
+ORDER BY paytotalno;
 
 
 -- ♣READ♣
 
-SELECT actorno, actornameen, actornamekr, birth, nation, actorpic, actorthumb, actorpicsize
-FROM actor
-WHERE actorno = 4;
+SELECT paytotalno, pricetotal, method, paydate, memberno, pntsave
+FROM paytotal
+WHERE paytotalno = 1;
 
 
 -- ♣UPDATE♣
 
-UPDATE actor
-SET actornameen = 'Maya Hawke', actornamekr='마야 호크', birth='1998-07-08', nation='USA', 
-        actorpic=null, actorthumb=null, actorpicsize=0
-WHERE actorno = 1;
-
-  UPDATE actor 
-  SET actorpic = null, actorthumb = null, actorpicsize = 0
-  WHERE actorno= 1;
+UPDATE paytotal
+SET pricetotal = 40000, method=3
+WHERE paytotalno = 1;
 
 
 -- ♣DELETE♣
 
 DELETE 
-FROM actor
-WHERE actorno=1;  
+FROM paytotal
+WHERE paytotalno=1;  
 
 
 

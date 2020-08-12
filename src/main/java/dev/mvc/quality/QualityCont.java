@@ -1,7 +1,5 @@
 package dev.mvc.quality;
 
-import java.util.HashMap;
-
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,9 +23,9 @@ public class QualityCont {
   @RequestMapping(value = "/quality/create.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String create (HashMap<String, Object> hashMap) {
+  public String create (QualityVO qualityVO) {
     
-    int cnt = this.qualityProc.create(hashMap);
+    int cnt = this.qualityProc.create(qualityVO);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -44,9 +42,9 @@ public class QualityCont {
   @RequestMapping(value = "/quality/update.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String update (HashMap<String, Object> hashMap) {
+  public String update (QualityVO qualityVO) {
     
-    int cnt = this.qualityProc.update(hashMap);
+    int cnt = this.qualityProc.update(qualityVO);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);

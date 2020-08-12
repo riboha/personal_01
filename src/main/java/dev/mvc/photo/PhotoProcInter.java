@@ -9,6 +9,8 @@ public interface PhotoProcInter {
   
   public ArrayList<PhotoVO> list ();
   
+  public ArrayList<PhotoVO> list_by_filmno (int filmno);
+  
   public PhotoVO read (int photono);
   
   public int update (PhotoVO photoVO);

@@ -52,12 +52,19 @@ public class CartCont {
     cartVO.setFilmno(7);
     cartVO.setMemberno(1);
     
-    int cnt = this.cartProc.create(cartVO);
+    
+    int cnt = 0;
+    int duplicate = this.cartProc.findduplicate(cartVO);
+    
+    if (duplicate == 0) {
+      cnt = this.cartProc.create(cartVO);
+    }
     
     System.out.println("처리 결과 cnt: " + cnt);
       
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
+    json.put("duplicate", duplicate);
     
     return json.toString();
   }

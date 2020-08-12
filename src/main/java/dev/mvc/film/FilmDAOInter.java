@@ -30,7 +30,7 @@ public interface FilmDAOInter {
    * @param filmVO
    * @return
    */
-  public int update (HashMap<String, Object> hashMap);
+  public int update (FilmVO filmVO);
   
   /**
    * ªË¡¶

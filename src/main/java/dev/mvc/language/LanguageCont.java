@@ -1,8 +1,5 @@
 package dev.mvc.language;
 
-import java.util.HashMap;
-
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -25,9 +22,9 @@ public class LanguageCont {
   @RequestMapping(value = "/language/create.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public int create (HashMap<String, Object> hashMap) {
+  public int create (LanguageVO languageVO) {
     
-    int cnt = this.languageProc.create(hashMap);
+    int cnt = this.languageProc.create(languageVO);
     return cnt;
   }
   
@@ -40,9 +37,9 @@ public class LanguageCont {
   @RequestMapping(value = "/language/update.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public int update (HashMap<String, Object> hashMap) {
+  public int update (LanguageVO languageVO) {
     
-    int cnt = this.languageProc.update(hashMap);
+    int cnt = this.languageProc.update(languageVO);
     
     return cnt;
   }

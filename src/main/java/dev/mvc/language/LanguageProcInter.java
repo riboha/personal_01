@@ -1,7 +1,6 @@
 package dev.mvc.language;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface LanguageProcInter {
   
@@ -10,7 +9,7 @@ public interface LanguageProcInter {
    * @param languageVO
    * @return
    */
-  public int create (HashMap<String , Object> hashMap);
+  public int create (LanguageVO languageVO);
   
   /**
    * 목록
@@ -30,7 +29,7 @@ public interface LanguageProcInter {
    * @param hashMap
    * @return
    */
-  public int update (HashMap<String , Object> hashMap);
+  public int update (LanguageVO languageVO);
   
   /**
    * 삭제

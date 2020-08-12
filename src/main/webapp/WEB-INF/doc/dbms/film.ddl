@@ -11,7 +11,7 @@ CREATE TABLE film(
 		lan                           		VARCHAR2(60)		 NOT NULL,
 		year                          		NUMBER(4)		 NOT NULL,
 		len                           		NUMBER(4)		 NULL ,
-		summary                       		CLOB(10)		 NOT NULL,
+		summary                       		CLOB		 NOT NULL,
 		restrict                      		NUMBER(10)		 NOT NULL,
 		Youtube                       		VARCHAR2(1000)		 NULL ,
 		url                           		VARCHAR2(1000)		 NULL ,
@@ -82,6 +82,7 @@ VALUES (film_seq.nextval, 'Zero Dark Thirty', '제로 다크 써티', 'EN', 2012, 157,
 COMMIT;
 
 
+
 -- ♣LIST♣
 
 SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
@@ -90,22 +91,50 @@ ORDER BY filmno;
 
 
 
+-- ♣LIST (BY FILMNO)♣
+
+SELECT photono, photoname, photoalt, photothumb, photosize, filmno
+FROM photo
+WHERE filmno = 8
+ORDER BY photono ASC, filmno DESC;
+
+
+
+-- ♣READ♣
+
+SELECT filmno, titlekr, titleen, lan, year, len, summary, restrict, dirno, youtube, url, 
+            poster, posterthumb, postersize,
+            filmseq, hit, dirno
+FROM film
+WHERE filmno = 8;
+
+
+SELECT url
+FROM film
+WHERE filmno = 8;
+
+
+
 -- ♣UPDATE♣
 
 UPDATE film
-SET year = 2009
+SET youtube = 
+'<iframe width="560" height="315" src="https://www.youtube.com/embed/6ZOZwUQKu3E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+WHERE filmno = 8;
+
+UPDATE film
+SET postersize = 0, poster = null, posterthumb = null
 WHERE filmno = 2;
 
 UPDATE film
-SET postersize = 0, poster = null, posterthumb = null;
-WHERE filmno = 2;
-
+SET url = 'http://'
+WHERE filmno = 8;
 
 
 -- ♣DELETE♣
 
 DELETE 
-FROM film;
+FROM film
 WHERE filmno=3;  
 
 

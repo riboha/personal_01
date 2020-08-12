@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace = "dev.mvc.quality.QualityDAOInter">
 
 <!-- 등록 -->
-<insert id="create" parameterType="HashMap">
+<insert id="create" parameterType="QualityVO">
   INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
   VALUES (#{filmno}, #{q576}, #{q720}, #{q1024}, #{q1440}, #{filmno})
 </insert>
@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <!-- 수정 -->
-<update id="update" parameterType="HashMap" >
+<update id="update" parameterType="QualityVO" >
   UPDATE quality
   SET q576=#{q576}, q720=#{q720}, q1024=#{q1024}, q1440=#{q1440}
   WHERE filmno = #{filmno}

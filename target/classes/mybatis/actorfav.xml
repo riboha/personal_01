@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.actorfav.ActorfavDAOInter">
+
+
+<!-- 등록  -->
+<insert id="create" parameterType="ActorfavVO">
+  INSERT INTO actorfav(actorfavno, memberno, actorno)
+  VALUES (actorfav_seq.nextval, #{memberno}, #{actorno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="ActorfavVO">
+  SELECT actorfavno, memberno, actorno
+  FROM actorfav
+  ORDER BY actorfavno DESC
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="ActorfavVO" parameterType="int">
+  SELECT actorfavno, memberno, actorno
+  FROM actorfav
+  WHERE actorfavno = #{actorfavno}
+</select>
+
+<!-- 중복 확인-->
+<select id="findduplicate" resultType="int" parameterType="ActorfavVO">
+  SELECT COUNT(actorfavno) as cnt
+  FROM actorfav
+  WHERE memberno=#{memberno} AND actorno = #{actorno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="ActorfavVO" >
+  UPDATE actorfav
+  SET memberno = #{memberno}, actorno = #{actorno}
+  WHERE actorfavno = #{actorfavno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM actorfav 
+  WHERE actorfavno=#{actorfavno}
+</delete>
+
+
+</mapper>

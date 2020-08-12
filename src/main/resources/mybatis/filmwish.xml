@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.filmwish.FilmwishDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="FilmwishVO">
+  INSERT INTO filmwish (filmwishno, memberno, filmno)
+  VALUES (filmwish_seq.nextval, #{memberno}, #{filmno})
+</insert>
+
+
+<!-- 목록 -->
+<select id="list" resultType="FilmwishVO">
+  SELECT filmwishno, memberno, filmno
+  FROM filmwish
+  ORDER BY filmwishno DESC
+</select>
+
+
+<!-- 조회 -->
+<select id="read" resultType="FilmwishVO" parameterType="int">
+  SELECT filmwishno, memberno, filmno
+  FROM filmwish
+  WHERE filmwishno = #{filmwishno}
+</select>
+
+
+<!-- 중복 확인-->
+<select id="findduplicate" resultType="int" parameterType="FilmwishVO">
+  SELECT COUNT(filmwishno) as cnt
+  FROM filmwish
+  WHERE memberno=#{memberno} AND filmno = #{filmno}
+</select>
+
+
+<!-- 수정 -->
+<update id="update" parameterType="FilmwishVO" >
+  UPDATE filmwish
+  SET memberno = #{memberno}, filmno = #{filmno}
+  WHERE filmwishno = #{filmwishno}
+</update>
+
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM filmwish 
+  WHERE filmwishno=#{filmwishno}
+</delete>
+
+
+</mapper>

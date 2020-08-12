@@ -1,7 +1,6 @@
 package dev.mvc.film;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,11 +36,12 @@ public class FilmProc implements FilmProcInter {
 
   // 수정
   @Override
-  public int update(HashMap<String, Object> hashMap) {
-    int cnt = this.FilmDAO.update(hashMap);
+  public int update(FilmVO filmVO) {
+    int cnt = this.FilmDAO.update(filmVO);
     return cnt;
   }
 
+  
   // 삭제
   @Override
   public int delete(int filmno) {

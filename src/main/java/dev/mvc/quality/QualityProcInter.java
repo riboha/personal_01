@@ -1,7 +1,6 @@
 package dev.mvc.quality;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface QualityProcInter {
   
@@ -10,7 +9,7 @@ public interface QualityProcInter {
    * @param hashMap
    * @return
    */
-  public int create (HashMap<String, Object> hashMap);
+  public int create (QualityVO qualityVO);
   
   /**
    * 목록
@@ -30,7 +29,7 @@ public interface QualityProcInter {
    * @param hashMap
    * @return
    */
-  public int update (HashMap<String, Object> hashMap);
+  public int update (QualityVO qualityVO);
   
   /**
    * 삭제

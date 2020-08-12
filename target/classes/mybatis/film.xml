@@ -25,19 +25,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 조회 -->
 <select id="read" resultType="FilmVO" parameterType="int">
-  SELECT filmno, titlekr, titleen, lan, year, len, summary, restrict, dirno,
-                          youtube, url, poster, posterthumb, postersize,
-                          filmseq, hit, dirno
+  SELECT filmno, 
+            titlekr, titleen, 
+            lan, year, len, dirno,
+            summary, restrict,
+            youtube, url, 
+            poster, posterthumb, postersize,
+            filmseq, hit
   FROM film
   WHERE filmno = #{filmno}
 </select>
 
 <!-- 수정 -->
-<update id="update" parameterType="HashMap" >
+<update id="update" parameterType="FilmVO" >
   UPDATE film
-  SET titlekr=#{titlekr, jdbcType=VARCHAR}, titleen=#{titleen, jdbcType=VARCHAR}, lan=#{lan, jdbcType=VARCHAR}, year=#{year, jdbcType=INTEGER}, 
-                    len=#{len, jdbcType=INTEGER}, summary=#{summary, jdbcType=VARCHAR}, restrict=#{restrict, jdbcType=INTEGER}, dirno=#{dirno, jdbcType=INTEGER},
-                    poster=#{poster, jdbcType=VARCHAR}, posterthumb=#{posterthumb, jdbcType=VARCHAR}, postersize =#{postersize, jdbcType=INTEGER}
+  SET titlekr=#{titlekr, jdbcType=VARCHAR}, titleen=#{titleen, jdbcType=VARCHAR}, 
+        lan=#{lan, jdbcType=VARCHAR}, year=#{year, jdbcType=INTEGER}, len=#{len, jdbcType=INTEGER}, dirno=#{dirno, jdbcType=INTEGER},
+        summary=#{summary, jdbcType=VARCHAR}, restrict=#{restrict, jdbcType=INTEGER}, 
+        youtube=#{youtube, jdbcType=VARCHAR}, url=#{url, jdbcType=INTEGER}, 
+        poster=#{poster, jdbcType=VARCHAR}, posterthumb=#{posterthumb, jdbcType=VARCHAR}, postersize =#{postersize, jdbcType=INTEGER}
   WHERE filmno = #{filmno, jdbcType=INTEGER}
 </update>
 
@@ -47,5 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   FROM film
   WHERE filmno= #{filmno}
 </delete>
+
+
+
 
 </mapper>
