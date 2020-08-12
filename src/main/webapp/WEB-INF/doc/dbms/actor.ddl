@@ -55,6 +55,15 @@ VALUES (actor_seq.nextval, 'Chris Hemsworth', '크리스 햄스워스', '1983-08-11', '
 INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
 VALUES (actor_seq.nextval, 'Sarah Shahi', '사라 샤히', '1980-01-10', 'USA', null, null, 0);
 
+INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
+VALUES (actor_seq.nextval, 'Emily Blunt', '에밀리 블런트', '1983-02-23', 'England', null, null, 0);
+
+INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
+VALUES (actor_seq.nextval, 'Anne Hathaway', '앤 해서웨이', '1982-11-12', 'USA', null, null, 0);
+
+INSERT INTO actor(actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize)
+VALUES (actor_seq.nextval, 'Meryl Streep', '메릴 스트립', '1949-06-22', 'USA', null, null, 0);
+
 COMMIT;
 
 -- ♣LIST♣

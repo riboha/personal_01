@@ -55,6 +55,9 @@
 	<context:component-scan base-package="dev.mvc.filmwish" />
 	<context:component-scan base-package="dev.mvc.filmgenre" />
 	<context:component-scan base-package="dev.mvc.actorfav" />
+	<context:component-scan base-package="dev.mvc.cast" />
+	<context:component-scan base-package="dev.mvc.promofilm" />
+	<context:component-scan base-package="dev.mvc.review" />
   
     <!-- FORM의 FILE 태그를 읽어 MultipartFile 객체로 변환 -->
     <beans:bean id="multipartResolver"

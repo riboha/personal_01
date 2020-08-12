@@ -176,6 +176,38 @@
           });
       }
       
+      // ▶ 리뷰 등록
+      function review_create () {
+
+        var review_form = $('#review_form');
+        var params = review_form.serialize();
+        var rate = document.getElementById("form__slider-value").innerText; 
+        params = params + '&rate='+rate;
+
+          $.ajax({
+              url : "../review/create.do",
+              type : "post",
+              cache : false,
+              async : false,
+              dataType : "json",
+              data : params,
+              success : function(rdata) {
+                  if (rdata.cnt >= 1) {
+                      alert('리뷰 등록 성공');
+                      window.location.reload();
+                  } else {
+                    alert('리뷰 등록 실패');
+                  }
+              },
+              error : function(request, status, error) {
+                  var msg = 'ERROR<br><br>';
+                  msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+                  msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+                  console.log(msg);
+              }
+          });
+      }
+      
   </script>
 
 </head>
@@ -232,6 +264,11 @@
                                             </c:forEach>
                                         </li>
                                         <li><span>감독:</span> <a href="#">${dirnamekr }</a></li>
+                                        <li><span>출연:</span> 
+                                            <c:forEach var="film_actor_VO_list" items="${film_actor_VO_list }">
+                                                <a href="#">${film_actor_VO_list.actornamekr }</a>
+                                            </c:forEach>
+                                        </li>
                                         <li><span>개봉 년도:</span> ${filmVO.year }</li>
                                         <li><span>길이:</span> ${filmVO.len } min</li>
                                         <li><span>언어:</span> <a href="#">${filmVO.lan }</a> </li>
@@ -476,48 +513,33 @@
                                 <div class="col-12">
                                     <div class="reviews">
                                         <ul class="reviews__list">
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="img/user.png" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                    <span class="reviews__rating"><i class="icon ion-ios-star"></i>8.4</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                            </li>
-
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="img/user.png" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                    <span class="reviews__rating"><i class="icon ion-ios-star"></i>9.0</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                            </li>
-
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="img/user.png" alt="">
-                                                    <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                    <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                    <span class="reviews__rating"><i class="icon ion-ios-star"></i>7.5</span>
-                                                </div>
-                                                <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                            </li>
+                                            <c:forEach var="member_review_VO_list" items="${member_review_VO_list }">
+                                                <%-- <c:set var="photono" value="${member_review_VO_list.photono }"/> --%>
+	                                            <li class="reviews__item">
+	                                                <div class="reviews__autor">
+	                                                    <img class="reviews__avatar" src="../member/prof/${member_review_VO_list.memthumb }" alt="">
+	                                                    <span class="reviews__name">${member_review_VO_list.title }</span>
+	                                                    <span class="reviews__time">${member_review_VO_list.rdate } by ${member_review_VO_list.nick } </span>
+	
+	                                                    <span class="reviews__rating"><i class="icon ion-ios-star"></i>${member_review_VO_list.rate }</span>
+	                                                </div>
+	                                                <p class="reviews__text">${member_review_VO_list.review }</p>
+	                                            </li>
+                                            </c:forEach>
                                         </ul>
 
-                                        <form action="#" class="form">
-                                            <input type="text" class="form__input" placeholder="Title">
-                                            <textarea class="form__textarea" placeholder="Review"></textarea>
+                                        <form id='review_form' action="../review/create.do" class="form">
+                                            <input type="hidden" id="memberno" name="memberno" class="form__input" value="1">
+                                            <input type="hidden" id="payno" name="payno" class="form__input" value="3">
+                                            <input type="hidden" id="filmno" name="filmno" class="form__input" value="${filmVO.filmno }" >
+                                            
+                                            <input type="text" id="title" name="title" class="form__input" placeholder="제목">
+                                            <textarea class="form__textarea" id="review" name="review" placeholder="리뷰"></textarea>
                                             <div class="form__slider">
                                                 <div class="form__slider-rating" id="slider__rating"></div>
                                                 <div class="form__slider-value" id="form__slider-value"></div>
                                             </div>
-                                            <button type="button" class="form__btn">Send</button>
+                                            <button type="button" class="form__btn" onclick="review_create();">등록</button>
                                         </form>
                                     </div>
                                 </div>

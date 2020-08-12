@@ -37,7 +37,7 @@ CREATE SEQUENCE promofilm_seq
 -- ¢ÀCREATE¢À
 
 INSERT INTO promofilm(promofilmno, promono, filmno)
-VALUES (promofilm_seq.nextval, 1, 1);
+VALUES (promofilm_seq.nextval, 1, 8);
 
 INSERT INTO promofilm(promofilmno, promono, filmno)
 VALUES (promofilm_seq.nextval, 1, 6);
@@ -73,11 +73,6 @@ WHERE promofilmno = 1;
 DELETE 
 FROM promofilm
 WHERE promofilmno=1;  
-
-
-
-
-
 
 
 

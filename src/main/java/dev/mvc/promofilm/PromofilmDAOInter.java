@@ -6,7 +6,7 @@ public interface PromofilmDAOInter {
   
   public int create (PromofilmVO promofilmVO);
   
-  public ArrayList<PromofilmVO> list ();
+  public ArrayList<PromofilmVO> list_by_promono (int promono);
   
   public PromofilmVO read (int promofilmno);
   

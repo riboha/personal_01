@@ -232,8 +232,9 @@ COMMENT ON COLUMN pay.filmno is '영화 번호';
 /**********************************/
 CREATE TABLE review(
 		reviewno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		title                         		VARCHAR2(100)		 NOT NULL,
 		review                        		VARCHAR2(1000)		 NOT NULL,
-		rate                          		NUMBER(1)		 DEFAULT 1		 NOT NULL,
+		rate                          		NUMBER(2, 1)		 NOT NULL,
 		rdate                         		DATE		 NOT NULL,
 		payno                         		NUMBER(10)		 NOT NULL,
 		memberno                      		NUMBER(10)		 NOT NULL,
@@ -245,7 +246,8 @@ CREATE TABLE review(
 
 COMMENT ON TABLE review is '리뷰';
 COMMENT ON COLUMN review.reviewno is '리뷰 번호';
-COMMENT ON COLUMN review.review is '리뷰';
+COMMENT ON COLUMN review.title is '제목';
+COMMENT ON COLUMN review.review is '내용';
 COMMENT ON COLUMN review.rate is '평점';
 COMMENT ON COLUMN review.rdate is '리뷰 날짜';
 COMMENT ON COLUMN review.payno is '결제 세부 번호';

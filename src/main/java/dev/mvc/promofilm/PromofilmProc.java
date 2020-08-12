@@ -20,8 +20,8 @@ public class PromofilmProc implements PromofilmProcInter{
 
   // ¸ñ·Ï
   @Override
-  public ArrayList<PromofilmVO> list() {
-    ArrayList<PromofilmVO> list = this.promofilmDAO.list();
+  public ArrayList<PromofilmVO> list_by_promono(int promono) {
+    ArrayList<PromofilmVO> list = this.promofilmDAO.list_by_promono(promono);
     return list;
   }
 
@@ -49,6 +49,4 @@ public class PromofilmProc implements PromofilmProcInter{
 
 
   
-
-
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.cast.CastProcInter;
+import dev.mvc.cast.Film_Actor_VO;
 import dev.mvc.director.DirectorProcInter;
 import dev.mvc.filmgenre.Film_Genre_VO;
 import dev.mvc.filmgenre.FilmgenreProcInter;
@@ -27,6 +29,8 @@ import dev.mvc.photo.PhotoProcInter;
 import dev.mvc.photo.PhotoVO;
 import dev.mvc.quality.QualityProcInter;
 import dev.mvc.quality.QualityVO;
+import dev.mvc.review.Member_Review_VO;
+import dev.mvc.review.ReviewProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 
@@ -60,6 +64,14 @@ public class FilmCont {
   @Autowired
   @Qualifier("dev.mvc.genre.GenreProc")
   private GenreProcInter genreProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.cast.CastProc")
+  private CastProcInter castProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.review.ReviewProc")
+  private ReviewProcInter reviewProc;
   
 
   /**
@@ -184,6 +196,8 @@ public class FilmCont {
     QualityVO qualityVO = this.qualityProc.read(filmno);
     ArrayList<PhotoVO> photoVO_list= this.photoProc.list_by_filmno(filmno);
     ArrayList<Film_Genre_VO> film_genre_VO_list = this.filmgenreProc.filmgenre_list_by_filmno(filmno);
+    ArrayList<Film_Actor_VO> film_actor_VO_list =  this.castProc.cast_list_by_filmno(filmno);
+    ArrayList<Member_Review_VO> member_review_VO_list = this.reviewProc.review_list_by_memberno(filmno);
     String dirnamekr = this.directorProc.read(filmVO.getDirno()).getDirnamekr();
     
     mav.addObject("dirnamekr", dirnamekr);
@@ -192,6 +206,8 @@ public class FilmCont {
     mav.addObject("qualityVO", qualityVO);
     mav.addObject("photoVO_list", photoVO_list);
     mav.addObject("film_genre_VO_list", film_genre_VO_list);
+    mav.addObject("film_actor_VO_list", film_actor_VO_list);
+    mav.addObject("member_review_VO_list", member_review_VO_list);
     mav.setViewName("/film/read_customer");
     return mav;
   } 

@@ -12,10 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 
 
-<!-- 목록 -->
-<select id="list" resultType="PromofilmVO" parameterType="int">
+<!-- 목록 (프로모션번호 별)-->
+<select id="list_by_promono" resultType="PromofilmVO" parameterType="int">
   SELECT promofilmno, promono, filmno
   FROM promofilm
+  WHERE promono = #{promono}
   ORDER BY promofilmno DESC
 </select>
 

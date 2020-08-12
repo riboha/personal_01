@@ -56,6 +56,9 @@
                                 dev.mvc.filmwish,
                                 dev.mvc.filmgenre,
                                 dev.mvc.actorfav
+                                dev.mvc.cast,
+                                dev.mvc.promofilm,
+                                dev.mvc.review
                      " />
       <property name="mapperLocations" value="classpath:mybatis/*.xml" />
     </bean>

@@ -70,15 +70,15 @@ public class PromofilmCont {
   
   
   /**
-   * 목록
+   * 목록 (프로모션번호 별)
    * @return
    *  http://localhost:9090/movie/promofilm/list.do
    */
-  @RequestMapping(value = "/promofilm/list.do",
+  @RequestMapping(value = "/promofilm/list_by_promono.do",
                             method = RequestMethod.GET)
-  public ModelAndView list () {
+  public ModelAndView list_by_promono (int promono) {
     ModelAndView mav = new ModelAndView();
-    ArrayList<PromofilmVO> list = this.promofilmProc.list();
+    ArrayList<PromofilmVO> list = this.promofilmProc.list_by_promono(promono);
     mav.addObject("list", list);
     mav.setViewName("/promofilm/list");
     return mav;

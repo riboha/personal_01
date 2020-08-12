@@ -33,6 +33,9 @@ INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
 VALUES (1, 1, 1, 1, 0, 1);
 
 INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
+VALUES (8, 1, 1, 1, 0, 8);
+
+INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
 VALUES (2, 1, 1, 1, 0, 2);
 
 INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
@@ -55,7 +58,7 @@ ORDER BY qualno;
 
 SELECT qualno, q576, q720, q1024, q1440, filmno
 FROM quality
-WHERE filmno = 1;
+WHERE filmno = 8;
 
 
 
