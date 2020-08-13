@@ -82,7 +82,7 @@ WHERE reviewno = 1;
 -- ♣UPDATE♣
 
 UPDATE review
-SET review = 'Dublic Film Critics Circle', rate='Best Director'
+SET title = 'Dublic Film Critics Circle', title='Best Director', rate='5.6'
 WHERE reviewno = 1;
 
 
@@ -97,13 +97,11 @@ WHERE reviewno=1;
 
 -- 영화번호 별 리뷰 목록
 
-SELECT m.memberno as m_memberno, m.nick,
+SELECT m.memberno as m_memberno, m.nick, m.memthumb,
            r.title, r.review, r.rate, r.rdate, r.payno, r.memberno r_memberno, r.filmno
 FROM member m , review r
 WHERE  m.memberno = r.memberno  AND r.filmno = 8
 ORDER BY r.rdate DESC;
-
-
 
 
 

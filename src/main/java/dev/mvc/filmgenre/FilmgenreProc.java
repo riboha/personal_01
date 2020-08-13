@@ -59,9 +59,16 @@ public class FilmgenreProc implements FilmgenreProcInter {
     return duplicate;
   }
 
+  @Override
+  public int delete_by_filmno(int filmno) {
+    int cnt = this.FilmgenreDAO.delete_by_filmno(filmno);
+    return cnt;
+  }
 
-
-
-
+  @Override
+  public int count_by_filmno(int filmno) {
+    int cnt = this.FilmgenreDAO.count_by_filmno(filmno);
+    return cnt;
+  }
 
 }

@@ -66,23 +66,33 @@ ORDER BY filmgenreno DESC;
 
 SELECT filmgenreno, genreno, filmno
 FROM filmgenre
-WHERE filmno = 8
+WHERE filmno = 6
 ORDER BY filmgenreno DESC;
 
 
 -- ♣UPDATE♣
 
-UPDATE filmwish
+UPDATE filmgenre
 SET filmno = 3, genreno = 1
-WHERE filmwishno = 3;
+WHERE filmgenreno = 3;
 
 
 
 -- ♣DELETE♣
 
 DELETE 
-FROM filmwish
+FROM filmgenre
+WHERE filmno=23;  
+COMMIT;
+
 WHERE filmwishno=6;  
+
+
+-- 영화번호별 레코드 갯수
+
+SELECT COUNT(filmgenreno) as cnt
+FROM filmgenre
+WHERE filmno=8;
 
 
 -- ♣Genre + Film Inner Join♣

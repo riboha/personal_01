@@ -281,7 +281,7 @@ CREATE TABLE keyword(
 		keywordno                     		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		keyword                       		VARCHAR2(60)		 NOT NULL,
 		keywordseq                    		NUMBER(30)		 DEFAULT 1		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL ,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
@@ -406,7 +406,7 @@ COMMENT ON COLUMN award.filmno is '영화 번호';
 /**********************************/
 CREATE TABLE language(
 		languageno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		en                            		NUMBER(1)		 DEFAULT 1		 NOT NULL,
+		en                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		ch                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		es                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		fr                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
@@ -417,7 +417,7 @@ CREATE TABLE language(
 		jp                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		hi                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		kr                            		NUMBER(1)		 DEFAULT 0		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL ,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
@@ -442,10 +442,10 @@ COMMENT ON COLUMN language.filmno is '영화 번호';
 /**********************************/
 CREATE TABLE quality(
 		qualno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
-		q576                          		NUMBER(1)		 DEFAULT 1		 NOT NULL,
-		q720                          		NUMBER(1)		 DEFAULT 1		 NOT NULL,
-		q1024                         		NUMBER(1)		 DEFAULT 1		 NOT NULL,
-		q1440                         		NUMBER(1)		 DEFAULT 1		 NOT NULL,
+		q576                          		NUMBER(1)		 DEFAULT 0		 NOT NULL,
+		q720                          		NUMBER(1)		 DEFAULT 0		 NOT NULL,
+		q1024                         		NUMBER(1)		 DEFAULT 0		 NOT NULL,
+		q1440                         		NUMBER(1)		 DEFAULT 0		 NOT NULL,
 		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );

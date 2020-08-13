@@ -5,13 +5,14 @@ DROP TABLE quality CASCADE CONSTRAINTS;
 
 CREATE TABLE quality(
         qualno                              NUMBER(10)       NOT NULL        PRIMARY KEY,
-        q576                                NUMBER(1)        DEFAULT 1       NOT NULL,
-        q720                                NUMBER(1)        DEFAULT 1       NOT NULL,
-        q1024                               NUMBER(1)        DEFAULT 1       NOT NULL,
-        q1440                               NUMBER(1)        DEFAULT 1       NOT NULL,
+        q576                                NUMBER(1)        DEFAULT 0       NOT NULL,
+        q720                                NUMBER(1)        DEFAULT 0       NOT NULL,
+        q1024                               NUMBER(1)        DEFAULT 0       NOT NULL,
+        q1440                               NUMBER(1)        DEFAULT 0       NOT NULL,
         filmno                              NUMBER(10)       NOT NULL,
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
+
 
 COMMENT ON TABLE quality is '지원 화질';
 COMMENT ON COLUMN quality.qualno is '지원 화질 번호';
@@ -74,7 +75,7 @@ WHERE qualno = 3;
 
 DELETE 
 FROM quality
-WHERE qualno=1;  
+WHERE qualno=23;  
 
 
 

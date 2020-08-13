@@ -100,7 +100,26 @@ FROM member
 WHERE memberno=1;  
 
 
+-- id 중복 확인
 
+SELECT COUNT(id) as cnt
+FROM member
+WHERE id='user1';
+
+-- 로그인
+
+SELECT COUNT(memberno) as cnt
+FROM member
+WHERE id='user1' AND pw='1234';
+
+
+
+-- id를 이용한 회원 정보 조회
+
+SELECT memberno, id, pw, nick, tel, birth, email, memthumb, mempic, mempicsize
+FROM member
+WHERE id = 'member2';
+ 
 
 
 

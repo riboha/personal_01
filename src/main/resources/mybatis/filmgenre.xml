@@ -55,7 +55,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE filmgenreno=#{filmgenreno}
 </delete>
 
-<!-- 장르 목록 (영화별)-->
+<!-- 삭제 (영화번호 별)-->
+<delete id="delete_by_filmno" parameterType="int">
+  DELETE 
+  FROM filmgenre 
+  WHERE filmno=#{filmno}
+</delete>
+
+<!-- 장르 목록 (영화번호 별)-->
 <select id="filmgenre_list_by_filmno" resultType="Film_Genre_VO" parameterType="int">
   SELECT g.genreno, g.genrename,
              f.filmno,
@@ -63,6 +70,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   FROM genre g, film f, filmgenre x
   WHERE g.genreno = x.genreno AND f.filmno = x.filmno AND f.filmno = #{filmno}
   ORDER BY g.genreno DESC
+</select>
+
+<!-- 레코드 갯수 (영화번호 별) -->
+<select id="count_by_filmno" resultType="int" parameterType="int">
+  SELECT COUNT(filmgenreno) as cnt
+  FROM filmgenre
+  WHERE filmno=#{filmno}
 </select>
 
 

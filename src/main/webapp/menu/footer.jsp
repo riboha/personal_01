@@ -62,6 +62,7 @@
                         <ul>
                             <li><a href="#">Terms of Use</a></li>
                             <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="./admin/singin.do">Admin Login</a></li>
                         </ul>
                     </div>
                 </div>

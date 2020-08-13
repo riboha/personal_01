@@ -44,107 +44,192 @@
 	<title>FlixGo â Online Movies, TV Shows & Cinema HTML Template</title>
 		
 	<script type="text/javascript">
-	$(function() {
-	  $('#btn_update_form').on('click', update_form);
-	  $('#btn_update_proc').on('click', update_proc);
-	  $('#btn_delete').on('click', delete_proc);
-		
-	});
-
-
-    // ▶ 영화 레코드 수정 폼
-	function update_form () {
-    $("input[name='titleen']").attr("readonly", false);
-    $("input[name='titlekr']").attr("readonly", false);
-    $("input[name='lan']").attr("readonly", false);
-    $("input[name='year']").attr("readonly", false);
-    $("input[name='len']").attr("readonly", false);
-    $("input[name='restrict']").attr("readonly", false);
-    $("input[name='dirno']").attr("readonly", false);
-    $("textarea[name='summary']").attr("readonly", false);
-    $("textarea[name='youtube']").attr("readonly", false);
-    $("input[name='url']").attr("readonly", false);
-
-    document.getElementById("btn_update_form").style.display = "none";
-    document.getElementById("btn_update_proc").style.display = "inline-block";
-    document.getElementById("btn_update_proc").style.width = "49%";
-    document.getElementById("posterMFdiv").style.display = "inline";
-    document.getElementById("btn_delete").style.display = "none";
-    
-    document.getElementById("btn_cancel").style.width = "49%";
-    document.getElementById("btn_cancel").onclick = "window.location.reload();";
-    document.getElementById("btn_cancel").onclick = "window.location.reload();";
-
-    $('#btn_cancel').attr("onclick",  "window.location.reload();");
-
-	}
-
-
-    // ▶ 영화 레코드 수정 실행
-	function update_proc () {
-
-	   // $('#btn_create').click(function(){
-		var frm = $('#frm')[0];
-		var formData = new FormData(frm);
-		
-		alert('formData: '+ formData);
-
-		$.ajax({
-			url : "./update.do",
-			type : "post",
-		    cache : false,
-		    async : false,
-	        processData: false, // multifile 객체 전송시 필요
-	        contentType: false, // multifile 객체 전송시 필요   
-		    dataType : "json",
-		    data : formData,
-		    success : function(rdata) {
-		        if (rdata.cnt >= 1) {
-			        alert('수정 성공');
-			        window.location.reload();
-			    } else {
-			        alert('수정 실패');
-			        window.location.reload();
-				}
-		    },
-		    error : function(request, status, error) {
-		        var msg = 'ERROR<br><br>';
-		        msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
-		        msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
-		        console.log(msg);
-		    }
-		});
-	}
-
-	// ▶ 영화 레코드 삭제   
-	function delete_proc () {
-
-		var filmno = ${filmVO.filmno};
-		alert('filmno; ' + filmno);
-		$.ajax({
-	      url: "./delete.do", 
-	      type: "post",          
-	      cache: false,          // 브러우저의 캐시영역 사용안함.
-	      async: true,           // true: 비동기
-	      dataType: "json",   
-	      data: {'filmno':filmno}, 
-	      success: function(rdata) {
-	        var msg = ""; // 메시지 출력
-	        if (rdata.cnt == 1) {
-	            alert('삭제 성공');
-	            location.href='./list.do'
-	        } else {
-	            alert('삭제 실패');
-	            window.location.reload();
-	        }   
-	      },
-	      error: function(request, status, error) { // callback 함수
-	        var msg = 'ERROR request.status: '+request.status + '/ ' + error;
-	        console.log(msg); // Chrome에 출력
-	      }
-	    });
-	}
+$(function() {
+  $('#btn_update_form').on('click', update_form);
+  $('#btn_update_proc').on('click', update_proc1);
+  $('#btn_delete').on('click', delete_proc);
 	
+});
+
+
+  // ▶ 영화 레코드 수정 폼
+function update_form () {
+  $("input[name='titleen']").attr("readonly", false);
+  $("input[name='titlekr']").attr("readonly", false);
+  $("input[name='lan']").attr("readonly", false);
+  $("input[name='year']").attr("readonly", false);
+  $("input[name='len']").attr("readonly", false);
+  $("input[name='restrict']").attr("readonly", false);
+  $("input[name='dirno']").attr("readonly", false);
+  $("textarea[name='summary']").attr("readonly", false);
+  $("textarea[name='youtube']").attr("readonly", false);
+  $("input[name='url']").attr("readonly", false);
+
+  document.getElementById("btn_update_form").style.display = "none";
+  document.getElementById("btn_update_proc").style.display = "inline-block";
+  document.getElementById("btn_update_proc").style.width = "49%";
+  document.getElementById("posterMFdiv").style.display = "inline";
+  document.getElementById("btn_delete").style.display = "none";
+  
+  document.getElementById("btn_cancel").style.width = "49%";
+  document.getElementById("btn_cancel").onclick = "window.location.reload();";
+  document.getElementById("btn_cancel").onclick = "window.location.reload();";
+
+  $('#btn_cancel').attr("onclick",  "window.location.reload();");
+
+}
+
+
+// ▶ 영화 레코드 수정 실행 1
+function update_proc1 () {
+
+   // $('#btn_create').click(function(){
+	var frm = $('#frm')[0];
+	var formData = new FormData(frm);
+	
+	alert('formData: '+ formData);
+
+	$.ajax({
+		url : "./update1.do",
+		type : "post",
+	    cache : false,
+	    async : false,
+        processData: false, // multifile 객체 전송시 필요
+        contentType: false, // multifile 객체 전송시 필요   
+	    dataType : "json",
+	    data : formData,
+	    success : function(rdata) {
+	        if (rdata.cnt >= 1) {
+		        update_proc2(rdata.filmno);
+		        // alert('수정 성공');
+		        // window.location.reload();
+		    } else {
+		        alert('수정 실패');
+		        window.location.reload();
+			}
+	    },
+	    error : function(request, status, error) {
+	        var msg = 'ERROR<br><br>';
+	        msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+	        msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+	        console.log(msg);
+	    }
+	});
+}
+
+// ▶ 영화 레코드 수정 실행 2
+function update_proc2 (filmno) {
+
+  alert('update_proc2');
+  var genrelist =  [];
+  var languagelist = [];
+  var qualitylist = [];
+
+  alert('genrelist: ' + genrelist);
+  alert('languagelist: ' + languagelist);
+  alert('qualitylist: ' + qualitylist);
+  
+  $("input:checkbox[name=genre]:checked").each(function(){
+    genrelist.push($(this).val());
+  });
+  $("input:checkbox[name=language]:checked").each(function(){
+    languagelist.push($(this).val());
+  });
+  $("input:checkbox[name=quality]:checked").each(function(){
+    qualitylist.push($(this).val());
+  });
+
+  var params = { 'genrelist' : genrelist, 'languagelist' : languagelist, 'qualitylist' : qualitylist, 'filmno' : filmno};
+  
+	$.ajax({
+		url : "./create2.do",
+		type : "post",
+	    cache : false,
+	    async : false,
+	    dataType : "json",
+	    data : params,
+	    success : function(rdata) {
+	        if (rdata.cnt >= 1) {
+		        alert('수정 성공');
+		        window.location.reload();
+		    } else {
+		        alert('수정 실패');
+		        // window.location.reload();
+			}
+	    },
+	    error : function(request, status, error) {
+	        alert('수정 실패');
+	        var msg = 'ERROR<br><br>';
+	        msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+	        msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+	        console.log(msg);
+	    }
+	});
+}
+
+// ▶ 영화 레코드 삭제   
+function delete_proc () {
+
+//체크박스 반영
+
+	var filmno = ${filmVO.filmno};
+	alert('filmno; ' + filmno);
+	$.ajax({
+      url: "./delete.do", 
+      type: "post",          
+      cache: false,          // 브러우저의 캐시영역 사용안함.
+      async: true,           // true: 비동기
+      dataType: "json",   
+      data: {'filmno':filmno}, 
+      success: function(rdata) {
+        var msg = ""; // 메시지 출력
+        if (rdata.cnt == 1) {
+            alert('삭제 성공');
+            location.href='./list.do'
+        } else {
+            alert('삭제 실패');
+            window.location.reload();
+        }   
+      },
+      error: function(request, status, error) { // callback 함수
+        var msg = 'ERROR request.status: '+request.status + '/ ' + error;
+        console.log(msg); // Chrome에 출력
+      }
+    });
+}
+var kr = $('input:checkbox[id="kr"]').val();
+
+// alert('kr: ' + kr);
+
+$('input:checkbox[name="language"]').each(function() {
+
+  alert('value:' + this.value);
+  if(this.value == "1"){ //값 비교
+         this.checked = true; //checked 처리
+   }
+});
+
+$('input:checkbox[name="quality"]').each(function() {
+
+  alert('value:' + this.value);
+  if(this.value == "1"){ //값 비교
+         this.checked = true; //checked 처리
+   }
+});
+
+
+/* 
+$.each($("input[name='language']:checked"), function(){
+                favorite.push($(this).val());
+});
+
+$('#language[value="1"]').prop('checked', true);
+ */
+// var kr =$("input[id='kr']").val();
+
+// var kr =${languageVO.kr};
+// alert('kr: ' + kr);
+
 	</script>
 	
 
@@ -248,29 +333,53 @@
 	                            <div class="sign__group " >
 			                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 언어 </label>
 		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline;">
-		                                <input id="kr" name="kr" type="checkbox" value="${languageVO.kr }"> <label for="kr">KR</label>　
-		                                <input id="en" name="en" type="checkbox" checked="checked" value="${languageVO.en }"> <label for="en">EN</label> 　
-		                                <input id="es" name="es" type="checkbox" checked="checked" value="${languageVO.es }"> <label for="es">ES</label> 　
-		                                <input id="fr" name="fr" type="checkbox" checked="checked" value="${languageVO.fr }"> <label for="fr">FR</label> 　
-		                                <input id="pt" name="pt" type="checkbox" checked="checked" value="${languageVO.pt }"> <label for="pt">PT</label> 　
-		                                <input id="rs" name="rs" type="checkbox" checked="checked" value="${languageVO.rs }"> <label for="rs">RS</label> 　
-		                                <input id="ar" name="ar" type="checkbox" checked="checked" value="${languageVO.ar }"> <label for="ar">AR</label> 　
-		                                <input id="hi" name="hi" type="checkbox" checked="checked" value="${languageVO.hi }"> <label for="hi">HI</label> 　
-		                                <input id="de" name="de" type="checkbox" checked="checked" value="${languageVO.de }"> <label for="de">DE</label> 　
-		                                <input id="jp" name="jp" type="checkbox" checked="checked" value="${languageVO.jp }"> <label for="jp">JP</label> 　
-		                                <input id="ch" name="ch" type="checkbox" checked="checked" value="${languageVO.ch }"> <label for="ch">CH</label>
+		                                <input id="kr" name="language" type="checkbox"  value="kr" ${languageVO.kr == '1' ? "checked='checked'" : "" }> <label for="kr">KR</label>　
+		                                <input id="en" name="language" type="checkbox" value="en"  ${languageVO.en == '1' ? "checked='checked'" : "" }> <label for="en">EN</label> 　
+		                                <input id="es" name="language" type="checkbox" value="es" ${languageVO.es == '1' ? "checked='checked'" : "" }> <label for="es">ES</label> 　
+		                                <input id="fr" name="language" type="checkbox"  value="fr"  ${languageVO.fr == '1' ? "checked='checked'" : "" }> <label for="fr">FR</label> 　
+		                                <input id="pt" name="language" type="checkbox" value="pt"  ${languageVO.pt == '1' ? "checked='checked'" : "" }> <label for="pt">PT</label> 　
+		                                <input id="rs" name="language" type="checkbox"  value="rs" ${languageVO.rs == '1' ? "checked='checked'" : "" }> <label for="rs">RS</label> 　
+		                                <input id="ar" name="language" type="checkbox"  value="ar" ${languageVO.ar == '1' ? "checked='checked'" : "" }> <label for="ar">AR</label> 　
+		                                <input id="hi" name="language" type="checkbox"  value="hi" ${languageVO.hi == '1' ? "checked='checked'" : "" }> <label for="hi">HI</label> 　
+		                                <input id="de" name="language" type="checkbox"  value="de" ${languageVO.de == '1' ? "checked='checked'" : "" }> <label for="de">DE</label> 　
+		                                <input id="jp" name="language" type="checkbox"  value="jp" ${languageVO.jp == '1' ? "checked='checked'" : "" }> <label for="jp">JP</label> 　
+		                                <input id="ch" name="language " type="checkbox" value="ch" ${languageVO.ch == '1' ? "checked='checked'" : "" }> <label for="ch">CH</label>
 		                            </div>
 	                            </div>
 	                            
 	                            <div class="sign__group " >
 	                            <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 화질 </label>
 		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; margin:0px; padding: 0px;" >
-	                                    <input id="q576" name="quality" type="checkbox" checked="checked" value="${qualityVO.q576 }"> <label for="q576">576</label> 　
-	                                    <input id="q720" name="quality" type="checkbox" checked="checked" value="${qualityVO.q720 }"> <label for="q720">720</label> 　
-	                                    <input id="q1024" name="quality" type="checkbox" checked="checked" value="${qualityVO.q1024 }"> <label for="q1024">1024</label> 　
-	                                    <input id="q1440" name="quality" type="checkbox" checked="checked" value="${qualityVO.q1440 }"> <label for="q1440">1440</label>
+	                                    <input id="q576" name="quality" type="checkbox"  value="q576"  ${qualityVO.q576 == '1' ? "checked='checked'" : "" }> <label for="q576">576</label> 　
+	                                    <input id="q720" name="quality" type="checkbox" value="q720"  ${qualityVO.q720 == '1' ? "checked='checked'" : "" }> <label for="q720">720</label> 　
+	                                    <input id="q1024" name="quality" type="checkbox" value="q1024"  ${qualityVO.q1024 == '1' ? "checked='checked'" : "" }> <label for="q1024">1024</label> 　
+	                                    <input id="q1440" name="quality" type="checkbox" value="q1440"  ${qualityVO.q1440 == '1' ? "checked='checked'" : "" }> <label for="q1440">1440</label>
 	                                </div>      
                                 </div>      
+                                
+                                <div class="sign__group " >
+                                   <label class="  feature__text "  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 장르 </label>
+                                    <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
+                                    
+                                    <c:forEach var="genreVO_list" items="${genreVO_list }">
+	                                   <input id="${genreVO_list.genrename }" name="genre" type="checkbox"  value="${genreVO_list.genreno }" > <label for="${genreVO_list.genrename }">${genreVO_list.genrename }</label>  　
+                                    </c:forEach>
+                                    
+                                    <c:forEach var="genreVO_list" items="${genreVO_list }">
+                                       <c:forEach var="film_genre_VO_list" items="${film_genre_VO_list }">
+	                                       <c:choose>
+	                                         <c:when test="${genreVO_list.genreno == film_genre_VO_list.genreno }">
+	                                              <script type="text/javascript">
+	                                              // document.getElementById("${genreVO_list.genrename }").checked = true;
+	                                              $("#${genreVO_list.genrename }").attr("checked", true);
+	                                              </script>
+	                                         </c:when>
+	                                       </c:choose>
+                                       </c:forEach>
+                                    </c:forEach>
+                                     
+                                    </div>      
+                                </div>  
 
 			                    <div class="col-md-12 sign__group " style="width: 100%; ">
     								<button class="sign__btn"  id='btn_update_form' name="btn_update_form"  type="button"  style = "width:32%; display: inline-block; margin: 3px;">수정 모드</button>

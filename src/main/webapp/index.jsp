@@ -1,5 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="utf-8">
@@ -68,88 +71,35 @@
 
                 <div class="col-12">
                     <div class="owl-carousel home__carousel">
+                        <c:forEach var="list_6_main" items = "${list_6_main }">
+                        
                         <div class="item">
                             <!-- card -->
                             <div class="card card--big">
                                 <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
+                                    <img src="./film/poster/${list_6_main.poster }" alt="">
                                     <a href="#" class="card__play">
                                         <i class="icon ion-ios-play"></i>
                                     </a>
                                 </div>
                                 <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+                                    <h3 class="card__title"><a href="#">${list_6_main.titlekr }</a></h3>
                                     <span class="card__category">
-                                        <a href="#">Action</a>
-                                        <a href="#">Triler</a>
+                                        <%-- <c:forEach var="film_genre_VO_list" items="${film_genre_VO_list }">
+                                            <a href="#">${film_genre_VO_list.genrename }</a>
+                                        </c:forEach> --%>
                                     </span>
                                     <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
                                 </div>
                             </div>
                             <!-- end card -->
                         </div>
+                        </c:forEach>
 
-                        <div class="item">
-                            <!-- card -->
-                            <div class="card card--big">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                            <!-- end card -->
-                        </div>
 
-                        <div class="item">
-                            <!-- card -->
-                            <div class="card card--big">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Romance</a>
-                                        <a href="#">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                            <!-- end card -->
-                        </div>
 
-                        <div class="item">
-                            <!-- card -->
-                            <div class="card card--big">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="#" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="#">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Comedy</a>
-                                        <a href="#">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                            <!-- end card -->
-                        </div>
+
+                        
                     </div>
                 </div>
             </div>

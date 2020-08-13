@@ -41,54 +41,92 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo â Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>FlixGo</title>
 		
 	<script type="text/javascript">
-	$(function() {
-	  $('#btn_create').on('click', create);
-		
+$(function() {
+  $('#btn_create').on('click', create1);
+	
+});
+
+// ▶ 영화 레코드 등록 1
+function create1 () {
+
+	var frm = $('#frm')[0];
+	var formData = new FormData(frm);
+	//var params = { 'formData' : formData, 'genrelist' : genrelist};
+	
+	$.ajax({
+		url : "./create1.do",
+		type : "post",
+	    cache : false,
+	    async : false,
+        processData: false, // multifile 객체 전송시 필요
+        contentType: false, // multifile 객체 전송시 필요   
+	    dataType : "json",
+	    data : formData,
+	    success : function(rdata) {
+	        if (rdata.cnt >= 1) {
+		        create2(rdata.filmno);
+		        // alert('등록 성공');
+		        // location.href='${root}/movie/film/create2.do?filmno='+rdata.filmno;
+		    } else {
+		        alert('등록 실패');
+		        // location.href='${root}/movie/film/list.do';
+			}
+	    },
+	    error : function(request, status, error) {
+	        alert('등록 실패');
+	        var msg = 'ERROR<br><br>';
+	        msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+	        msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+	        console.log(msg);
+	    }
 	});
-
-
-	function create () {
-	var genrelist =  [];
-	$("input:checkbox[name=genrevolist]:checked").each(function(){
-	  genrelist.push($(this).val());
+}
+	
+	
+function create2 (filmno) {
+    var genrelist =  [];
+    var languagelist = [];
+    var qualitylist = [];
+    $("input:checkbox[name=genre]:checked").each(function(){
+      genrelist.push($(this).val());
     });
-  alert('genrelist' + genrelist);
-	   // $('#btn_create').click(function(){
-		var frm = $('#frm')[0];
-		var formData = new FormData(frm);
-		
-		alert('formData: '+ formData);
+    $("input:checkbox[name=language]:checked").each(function(){
+      languagelist.push($(this).val());
+    });
+    $("input:checkbox[name=quality]:checked").each(function(){
+      qualitylist.push($(this).val());
+    });
 
-
-		$.ajax({
-			url : "./create.do",
-			type : "post",
-		    cache : false,
-		    async : false,
-	        processData: false, // multifile 객체 전송시 필요
-	        contentType: false, // multifile 객체 전송시 필요   
-		    dataType : "json",
-		    data : {"formData": formData, "genrelist" : genrelist},
-		    success : function(rdata) {
-		        if (rdata.cnt >= 1) {
-			        alert('등록 성공');
-			        location.href='${root}/movie/film/read.do?filmno='+rdata.filmno;
-			    } else {
-			        alert('등록 실패');
-			        // location.href='${root}/movie/film/list.do';
-				}
-		    },
-		    error : function(request, status, error) {
-		        var msg = 'ERROR<br><br>';
-		        msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
-		        msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
-		        console.log(msg);
-		    }
-		});
-	}
+    var params = { 'languagelist' : languagelist, 'genrelist' : genrelist, 'qualitylist' : qualitylist, 'filmno' : filmno};
+    
+    $.ajax({
+        url : "./create2.do",
+        type : "post",
+        cache : false,
+        async : false,
+        dataType : "json",
+        data : params,
+        success : function(rdata) {
+            if (rdata.cnt >= 1) {
+                alert('등록 성공');
+                location.href='${root}/movie/film/read.do?filmno='+rdata.filmno;
+            } else {
+                alert('등록 실패');
+            }
+        },
+        error : function(request, status, error) {
+            alert('등록 실패');
+            var msg = 'ERROR<br><br>';
+            msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+            msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+            console.log(msg);
+        }
+    });
+}
+  
 	
 	</script>
 	
@@ -129,8 +167,7 @@
 					    <form id = 'frm' name = 'frm' class="sign__form" style="width:100%;" method='POST' action="./create.do" enctype="multipart/form-data" >
 					        <h3 class="faq__title">영화 등록</h3>
 							<div class="faq" style="width:100%;">
-							
-							     <!-- 
+							     
 			                    <div class="sign__group" >
 				                    <label class="col-md-2 feature__text  sign__input "  
 				                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 18px;  margin: 0px ; padding: 10px; display:inline; " > 영문 제목 </label>
@@ -176,44 +213,44 @@
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 포스터 </label>
 			                        <input type="file"  id='posterMF' name='posterMF' class="sign__input" style = "width: 80%; display:inline;" placeholder="">
 			                    </div>
-
-	                            <div class="sign__group " >
-			                        <label class="col-md-2  feature__text  sign__input"   style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 언어 </label>
-		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline;" >
-		                                <input id="kr" name="kr" type="checkbox" checked="checked" value="1"> <label for="kr">KR</label>
-		                                <input id="en" name="en" type="checkbox" checked="checked" value="1"> <label for="en">EN</label> ;
-		                                <input id="es" name="es" type="checkbox" checked="checked" value="1"> <label for="es">ES</label> 
-		                                <input id="fr" name="fr" type="checkbox" checked="checked" value="1"> <label for="fr">FR</label> 
-		                                <input id="pt" name="pt" type="checkbox" checked="checked" value="1"> <label for="pt">PT</label> 
-		                                <input id="rs" name="rs" type="checkbox" checked="checked" value="1"> <label for="rs">RS</label>
-		                                <input id="ar" name="ar" type="checkbox" checked="checked" value="1"> <label for="ar">AR</label>
-		                                <input id="hi" name="hi" type="checkbox" checked="checked" value="1"> <label for="hi">HI</label>
-		                                <input id="de" name="de" type="checkbox" checked="checked" value="1"> <label for="de">DE</label>
-		                                <input id="jp" name="jp" type="checkbox" checked="checked" value="1"> <label for="jp">JP</label>
-		                                <input id="ch" name="ch" type="checkbox" checked="checked" value="1"> <label for="ch">CH</label>
-		                            </div>
-	                            </div>
-	                            
-	                            <div class="sign__group " >
-	                                <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 화질 </label>
-		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
-	                                    <input id="q576" name="q576" type="checkbox" checked="checked" value="1"> <label for="q576">576</label>
-	                                    <input id="q720" name="q720" type="checkbox" checked="checked" value="1"> <label for="q720">720</label>　
-	                                    <input id="q1024" name="q1024" type="checkbox" checked="checked" value="1"> <label for="q1024">1024</label>　
-	                                    <input id="q1440" name="q1440" type="checkbox" checked="checked" value="1"> <label for="q1440">1440</label>
-	                                </div>      
+			                    
+			                    <div class="sign__group " >
+                                    <label class="  feature__text  sign__input"   style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 언어 </label>
+                                    <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline;" >
+                                        <input id="kr" name="language" type="checkbox"  value="kr"> <label for="kr">KR</label>
+                                        <input id="en" name="language" type="checkbox"  value="en"> <label for="en">EN</label> ;
+                                        <input id="es" name="language" type="checkbox"  value="es"> <label for="es">ES</label> 
+                                        <input id="fr" name="language"  type="checkbox"  value="fr"> <label for="fr">FR</label> 
+                                        <input id="pt" name="language" type="checkbox"  value="pt"> <label for="pt">PT</label> 
+                                        <input id="rs" name="language"  type="checkbox"  value="rs"> <label for="rs">RS</label>
+                                        <input id="ar" name="language" type="checkbox"  value="ar"> <label for="ar">AR</label>
+                                        <input id="hi" name="language" type="checkbox"  value="hi"> <label for="hi">HI</label>
+                                        <input id="de" name="language" type="checkbox"  value="de"> <label for="de">DE</label>
+                                        <input id="jp" name="language"  type="checkbox"  value="jp"> <label for="jp">JP</label>
+                                        <input id="ch" name="language"  type="checkbox" value="ch"> <label for="ch">CH</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="sign__group " >
+                                    <label class="  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 지원 화질 </label>
+                                    <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
+                                        <input id="q576" name="quality" type="checkbox"  value="q576"> <label for="q576">576</label>
+                                        <input id="q720" name="quality" type="checkbox" value="q720"> <label for="q720">720</label>　
+                                        <input id="q1024" name="quality" type="checkbox"  value="q1024"> <label for="q1024">1024</label>　
+                                        <input id="q1440" name="quality" type="checkbox" value="q1440"> <label for="q1440">1440</label>
+                                    </div>      
                                 </div>      
-                                 -->
-	                            <div class="sign__group " >
-	                            <label class="col-md-2  feature__text "  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 장르 </label>
-		                            <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
-		                            <c:forEach var="list" items="${genreVO_list }">
-		                            <c:set var="genreno" value="${list.genreno }"/>
-		                            <c:set var="genrename" value="${list.genrename }"/>
-	                                    <input id="${genrename }" name="genrevolist" type="checkbox"  value="${genreno }"> <label for="${genrename }">${genrename }</label>  　
-		                            </c:forEach>
-	                                </div>      
-                                </div>      
+                                
+                                <div class="sign__group " >
+                                   <label class="  feature__text "  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 장르 </label>
+                                    <div class="sign__group sign__group--checkbox" style = "width: 80%; display:inline; " >
+                                    <c:forEach var="list" items="${genreVO_list }">
+                                        <c:set var="genreno" value="${list.genreno }"/>
+                                        <c:set var="genrename" value="${list.genrename }"/>
+                                        <input id="${genrename }" name="genre" type="checkbox"  value="${genreno }"> <label for="${genrename }">${genrename }</label>  　
+                                    </c:forEach>
+                                    </div>      
+                                </div>  
                                 
                                 <br>
                                 <br>

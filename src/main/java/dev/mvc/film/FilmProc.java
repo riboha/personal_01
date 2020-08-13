@@ -49,6 +49,13 @@ public class FilmProc implements FilmProcInter {
     return cnt;
   }
 
+  // 6개 레코드 최신순 목록 (메인 페이지용 ) 
+  @Override
+  public ArrayList<FilmVO> list_6_main() {
+    ArrayList<FilmVO> list = this.FilmDAO.list_6_main();
+    return list;
+  }
+
 
 
 }

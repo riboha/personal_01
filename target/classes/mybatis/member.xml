@@ -49,4 +49,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE memberno= #{memberno}
 </delete>
 
+<!-- id 중복 확인-->
+<select id="findduplicate_by_id" resultType="int" parameterType="String">
+  SELECT COUNT(id) as cnt
+  FROM member
+  WHERE id=#{id}
+</select>
+
+<!-- nick 중복 확인-->
+<select id="findduplicate_by_nick" resultType="int" parameterType="String">
+  SELECT COUNT(nick) as cnt
+  FROM member
+  WHERE nick=#{nick}
+</select>
+
+<!-- email 중복 확인-->
+<select id="findduplicate_by_email" resultType="int" parameterType="String">
+  SELECT COUNT(email) as cnt
+  FROM member
+  WHERE email=#{email}
+</select>
+
+<!-- tel 중복 확인-->
+<select id="findduplicate_by_tel" resultType="int" parameterType="String">
+  SELECT COUNT(tel) as cnt
+  FROM member
+  WHERE tel=#{tel}
+</select>
+
+<!-- 로그인 -->
+<select id="signin" resultType="int" parameterType="HashMap">
+  SELECT COUNT(memberno) as cnt
+  FROM member
+  WHERE id=#{id} AND pw=#{pw}
+</select>
+
+<!-- id를 이용한 회원 정보 조회 -->
+<select id="read_by_id" resultType="MemberVO" parameterType="String">
+  SELECT memberno, id, pw, nick, tel, birth, email, memthumb, mempic, mempicsize
+  FROM member
+  WHERE id = #{id}
+</select>
+ 
+
 </mapper>

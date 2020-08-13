@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <c:set var="root" value="${pageContext.request.contextPath}" /> 
 
  
@@ -10,7 +12,7 @@
                     <div class="col-12">
                         <div class="header__content">
                             <!-- header logo -->
-                            <a href="${root}/index.jsp" class="header__logo">
+                            <a href="${root}/index.do" class="header__logo">
                                 <img src="${root}/img/logo.svg" alt="">
                             </a>
                             <!-- end header logo -->
@@ -40,23 +42,40 @@
                                     </ul>
                                 </li>
                                 <!-- end dropdown -->
-
-                                <li class="header__nav-item">
-                                    <a href="pricing.html" class="header__nav-link">Pricing Plan</a>
-                                </li>
-
+                                
                                 <li class="header__nav-item">
                                     <a href="faq.html" class="header__nav-link">Help</a>
                                 </li>
+                                
+                                <!-- dropdown -->
+                                <c:choose>
+                                <c:when test="${sessionScope.id != null}">
+	                                <li class="header__nav-item">
+	                                    <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MY</a>
+	                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+	                                        <li><a href="catalog1.html">보관함</a></li>
+	                                        <li><a href="catalog2.html">구매 내역</a></li>
+	                                        <li><a href="details1.html">Details Movie</a></li>
+	                                        <li><a href="details2.html">계정</a></li>
+	                                    </ul>
+	                                </li>
+                                </c:when>
+                                </c:choose>
+                                <!-- end dropdown -->
+
+<!--                                 <li class="header__nav-item">
+                                    <a href="pricing.html" class="header__nav-link">Pricing Plan</a>
+                                </li>
+ -->
 
                                 <!-- dropdown -->
                                 <li class="dropdown header__nav-item">
                                     <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="signin.html">Sign In</a></li>
-                                        <li><a href="signup.html">Sign Up</a></li>
+                                        <li><a href="about.do">About</a></li>
+                                        <li><a href="signin.do">Sign In</a></li>
+                                        <li><a href="signup.do">Sign Up</a></li>
                                         <li><a href="404.html">404 Page</a></li>
                                     </ul>
                                 </li>
@@ -90,11 +109,22 @@
                                 <button class="header__search-btn" type="button">
                                     <i class="icon ion-ios-search"></i>
                                 </button>
-
-                                <a href="signin.html" class="header__sign-in">
+                                
+                                <c:choose>
+						        <c:when test="${sessionScope.id == null}">
+	                                <a href="./member/signin.do" class="header__sign-in">
+	                                    <i class="icon ion-ios-log-in"></i>
+	                                    <span>LOG IN</span>
+	                                </a>
+						        </c:when>
+						        <c:otherwise>
+                                <a href="./member/signout.do" class="header__sign-in">
                                     <i class="icon ion-ios-log-in"></i>
-                                    <span>sign in</span>
+                                    <span>${sessionScope.nick }님</span>
                                 </a>
+						        </c:otherwise>
+                                </c:choose>
+                                
                             </div>
                             <!-- end header auth -->
 

@@ -21,6 +21,7 @@ import dev.mvc.cast.Film_Actor_VO;
 import dev.mvc.director.DirectorProcInter;
 import dev.mvc.filmgenre.Film_Genre_VO;
 import dev.mvc.filmgenre.FilmgenreProcInter;
+import dev.mvc.filmgenre.FilmgenreVO;
 import dev.mvc.genre.GenreProcInter;
 import dev.mvc.genre.GenreVO;
 import dev.mvc.language.LanguageProcInter;
@@ -86,77 +87,135 @@ public class FilmCont {
     
     ArrayList<GenreVO> genreVO_list = this.genreProc.list();
     mav.addObject("genreVO_list", genreVO_list);
-
+    
     mav.setViewName("/film/create");
     return mav;
   }
-  
-  
+
   /**
-   * 등록 처리
-   * @param genreVO
+   * 등록처리 1
+   * @param request
+   * @param filmVO
    * @return
    */
   @ResponseBody
-  @RequestMapping(value = "/film/create.do",
+  @RequestMapping(value = "/film/create1.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String create (HttpServletRequest request, FilmVO filmVO, QualityVO qualityVO, LanguageVO languageVO, 
-                            @RequestParam(value="genrelist[]") List<Integer> genrelist) {
+  public String create1 (HttpServletRequest request, FilmVO filmVO) {
     
+    // =============파일 전송 코드===============
+        
+    String poster = "";
+    String posterthumb = "";
+    long postersize = 0;
     
-    System.out.println("genrelist: " + genrelist);
+    String upDir = Tool.getRealPath(request, "film/poster"); // 절대 경로
+     
+    MultipartFile mf = filmVO.getPosterMF();
+    postersize = mf.getSize();
+    if (postersize > 0) {
+      poster = Upload.saveFileSpring(mf, upDir);
+     
+      if (Tool.isImage(poster)) {
+        posterthumb = Tool.preview(upDir, poster, 150, 222);
+      }
+    }
+    // =============파일 전송 코드==============
     
-//    
-//    // =============파일 전송 코드===============
-//        
-//    String poster = "";
-//    String posterthumb = "";
-//    long postersize = 0;
-//    
-//    String upDir = Tool.getRealPath(request, "film/poster"); // 절대 경로
-//     
-//    MultipartFile mf = filmVO.getPosterMF();
-//    postersize = mf.getSize();
-//    if (postersize > 0) {
-//      poster = Upload.saveFileSpring(mf, upDir);
-//     
-//      if (Tool.isImage(poster)) {
-//        posterthumb = Tool.preview(upDir, poster, 150, 222);
-//      }
-//    }
-//    // =============파일 전송 코드==============
-//    
-//    filmVO.setPoster(poster);
-//    filmVO.setPosterthumb(posterthumb);
-//    filmVO.setPostersize(postersize);
-//      
-//    int cnt = this.filmProc.create(filmVO);
-//    
-//    // ---------------------------------------------------------------------------------------
-//    // cnt, filmno return 
-//    // ---------------------------------------------------------------------------------------
-//    // Spring <-----> memVO <-----> MyBATIS
-//    // Spring과 MyBATIS가 MemVO를 공유하고 있음.
-//    // MyBATIS는 insert후 PK 컬럼인 mem_no변수에 새로 생성된 PK를 할당함.
-//    int filmno = filmVO.getFilmno();  // MyBATIS 리턴된 PK
-//    // ---------------------------------------------------------------------------------------
-//    
-//    qualityVO.setFilmno(filmno);
-//    languageVO.setFilmno(filmno);
-//    int cnt_quality = this.qualityProc.create(qualityVO);
-//    int cnt_language = this.languageProc.create(languageVO);
-//    
-//
-//    
-////    for (genreVO_list:genreVO_list.ge) {
-////      this.filmgenreProc.create(filmgenreVO);
-////      
-////    }
+    filmVO.setPoster(poster);
+    filmVO.setPosterthumb(posterthumb);
+    filmVO.setPostersize(postersize);
+      
+    int cnt = this.filmProc.create(filmVO);
+    
+    // ---------------------------------------------------------------------------------------
+    // cnt, filmno return 
+    // ---------------------------------------------------------------------------------------
+    // Spring <-----> memVO <-----> MyBATIS
+    // Spring과 MyBATIS가 MemVO를 공유하고 있음.
+    // MyBATIS는 insert후 PK 컬럼인 mem_no변수에 새로 생성된 PK를 할당함.
+    int filmno = filmVO.getFilmno();  // MyBATIS 리턴된 PK
+    // ---------------------------------------------------------------------------------------
     
     JSONObject json = new JSONObject();
-//    json.put("cnt", cnt);
-//    json.put("filmno", filmno);
+    json.put("cnt", cnt);
+    json.put("filmno", filmno);
+    
+    return json.toString();
+  }
+  
+
+  /**
+   * 등록처리 2 / 수정처리 2
+   * @param request
+   * @param genrelist
+   * @param language
+   * @param quality
+   * @param filmno
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/film/create2.do",
+  method = RequestMethod.POST,
+  produces = "text/plain;charset=UTF-8")
+  public String create2 (HttpServletRequest request, 
+      @RequestParam(value="genrelist[]") List<Integer>genrelist, 
+      @RequestParam(value="languagelist[]") List<String>languagelist, 
+      @RequestParam(value="qualitylist[]") List<String>qualitylist,
+      int filmno) {
+    
+    int cnt = 0;
+    
+    LanguageVO languageVO = new LanguageVO();
+    FilmgenreVO filmgenreVO = new FilmgenreVO();
+    QualityVO qualityVO = new QualityVO();
+    
+    int cnt_language = 0;
+    int cnt_filmgenre = 0;
+    int cnt_quality = 0;
+
+    int languageno = filmno;
+    int qualityno = filmno;
+    
+    if (this.languageProc.read(languageno)!= null) { this.languageProc.delete(languageno); }
+    if (this.qualityProc.read(qualityno)!= null) { this.qualityProc.delete(qualityno); }
+    if (this.filmgenreProc.count_by_filmno(filmno) > 0) { this.filmgenreProc.delete_by_filmno(filmno); }
+    
+    if (languagelist.contains("kr")) {languageVO.setKr(1);}
+    if (languagelist.contains("en")) {languageVO.setEn(1);}
+    if (languagelist.contains("es")) {languageVO.setEs(1);}
+    if (languagelist.contains("fr")) {languageVO.setFr(1);}
+    if (languagelist.contains("pt")) {languageVO.setPt(1);}
+    if (languagelist.contains("rs")) {languageVO.setRs(1);}
+    if (languagelist.contains("ar")) {languageVO.setAr(1);}
+    if (languagelist.contains("hi")) {languageVO.setHi(1);}
+    if (languagelist.contains("de")) {languageVO.setDe(1);}
+    if (languagelist.contains("jp")) {languageVO.setJp(1);}
+    if (languagelist.contains("ch")) {languageVO.setCh(1);}
+    if (qualitylist.contains("q576")) {qualityVO.setQ576(1);}
+    if (qualitylist.contains("q720")) {qualityVO.setQ720(1);}
+    if (qualitylist.contains("q1024")) {qualityVO.setQ1024(1);}
+    if (qualitylist.contains("q1440")) {qualityVO.setQ1440(1);}
+    
+    languageVO.setFilmno(filmno);
+    qualityVO.setFilmno(filmno);
+    cnt_language = this.languageProc.create(languageVO);
+    cnt_quality = this.qualityProc.create(qualityVO);
+
+    for (int genreno : genrelist) {
+      filmgenreVO.setFilmno(filmno);
+      filmgenreVO.setGenreno(genreno);
+      cnt_filmgenre += this.filmgenreProc.create(filmgenreVO);
+    }
+    
+    if (cnt_filmgenre !=0 && cnt_quality != 0 && cnt_language != 0 ) {
+      cnt = 1;
+    }
+    
+    JSONObject json = new JSONObject();
+    json.put("cnt", cnt);
+    json.put("filmno", filmno);
     
     return json.toString();
   }
@@ -174,13 +233,18 @@ public class FilmCont {
     FilmVO filmVO = this.filmProc.read(filmno);
     LanguageVO languageVO = this.languageProc.read(filmno);
     QualityVO qualityVO = this.qualityProc.read(filmno);
+    ArrayList<Film_Genre_VO> film_genre_VO_list  = this.filmgenreProc.filmgenre_list_by_filmno(filmno);
+    ArrayList<GenreVO> genreVO_list = this.genreProc.list();
     
     mav.addObject("filmVO", filmVO);
     mav.addObject("languageVO", languageVO);
     mav.addObject("qualityVO", qualityVO);
+    mav.addObject("film_genre_VO_list", film_genre_VO_list);
+    mav.addObject("genreVO_list", genreVO_list);
     mav.setViewName("/film/read");
     return mav;
   } 
+  
   
   /**
    * 조회 (회원)
@@ -213,14 +277,13 @@ public class FilmCont {
   } 
 
   
-
   /**
    * 목록
    * @return
    *  http://localhost:9090/movie/film/list.do
    */
   @RequestMapping(value = "/film/list.do",
-                            method = RequestMethod.GET)
+      method = RequestMethod.GET)
   public ModelAndView list () {
     ModelAndView mav = new ModelAndView();
     ArrayList<FilmVO> list = this.filmProc.list();
@@ -229,18 +292,41 @@ public class FilmCont {
     return mav;
   }
   
+  /**
+   *  6개 레코드 최신순 목록 (메인 페이지용 ) 
+   * @return
+   *  http://localhost:9090/movie/film/list.do
+   */
+  @RequestMapping(value = "/film/list.do",
+      method = RequestMethod.GET)
+  public ModelAndView list_6_main () {
+    ModelAndView mav = new ModelAndView();
+    ArrayList<FilmVO> list_6_main = this.filmProc.list_6_main();
+    
+//    ArrayList<Film_Genre_VO> film_genre_VO_list = new ArrayList<>();
+//    for (int i=0; i<list_6_main.size(); i++) {
+//      film_genre_VO_list.addAll(this.filmgenreProc.filmgenre_list_by_filmno(list_6_main.get(i).getFilmno()));
+//    }
+
+    mav.addObject("list_6_main", list_6_main);
+    // mav.addObject("film_genre_VO_list", film_genre_VO_list);
+    mav.setViewName("/index");
+    return mav;
+  }
+  
+  
 
   /**
-   * 수정 처리
+   * 수정 처리 1
    * @param filmVO
    * @param request 
    * @return
    */
   @ResponseBody
-  @RequestMapping(value = "/film/update.do",
+  @RequestMapping(value = "/film/update1.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  public String update (FilmVO filmVO, HttpServletRequest request) {
+  public String update1 (FilmVO filmVO, HttpServletRequest request) {
     
     FilmVO filmVO_old = this.filmProc.read(filmVO.getFilmno());
     MultipartFile posterMF = filmVO.getPosterMF();
@@ -290,16 +376,32 @@ public class FilmCont {
     filmVO.setPosterthumb(posterthumb);
     filmVO.setPostersize(postersize);
     
-    System.out.println(filmVO.toString());
+    // System.out.println(filmVO.toString());
     
     int cnt = this.filmProc.update(filmVO);
     System.out.println("처리 결과: " + cnt);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
+    json.put("filmno", filmVO.getFilmno());
     
     return json.toString();
   }
+
+  /**
+   * 수정 처리 2
+   * @param filmVO
+   * @param request 
+   * @return
+   */
+//  @ResponseBody
+//  @RequestMapping(value = "/film/update2.do",
+//  method = RequestMethod.POST,
+//  produces = "text/plain;charset=UTF-8")
+//  public String update2 (FilmVO filmVO, HttpServletRequest request) {
+//    
+//    
+//  }
   
   
   

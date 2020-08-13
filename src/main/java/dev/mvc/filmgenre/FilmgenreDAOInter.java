@@ -19,5 +19,9 @@ public interface FilmgenreDAOInter {
   public int update (FilmgenreVO filmgenreVO);
   
   public int delete (int filmgenreno);
+  
+  public int delete_by_filmno (int filmno);
+  
+  public int count_by_filmno (int filmno);
 
 }

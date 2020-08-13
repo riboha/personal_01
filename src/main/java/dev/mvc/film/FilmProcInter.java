@@ -17,6 +17,14 @@ public interface FilmProcInter {
    */
   public ArrayList<FilmVO> list ();
   
+  
+
+  /**
+  * 6개 레코드 최신순 목록 (메인 페이지용 ) 
+  * @return
+  */
+ public ArrayList<FilmVO> list_6_main ();
+ 
   /**
    * 조회
    * @param filmno

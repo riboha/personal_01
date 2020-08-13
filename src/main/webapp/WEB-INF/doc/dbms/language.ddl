@@ -6,7 +6,7 @@ DROP TABLE language CASCADE CONSTRAINTS;
 
 CREATE TABLE language(
         languageno                          NUMBER(10)       NOT NULL        PRIMARY KEY,
-        en                                  NUMBER(1)        DEFAULT 1       NOT NULL,
+        en                                  NUMBER(1)        DEFAULT 0       NOT NULL,
         ch                                  NUMBER(1)        DEFAULT 0       NOT NULL,
         es                                  NUMBER(1)        DEFAULT 0       NOT NULL,
         fr                                  NUMBER(1)        DEFAULT 0       NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE language(
         jp                                  NUMBER(1)        DEFAULT 0       NOT NULL,
         hi                                  NUMBER(1)        DEFAULT 0       NOT NULL,
         kr                                  NUMBER(1)        DEFAULT 0       NOT NULL,
-        filmno                              NUMBER(10)       NULL ,
+        filmno                              NUMBER(10)       NOT NULL,
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );
 
@@ -67,8 +67,12 @@ ORDER BY filmno;
 
 SELECT languageno, filmno, en, ch, es, fr, ar, rs, pt, de, jp, hi, kr
 FROM language
-WHERE filmno = 14;
+WHERE filmno = 23;
 
+
+SELECT languageno, filmno, en, ch, es, fr, ar, rs, pt, de, jp, hi, kr
+FROM language
+WHERE filmno = 8;
 
 -- ¢ÀUPDATE¢À
 
@@ -81,7 +85,7 @@ WHERE languageno = 1;
 
 DELETE 
 FROM language
-WHERE languageno=1;  
+WHERE languageno=23;  
 
 
 
