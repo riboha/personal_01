@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.rentprice.RentpriceDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="RentpriceVO">
+  INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+  VALUES (#{filmno}, #{day1}, #{day3}, #{day7}, #{day30}, #{dayperm}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="RentpriceVO">
+  SELECT rentpriceno, day1, day3, day7, day30, dayperm, filmno
+  FROM rentprice
+  ORDER BY filmno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="RentpriceVO" parameterType="int">
+  SELECT rentpriceno, day1, day3, day7, day30, dayperm, filmno
+    FROM rentprice
+  WHERE filmno = #{filmno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="RentpriceVO" >
+  UPDATE rentprice
+  SET day1=#{day1}, day3=#{day3}, day7=#{day7}, day30=#{day30}, dayperm=#{dayperm}
+  WHERE filmno = #{filmno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM rentprice
+  WHERE rentpriceno= #{rentpriceno}
+</delete>
+
+</mapper>
