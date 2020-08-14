@@ -41,4 +41,16 @@ public class CartProc implements CartProcInter {
     return duplicate;
   }
 
+  @Override
+  public ArrayList<Film_Cart_VO> list_cart(int memberno) {
+    ArrayList<Film_Cart_VO> list_cart = this.cartDAO.list_cart(memberno);
+    return list_cart;
+  }
+
+  @Override
+  public int count_cart(int memberno) {
+    int count_cart = this.cartDAO.count_cart(memberno);
+    return count_cart;
+  }
+
 }

@@ -71,4 +71,10 @@ public class FilmgenreProc implements FilmgenreProcInter {
     return cnt;
   }
 
+  @Override
+  public ArrayList<Film_Genre_VO> list_6_main_genre() {
+    ArrayList<Film_Genre_VO> list_6_main_genre = this.FilmgenreDAO.list_6_main_genre();
+    return list_6_main_genre;
+  }
+
 }

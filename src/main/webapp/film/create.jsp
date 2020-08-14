@@ -250,7 +250,30 @@ function create2 (filmno) {
                                         <input id="${genrename }" name="genre" type="checkbox"  value="${genreno }"> <label for="${genrename }">${genrename }</label>  　
                                     </c:forEach>
                                     </div>      
-                                </div>  
+                                </div>
+                                
+                                <div class="sign__group " >
+                                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 15px; color: rgba(255,255,255,0.7);" > 1일권 가격 </label>
+                                    <input type="number"  id='day1' name='day1' class="sign__input" style = "width: 80%; display:inline;">
+                                </div>
+                                <div class="sign__group " >
+                                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 15px; color: rgba(255,255,255,0.7);" > 3일권 가격 </label>
+                                    <input type="number"  id='day3' name='day3' class="sign__input" style = "width: 80%; display:inline;">
+                                </div>
+                                <div class="sign__group " >
+                                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 15px; color: rgba(255,255,255,0.7);" > 7일권 가격 </label>
+                                    <input type="number"  id='day7' name='day7' class="sign__input" style = "width: 80%; display:inline;">
+                                </div>
+                                <div class="sign__group " >
+                                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 15px; color: rgba(255,255,255,0.7);" > 30일권 가격 </label>
+                                    <input type="number"  id='day30' name='day30' class="sign__input" style = "width: 80%; display:inline;">
+                                </div>
+                                <div class="sign__group " >
+                                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 15px; color: rgba(255,255,255,0.7);" > 영구소장 가격 </label>
+                                    <input type="number"  id='dayperm' name='dayperm' class="sign__input" style = "width: 80%; display:inline;">
+                                </div>
+                                
+                                  
                                 
                                 <br>
                                 <br>

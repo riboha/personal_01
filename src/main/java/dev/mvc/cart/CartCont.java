@@ -48,10 +48,7 @@ public class CartCont {
     System.out.println("Controller 진입");
     System.out.println("Filmno" + cartVO.getFilmno() );
     System.out.println("Memberno" + cartVO.getMemberno() );
-    
-    cartVO.setFilmno(7);
-    cartVO.setMemberno(1);
-    
+    System.out.println("optionlan" + cartVO.getOptionlan() );
     
     int cnt = 0;
     int duplicate = this.cartProc.findduplicate(cartVO);
@@ -60,6 +57,7 @@ public class CartCont {
       cnt = this.cartProc.create(cartVO);
     }
     
+    System.out.println("처리 결과 duplicate: " + duplicate);
     System.out.println("처리 결과 cnt: " + cnt);
       
     JSONObject json = new JSONObject();
@@ -82,8 +80,12 @@ public class CartCont {
                             method = RequestMethod.GET)
   public ModelAndView list (int memberno) {
     ModelAndView mav = new ModelAndView();
-    ArrayList<CartVO> list = this.cartProc.list(memberno);
-    mav.addObject("list", list);
+    
+    ArrayList<Film_Cart_VO> list_cart = this.cartProc.list_cart(memberno);
+    int count_cart = this.cartProc.count_cart(memberno);
+
+    mav.addObject("list", list_cart);
+    mav.addObject("count_cart", count_cart);
     mav.setViewName("/cart/list");
     return mav;
   }

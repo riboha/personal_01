@@ -80,4 +80,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 
+
+
+<!-- 메인 페이지용 최신순 6개 레코드에 해당하는 장르 레코드  -->
+<select id="list_6_main_genre" resultType="Film_Genre_VO" >
+  SELECT g.genrename, f.filmno          
+  FROM genre g, film f, filmgenre x, 
+           (SELECT MIN(filmno) AS filmno_min, MAX(filmno) AS filmno_max
+            FROM (           
+                        SELECT filmno
+                        FROM film
+                        WHERE ROWNUM <![CDATA[ <= ]]> 6
+                        ORDER BY filmno DESC
+                     ))
+  WHERE g.genreno = x.genreno AND f.filmno = x.filmno 
+            AND f.filmno <![CDATA[ <= ]]> filmno_max AND f.filmno <![CDATA[ >= ]]> filmno_min
+  ORDER BY f.filmno DESC
+</select>
+
+
 </mapper>

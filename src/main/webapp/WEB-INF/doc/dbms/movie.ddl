@@ -1,3 +1,4 @@
+DROP TABLE rentprice CASCADE CONSTRAINTS;
 DROP TABLE promofilm  CASCADE CONSTRAINTS;
 DROP TABLE filmgenre CASCADE CONSTRAINTS;
 DROP TABLE filmfav CASCADE CONSTRAINTS;
@@ -199,6 +200,10 @@ COMMENT ON COLUMN promotion.promoend is '프로모션 종료';
 /**********************************/
 CREATE TABLE pay(
 		payno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		optionlan                     		VARCHAR2(10)		 NOT NULL,
+		optionqual                    		VARCHAR2(10)		 NOT NULL,
+		optionprice                   		NUMBER(10)		 NOT NULL,
+		optionrent                    		VARCHAR2(10)		 NOT NULL,
 		pntdisc                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		promodiscper                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		promodiscsub                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
@@ -216,6 +221,10 @@ CREATE TABLE pay(
 
 COMMENT ON TABLE pay is '결제';
 COMMENT ON COLUMN pay.payno is '결제 번호';
+COMMENT ON COLUMN pay.optionlan is '옵션 언어';
+COMMENT ON COLUMN pay.optionqual is '옵션 화질';
+COMMENT ON COLUMN pay.optionprice is '옵션 가격';
+COMMENT ON COLUMN pay.optionrent is '옵션 대여';
 COMMENT ON COLUMN pay.pntdisc is '포인트 할인액';
 COMMENT ON COLUMN pay.promodiscper is '프로모션 할인율';
 COMMENT ON COLUMN pay.promodiscsub is '프로모션 할인액';
@@ -464,6 +473,10 @@ COMMENT ON COLUMN quality.filmno is '영화 번호';
 /**********************************/
 CREATE TABLE cart(
 		cartno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		optionlan                     		VARCHAR2(10)		 NOT NULL,
+		optionqual                    		VARCHAR2(10)		 NOT NULL,
+		optionprice                   		NUMBER(10)		 NOT NULL,
+		optionrent                    		VARCHAR2(10)		 NOT NULL,
 		memberno                      		NUMBER(10)		 NULL ,
 		filmno                        		NUMBER(10)		 NULL ,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
@@ -472,6 +485,10 @@ CREATE TABLE cart(
 
 COMMENT ON TABLE cart is '장바구니';
 COMMENT ON COLUMN cart.cartno is '장바구니 번호';
+COMMENT ON COLUMN cart.optionlan is '옵션 언어';
+COMMENT ON COLUMN cart.optionqual is '옵션 화질';
+COMMENT ON COLUMN cart.optionprice is '옵션 가격';
+COMMENT ON COLUMN cart.optionrent is '옵션 대여';
 COMMENT ON COLUMN cart.memberno is '회원 번호';
 COMMENT ON COLUMN cart.filmno is '영화 번호';
 
@@ -635,5 +652,29 @@ COMMENT ON TABLE promofilm  is '프로모션 영화';
 COMMENT ON COLUMN promofilm .promofilmno is '프로모션 영화 번호';
 COMMENT ON COLUMN promofilm .promono is '프로모션 번호';
 COMMENT ON COLUMN promofilm .filmno is '영화 번호';
+
+
+/**********************************/
+/* Table Name: 대여별 가격 */
+/**********************************/
+CREATE TABLE rentprice(
+		rentpriceno                   		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		day1                          		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		day3                          		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		day7                          		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		day30                         		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		dayperm                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		filmno                        		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (filmno) REFERENCES film (filmno)
+);
+
+COMMENT ON TABLE rentprice is '대여별 가격';
+COMMENT ON COLUMN rentprice.rentpriceno is '대여별 가격 번호';
+COMMENT ON COLUMN rentprice.day1 is '1일';
+COMMENT ON COLUMN rentprice.day3 is '3일';
+COMMENT ON COLUMN rentprice.day7 is '7일';
+COMMENT ON COLUMN rentprice.day30 is '30일';
+COMMENT ON COLUMN rentprice.dayperm is '영구소장';
+COMMENT ON COLUMN rentprice.filmno is '영화 번호';
 
 

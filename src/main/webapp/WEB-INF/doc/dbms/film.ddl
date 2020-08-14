@@ -52,7 +52,7 @@ ALTER TABLE film RENAME COLUMN Youtube TO youtube;
 -- ALTER TABLE film RENAME COLUMN thumb TO posterthumb;
 
 -- ALTER TABLE film MODIFY  postersize DEFAULT 0		 NOT NULL;
-
+ALTER TABLE film MODIFY  postersize VARCHAR2(200);
 -- DESC film;
 
 DROP SEQUENCE film_seq;
@@ -79,6 +79,18 @@ VALUES (film_seq.nextval, 'The Curious Case of Benjamin Button', '벤자민 버튼의 
 INSERT INTO film(filmno, titleen, titlekr, lan, year, len, summary, restrict, dirno)
 VALUES (film_seq.nextval, 'Zero Dark Thirty', '제로 다크 써티', 'EN', 2012, 157, 'Osama bin Laden' ,18, 3);
 
+INSERT INTO film(filmno, titleen, titlekr, lan, year, len, summary, restrict, dirno)
+VALUES (film_seq.nextval, 'Iron Man', '아이언맨', 'EN', 2008, 157, 
+            'After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.' ,15, 27);
+
+INSERT INTO film(filmno, titleen, titlekr, lan, year, len, summary, restrict, dirno)
+VALUES (film_seq.nextval, 'Iron Man3', '아이언맨3', 'EN', 2013, 130, 
+            'Tony Stark must' ,12, 27);
+
+INSERT INTO film(filmno, titleen, titlekr, lan, year, len, summary, restrict, dirno)
+VALUES (film_seq.nextval, 'Iron Man3', '아이언맨3', 'EN', 2013, 124, 
+            'Tony Stark must' ,12, 27);
+
 COMMIT;
 
 
@@ -90,14 +102,19 @@ FROM film
 ORDER BY filmno;
 
 
+-- ♣ 메인 페이지용 최신순 6개 레코드 출력
+SELECT filmno, titlekr, poster
+FROM film
+WHERE ROWNUM <= 6
+ORDER BY filmno DESC;
+
 
 -- ♣LIST (BY FILMNO)♣
 
-SELECT photono, photoname, photoalt, photothumb, photosize, filmno
-FROM photo
+SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
+FROM film
 WHERE filmno = 8
 ORDER BY photono ASC, filmno DESC;
-
 
 
 -- ♣READ♣
@@ -119,7 +136,9 @@ WHERE filmno = 8;
 
 UPDATE film
 SET youtube = 
-'<iframe width="560" height="315" src="https://www.youtube.com/embed/6ZOZwUQKu3E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+'<iframe width="560" height="315" src="https://www.youtube.com/embed/6ZOZwUQKu3E"
+frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>'
 WHERE filmno = 8;
 
 UPDATE film

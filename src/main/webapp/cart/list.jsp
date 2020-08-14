@@ -56,11 +56,10 @@
 	});
 
 
-  // ▶ 장르 레코드 삭제 실행
-  function genre_delete_proc(genreno) {
+  // ▶ 레코드 삭제 실행
+  function delete_proc(cartno) {
+    alert('cartno: ' + cartno);
 
-      alert('genreno: ' + genreno);
-      // return;
       $.ajax({
         url: "./delete.do", 
         type: "post",          
@@ -68,7 +67,7 @@
         async: true,           // true: 비동기
         dataType: "json",   
         data: 
-            { 'genreno' : genreno
+            { 'cartno' : cartno
             }, 
         success: function(rdata) {
           var msg = ""; // 메시지 출력
@@ -98,8 +97,6 @@
   $("input[id^='pay_proc_']:checked").each(function(){
     checkouts.push($(this).val());
     });
-    alert('checkouts: ' + checkouts);
-
 
     
   // ▶ 전체 결제
@@ -140,28 +137,40 @@
       }
       
   });
-
-    
-    
-
-    
-    
-
-    
   }
-  
 
-/*   $('#selectall').change(function () {
-    alert('chagne 실행');
-	    if ($(this).prop('checked')) {
-	        $('input:checkbox[id^="pay_proc_"]').prop('checked', true);
-	    } else {
-		    $('input:checkbox[id^="pay_proc_"]').prop('checked', false);
-	    }
-	}); */
-		
-	// $('#selectall').trigger('change');
-	
+  $( document ).ready( function() {
+    // 로딩시 자동 계산
+    var total = 0;
+    $('input:checkbox:checked').each(function(){ 
+      total += isNaN(parseInt($(this).val())) ? 0 : parseInt($(this).val());
+    });
+    var box=$(this).find('input[name="checkout"]:checked').length;     
+
+    document.getElementById("price").textContent=total;
+    document.getElementById("product").textContent=box;
+    
+    // ▶ Checkbox 전체 선택, 전체 해제시
+    $( '.selectall' ).click( function() {
+      $( '.checkout' ).prop( 'checked', this.checked );
+	  var total = 0;
+      $('input:checkbox:checked').each(function(){ 
+      total += isNaN(parseInt($(this).val())) ? 0 : parseInt($(this).val());
+      });     
+      document.getElementById("price").textContent=total;
+    } );
+    
+	 // 개별 선택, 해제시  
+	$('.checkout').change(function (){
+	    var total = 0;
+	    $('input:checkbox:checked').each(function(){ 
+		    total += isNaN(parseInt($(this).val())) ? 0 : parseInt($(this).val());
+	    });     
+	    document.getElementById("price").textContent=total;
+	});
+    
+  } );
+  
 
 	</script>
 	
@@ -193,6 +202,7 @@
 	</section>
 	<!-- end page title -->
 
+
 	<!-- director lsit -->
 	<section class="">
 		<div class="container">
@@ -202,44 +212,63 @@
 					  <colgroup>
 					    <col style="width: 5%;"/>
 					    <col style='width: 20%;'/>
+					    <col style='width: 10%;'/>
+					    <col style='width: 10%;'/>
+					    <col style='width: 10%;'/>
 					    <col style='width: 15%;'/>
 					    <col style='width: 25%;'/>
 					  </colgroup>
 					  
-					  <thead>  
+				  <thead>  
 					  <TR >
-					    <TH style="text-align: center;"> 
-					          <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " >
-                                   <input id="selectall" name="selectall" type="checkbox" checked="checked" value="${filmno }"> 
-                                   <label for="selectall">　</label>
-                              </div>
-					    </TH>
+					   <TH style="text-align: center;"> 
+                        <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " >
+                             <input id="selectall_id" class="selectall" type="checkbox" checked="checked" value="${filmno }"> 
+                             <label for="selectall_id">　</label>
+                        </div>
+                        </TH>
 					    <TH style="text-align: center;">영화</TH>
+					    <TH style="text-align: center;">언어</TH>
+					    <TH style="text-align: center;">화질</TH>
+					    <TH style="text-align: center;">기간</TH>
 					    <TH style="text-align: center;">가격</TH>
 					    <TH style="text-align: center;"></TH>
 					  </TR>
 					  </thead>    
 					          
 					  <tbody>
-					  <c:forEach var="VO" items="${list }">  <!-- refaqt 객체에 접근 -->
+					  <c:forEach var="VO" items="${list }">  <!-- request 객체에 접근 -->
                         <c:set var="cartno" value="${VO.cartno}" />
                         <c:set var="filmno" value="${VO.filmno}" />
                         
 					    <TR >
-					      <TD class=" " style="text-align: center;">
-    					      <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " >
-	       				           <input id="pay_proc_${filmno }" name="checkout"  type="checkbox" checked="checked" value="${filmno }"> 
-	       				           <label for="pay_proc_${filmno }" >　</label>
-	       				      </div>
-					      </TD>
-					      <TD style="text-align: center;" class='clickable-row' data-href= "../film/read.do?filmno=${filmno }">
-					           <span style="margin: 0px;">${filmno }</span>
+                          <TD class=" " style="text-align: center;">
+                            <form>
+                              <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " >
+                                   <input id="pay_proc_${filmno }" class="checkout"  type="checkbox" checked="checked" value="${VO.optionprice }"> 
+                                   <label for="pay_proc_${filmno }" >　</label>
+                                  </div>
+                            </form>
+                          </TD>
+					      <TD style="text-align: center;" class='clickable-row' data-href= "../film/read_customer.do?filmno=${filmno }">
+					           <span style="margin: 0px;">${VO.titlekr }<br>${VO.titleen }</span>
 					      </TD>
 					      <TD style="text-align: center;">
-					           <span style="margin: 0px;">  </span>
+					           <span style="margin: 0px;"> ${VO.optionlan } </span>
+					      </TD>
+					      <TD style="text-align: center;">
+					           <span style="margin: 0px;"> ${VO.optionqual } </span>
+					      </TD>
+					      <TD style="text-align: center;">
+					           <span style="margin: 0px;"> ${VO.optionrent } </span>
+					      </TD>
+					      <TD style="text-align: center;">
+					           <span style="margin: 0px;">
+						           <span style="margin: 0px;"> ${VO.optionprice } </span>
+					           </span>
 					      </TD>
 					      <TD style="text-align: center;"> 
-                              <button onclick="pay_proc('${filmno}')" id="btn_pay_proc_${filmno }"  name="btn_delete_proc_${filmno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;">구매</button>
+                              <button onclick="pay_proc('${filmno}')" id="btn_pay_proc_${filmno }"  name="btn_delete_proc_${filmno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;">결제</button>
                               <button onclick="delete_proc('${cartno}')" id="btn_delete_proc_${cartno }"  name="btn_delete_proc_${cartno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;">삭제</button>
 					      </TD>
 					                   
@@ -270,11 +299,11 @@
 					    <TR >
 
 					      <TD style="text-align: center; pointer-events: auto;" >
-					           총　　건
+					           총　${count_cart }건　중　<span id="product"></span>　건
 					      </TD>
 					      
 					      <TD style="text-align: center; pointer-events: auto;">
-					           총　　원
+					           총　<span id="price"></span> 원
 					      </TD>
 					      
 					      <TD style="text-align: center; pointer-events: auto;" >

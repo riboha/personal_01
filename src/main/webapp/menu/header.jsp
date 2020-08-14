@@ -2,7 +2,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <c:set var="root" value="${pageContext.request.contextPath}" /> 
-
  
     <!-- header -->
     <header class="header">
@@ -37,8 +36,6 @@
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                         <li><a href="catalog1.html">Catalog Grid</a></li>
                                         <li><a href="catalog2.html">Catalog List</a></li>
-                                        <li><a href="details1.html">Details Movie</a></li>
-                                        <li><a href="details2.html">Details TV Series</a></li>
                                     </ul>
                                 </li>
                                 <!-- end dropdown -->
@@ -106,22 +103,65 @@
 
                             <!-- header auth -->
                             <div class="header__auth">
-                                <button class="header__search-btn" type="button">
+                                <button class="header__search-btn" type="button" style="margin-right: 7px;">
                                     <i class="icon ion-ios-search"></i>
                                 </button>
                                 
                                 <c:choose>
+                                <c:when test="${sessionScope.id != null}">
+	                                <button class="header__cart-btn" type="button" style="margin-left: 7px;" onclick="location.href='${root }/cart/list.do?memberno=${sessionScope.memberno}'">
+	                                    <i class="icon ion-ios-cart"  id="btn_cart"  ></i>
+	                                </button>
+                                </c:when>
+                                </c:choose>
+                                
+                                <c:choose>
 						        <c:when test="${sessionScope.id == null}">
-	                                <a href="./member/signin.do" class="header__sign-in">
+	                                <a href="${root }/member/signin.do" class="header__sign-in">
 	                                    <i class="icon ion-ios-log-in"></i>
 	                                    <span>LOG IN</span>
 	                                </a>
 						        </c:when>
 						        <c:otherwise>
-                                <a href="./member/signout.do" class="header__sign-in">
+                                <button class="header__sign-in" style=" margin-right: 3px;" onclick="signout();">
                                     <i class="icon ion-ios-log-in"></i>
-                                    <span>${sessionScope.nick }님</span>
-                                </a>
+                                    <%-- <span>${sessionScope.nick }님</span> --%>
+                                    <span>LOG OUT </span>
+                                </button>
+                                
+                                <script type="text/javascript">
+
+                                // ▶ 로그아웃
+                                function signout () {
+
+                                    $.ajax({
+                                        url : "./member/signout.do",
+                                        type : "post",
+                                        cache : false,
+                                        async : false,
+                                        dataType : "json",
+                                        success : function(rdata) {
+                                            if (rdata.cnt >= 1) {
+                                                window.location.reload();
+                                            } else {
+                                                if (rdata.duplicate >= 1) {
+                                                  alert('로그아웃 실패');
+                                                } else {
+                                                  alert('로그아웃 실패');
+                                                }
+                                            }
+                                        },
+                                        error : function(request, status, error) {
+                                            alert('로그아웃 실패');
+                                            var msg = 'ERROR<br><br>';
+                                            msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+                                            msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+                                            console.log(msg);
+                                        }
+                                    });
+                                }
+                                </script>
+                                    
 						        </c:otherwise>
                                 </c:choose>
                                 

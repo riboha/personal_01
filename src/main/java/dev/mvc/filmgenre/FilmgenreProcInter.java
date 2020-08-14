@@ -12,6 +12,8 @@ public interface FilmgenreProcInter {
   
   public ArrayList<Film_Genre_VO> filmgenre_list_by_filmno (int filmno);
   
+  public ArrayList<Film_Genre_VO> list_6_main_genre ();
+  
   public FilmgenreVO read (int filmgenreno);
   
   public int findduplicate (FilmgenreVO filmgenreVO);

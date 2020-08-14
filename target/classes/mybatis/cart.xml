@@ -7,18 +7,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 등록  -->
 <insert id="create" parameterType="CartVO">
-  INSERT INTO cart(cartno, memberno, filmno)
-  VALUES (cart_seq.nextval, #{memberno}, #{filmno})
+  INSERT INTO cart(cartno, optionlan, optionqual, optionrent, optionprice, memberno, filmno)
+  VALUES (cart_seq.nextval, #{optionlan, jdbcType=VARCHAR}, #{optionqual}, #{optionrent}, #{optionprice}, #{memberno}, #{filmno})
 </insert>
 
 
 <!-- 목록 -->
 <select id="list" resultType="CartVO" parameterType="int">
-  SELECT cartno, memberno, filmno
+  SELECT cartno, optionlan, optionqual, optionrent, optionprice, memberno, filmno
   FROM cart
   WHERE memberno = #{memberno}
   ORDER BY cartno DESC
 </select>
+
+
+<!-- 장바구니 목록 -->
+<select id="list_cart" resultType="Film_Cart_VO" parameterType="int">
+  SELECT f.titlekr, f.titleen, f.filmno, 
+            c.optionlan, c.optionqual, c.optionprice, c.cartno, c.optionrent
+  FROM film f, cart c
+  WHERE f.filmno = c.filmno AND c.memberno = #{memberno}
+  ORDER BY c.cartno DESC
+</select>
+
+<!-- 장바구니 갯수 -->
+<select id="count_cart" resultType="int" parameterType="int">
+  SELECT COUNT(cartno) as cnt
+  FROM cart
+  WHERE memberno=#{memberno}
+</select>
+
+
 
 <!-- 중복 확인-->
 <select id="findduplicate" resultType="int" parameterType="CartVO">
@@ -31,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 수정 -->
 <update id="update" parameterType="CartVO" >
   UPDATE cart
-  SET memberno = #{memberno, jdbcType=INTEGER}, filmno = #{filmno, jdbcType=INTEGER}
+  SET optionlan = #{optionlan}, optionqual = #{optionqual}, optionprice = #{optionprice} , optionrent = #{optionrent}
   WHERE cartno = #{cartno, jdbcType=INTEGER}
 </update>
 

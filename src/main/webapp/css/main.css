@@ -457,8 +457,16 @@ ul {
   color: rgba(255,255,255,0.75);
   font-size: 26px;
 }
+.header__cart-btn {
+  color: rgba(255,255,255,0.75);
+  font-size: 26px;
+}
 .header__search-btn:hover,
 .header__search-btn.active {
+  color: #fff;
+}
+.header__cart-btn:hover,
+.header__cart-btn.active {
   color: #fff;
 }
 .header__sign-in {
@@ -569,6 +577,9 @@ ul {
     margin-right: 54px;
   }
   .header__search-btn {
+    font-size: 30px;
+  }
+  .header__cart-btn { 
     font-size: 30px;
   }
   .header__sign-in {

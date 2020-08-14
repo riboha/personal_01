@@ -42,16 +42,30 @@
 		// ▶ 장바구니에 담기
 	    function cart () {
 
-		    var memberno = 1;
-		    var datas= 'memberno='+ memberno + '&filmno=' + ${filmVO.filmno};
-		    
+		    if ($('#optionlan').val() == null) {
+			    alert('지원 언어를 선택해 주세요');
+			}
+		    // alert('optionrent+price:' + $('#optionprice').val() ); 
+		    // alert( 'optionrent:' + $('#optionprice').val().split(':')[0] ); 
+		    // alert('optionprice:' + $('#optionprice').val().split(':')[1].slice(2,)); 
+
+		    // return;
+
+		    var params = {'optionlan' : $('#optionlan').val(),
+								'optionqual' : $('#optionqual').val().toString(),
+								'optionrent' : $('#optionprice').val().split(':')[0],
+								'optionprice' : $('#optionprice').val().split(':')[1].slice(2,),
+								'memberno' : 1,
+								'filmno' : ${param.filmno}
+								};
+
 	        $.ajax({
 	            url : "../cart/create.do",
 	            type : "post",
 	            cache : false,
 	            async : false,
 	            dataType : "json",
-	            data : datas,
+	            data : params,
 	            success : function(rdata) {
 	                if (rdata.cnt >= 1) {
 	                    alert('장바구니 등록 성공');
@@ -219,6 +233,7 @@
         <!-- details background -->
         <div class="details__bg" data-bg="img/home/home__bg.jpg"></div>
         <!-- end details background -->
+                
 
         <!-- details content -->
         <div class="container">
@@ -227,6 +242,9 @@
                 <div class="col-12">
                     <h1 class="details__title">${filmVO.titleen }</h1>
                     <h1 class="details__title">${filmVO.titlekr }</h1>
+                <button class="" type="button" style="margin-left: 20px; font-size: 50px;" onclick="location.href='./read.do?filmno=${filmVO.filmno}'">
+                    <i class="icon ion-ios-card"   ></i>
+                </button>
                 </div>
                 <!-- end title -->
 
@@ -247,12 +265,11 @@
                                 <div class="card__content">
                                     <div class="card__wrap">
                                         <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-
                                         <ul class="card__list">
-                                            <c:choose><c:when test="${qualityVO.q576 == 1}"><li>576p</li></c:when></c:choose>  
-                                            <c:choose><c:when test="${qualityVO.q720 == 1}"><li> 720p</li></c:when></c:choose>  
-                                            <c:choose><c:when test="${qualityVO.q1024 == 1}"><li> 1024p</li></c:when></c:choose>
                                             <c:choose><c:when test="${qualityVO.q1440 == 1}"><li> 1440p</li></c:when></c:choose>
+                                            <c:choose><c:when test="${qualityVO.q1024 == 1}"><li> 1024p</li></c:when></c:choose>
+                                            <c:choose><c:when test="${qualityVO.q720 == 1}"><li> 720p</li></c:when></c:choose>  
+                                            <c:choose><c:when test="${qualityVO.q576 == 1}"><li>576p</li></c:when></c:choose>  
                                             <li>${filmVO.restrict }+</li>
                                         </ul>
                                     </div>
@@ -277,13 +294,13 @@
                                             <c:choose><c:when test="${languageVO.kr == 1}"><a href="#">KR</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.en == 1}"><a href="#">EN</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.ch == 1}"><a href="#">CH</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.jp == 1}"><a href="#">JP</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.es == 1}"><a href="#">ES</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.fr == 1}"><a href="#">FR</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.ar == 1}"><a href="#">AR</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.rs == 1}"><a href="#">RS</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.pt == 1}"><a href="#">PT</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.de == 1}"><a href="#">DE</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.jp == 1}"><a href="#">JP</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.pt == 1}"><a href="#">PT</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.ar == 1}"><a href="#">AR</a> </c:when></c:choose>
                                             <c:choose><c:when test="${languageVO.hi == 1}"><a href="#">HI</a> </c:when></c:choose>
                                         </li>
                                     </ul>
@@ -301,7 +318,7 @@
                 <!-- end content -->
 
                 <!-- Youtube -->
-                <div class="col-12 col-xl-6">
+                <div class="col-12 col-xl-6" Samesi>
                     ${filmVO.youtube}
                 </div>
                 <!-- end Youtube -->
@@ -312,8 +329,6 @@
                         <div class="details__devices">
                             <span class="details__devices-title"></span>
                             <ul class="details__devices-list">
-                                <li><i class="icon ion-ios-cart"  id="btn_cart"  onclick="cart();"></i><span>장바구니</span></li>
-                                <li><i class="icon ion-ios-card" id="btn_pay" onclick="pay();"></i><span>구매</span></li>
                                 <li><i class="icon ion-ios-add" id="btn_pay" onclick="wish();"></i><span>보고싶어요</span></li>
                                 <li><i class="icon ion-ios-heart" id="btn_pay" onclick="fav();"></i><span>좋아해요</span></li>
                                 
@@ -340,6 +355,120 @@
         <!-- end details content -->
     </section>
     <!-- end details -->
+    
+    <!-- filter -->
+    <div class="filter">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="filter__content">
+                        <div class="filter__items">
+                            <!-- filter item -->
+                            <div class="filter__item" id="filter__quality">
+                                <span class="filter__item-label">화질</span>
+                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter__quality" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <c:choose>
+                                        <c:when test="${qualityVO.q1440 == 1}">
+		                                    <input type="button" value="1440p" id="optionqual" name="optionqual" >
+                                        </c:when>
+                                        <c:when test="${qualityVO.q1024 == 1}">
+		                                    <input type="button" value="1024p" id="optionqual" name="optionqual">
+                                        </c:when>
+                                        <c:when test="${qualityVO.q720 == 1}">
+		                                    <input type="button" value="720p" id="optionqual" name="optionqual">
+                                        </c:when>
+                                        <c:when test="${qualityVO.q576 == 1}">
+		                                    <input type="button" value="576p" id="optionqual" name="optionqual">
+                                        </c:when>
+                                    </c:choose>  
+                                    <span></span>
+                                </div>
+                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter__quality">
+                                    <c:choose><c:when test="${qualityVO.q1440 == 1}"><li> 1440p</li></c:when></c:choose>
+                                    <c:choose><c:when test="${qualityVO.q1024 == 1}"><li> 1024p</li></c:when></c:choose>
+                                    <c:choose><c:when test="${qualityVO.q720 == 1}"><li> 720p</li></c:when></c:choose>  
+                                    <c:choose><c:when test="${qualityVO.q576 == 1}"><li>576p</li></c:when></c:choose>  
+                                </ul>
+                            </div>
+                            <!-- end filter item -->
+                            <!-- filter item -->
+                            <div class="filter__item" id="filter__language">
+                                <span class="filter__item-label">언어</span>
+                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter__language" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <c:choose>
+                                        <c:when test="${languageVO.kr == 1}">
+                                            <input id="optionlan" name="optionlan"  type="button" value="KR">
+                                        </c:when>
+                                        <c:when test="${languageVO.en == 1}">
+                                            <input id="optionlan" name="optionlan"  type="button" value="EN">
+                                        </c:when>
+                                        <c:when test="${languageVO.ch == 1}">
+                                            <input id="optionlan" name="optionlan"  type="button" value="CH">
+                                        </c:when>
+                                        <c:when test="${languageVO.jp == 1}">
+                                            <input id="optionlan" name="optionlan"  type="button" value="JP">
+                                        </c:when>
+                                        <c:when test="${languageVO.fr == 1}">
+                                            <input id="optionlan" name="optionlan"  type="button" value="FR">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input id="optionlan" name="optionlan" type="button" value="KR" >
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <span></span>
+                                </div>
+                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter__language">
+                                    <c:choose><c:when test="${languageVO.kr == 1}"><li>KR</li></c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.en == 1}"><li>EN</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.ch == 1}"><li>CH</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.jp == 1}"><li>JP</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.fr == 1}"><li>FR</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.es == 1}"><li>ES</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.rs == 1}"><li>RS</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.de == 1}"><li>DE</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.ar == 1}"><li>AR</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.pt == 1}"><li>PT</li> </c:when></c:choose>
+                                    <c:choose><c:when test="${languageVO.hi == 1}"><li>HI</li> </c:when></c:choose>
+                                </ul>
+                            </div>
+                            <!-- end filter item -->
+
+                            <!-- filter item -->
+                            <div class="filter__item" id="filter__price">
+                                <span class="filter__item-label">이용권</span>
+                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter__price" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <input id="optionprice" name="optionprice" type="button" value="&nbsp;1일: ￦${priceVO.day1}">
+                                    <span></span>
+                                </div>
+                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter__price">
+                                    <li>&nbsp;1일: ￦${priceVO.day1}</li>
+                                    <li>&nbsp;3일: ￦${priceVO.day3}</li>
+                                    <li>&nbsp;7일: ￦${priceVO.day7}</li>
+                                    <li>30일: ￦ ${priceVO.day30}</li>
+                                    <li>소장용: ￦ ${priceVO.dayperm}</li>
+                                </ul>
+                            </div>
+                            <!-- end filter item -->
+                        </div>
+                        <!-- filter btn -->
+                        <div style="margin-right:30px;">
+                        <button class="header__cart-btn " type="button" style="margin-right: 20px; font-size: 50px;" onclick="cart();">
+                            <i class="icon ion-ios-cart"  ></i>
+                        </button>
+                        <button class="header__cart-btn " type="button" style="margin-left: 20px; font-size: 50px;">
+                            <i class="icon ion-ios-card"  id="btn_pay"  ></i>
+                        </button>
+                        </div>
+                        <!-- <button class="filter__btn" type="button">장바구니</button> -->
+                        <!-- end filter btn -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end filter -->
+    
+    
 
     <!-- content -->
     <section class="content">

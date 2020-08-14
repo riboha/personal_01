@@ -66,6 +66,18 @@ VALUES (director_seq.nextval, '쿠엔틴 타란티노', 'Quentin Tarantino', 'USA', nul
 INSERT INTO director(dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb)
 VALUES (director_seq.nextval, '크리스토퍼 놀란', 'Christopher Edward Nolan', 'England', null, null, null);
 
+
+
+
+INSERT INTO director(dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb)
+VALUES (director_seq.nextval, '조지 밀러', 'George Miller', 'Australia', null, null, null);
+
+INSERT INTO director(dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb)
+  VALUES (director_seq.nextval, '임순례', 'Yim Soon-rye', 'South Korea', null, 0, null);
+  
+  INSERT INTO director(dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb)
+  VALUES (director_seq.nextval, '존 패브로', 'John Favreau', 'USA', null, 0, null);
+
 INSERT INTO director(dirno, dirnamekr, dirnameen, dirnation, dirphoto, dirphotosize, dirthumb)
   VALUES (director_seq.nextval, 'a', 'a', 'a', null, 0, null);
 

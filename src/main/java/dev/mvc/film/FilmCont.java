@@ -30,6 +30,8 @@ import dev.mvc.photo.PhotoProcInter;
 import dev.mvc.photo.PhotoVO;
 import dev.mvc.quality.QualityProcInter;
 import dev.mvc.quality.QualityVO;
+import dev.mvc.rentprice.RentpriceProcInter;
+import dev.mvc.rentprice.RentpriceVO;
 import dev.mvc.review.Member_Review_VO;
 import dev.mvc.review.ReviewProcInter;
 import dev.mvc.tool.Tool;
@@ -74,6 +76,10 @@ public class FilmCont {
   @Qualifier("dev.mvc.review.ReviewProc")
   private ReviewProcInter reviewProc;
   
+  @Autowired
+  @Qualifier ("dev.mvc.rentprice.RentpriceProc")
+  private RentpriceProcInter rentpriceProc;
+  
 
   /**
    * 등록 폼
@@ -102,7 +108,7 @@ public class FilmCont {
   @RequestMapping(value = "/film/create1.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String create1 (HttpServletRequest request, FilmVO filmVO) {
+  public String create1 (HttpServletRequest request, FilmVO filmVO, RentpriceVO priceVO) {
     
     // =============파일 전송 코드===============
         
@@ -137,6 +143,10 @@ public class FilmCont {
     // MyBATIS는 insert후 PK 컬럼인 mem_no변수에 새로 생성된 PK를 할당함.
     int filmno = filmVO.getFilmno();  // MyBATIS 리턴된 PK
     // ---------------------------------------------------------------------------------------
+    
+    priceVO.setFilmno(filmno);
+    int cnt_price = this.rentpriceProc.create(priceVO);
+    System.out.println("cnt_price: " + cnt_price);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -230,17 +240,23 @@ public class FilmCont {
                             method = RequestMethod.GET)
   public ModelAndView read (int filmno) {
     ModelAndView mav = new ModelAndView();
+
     FilmVO filmVO = this.filmProc.read(filmno);
     LanguageVO languageVO = this.languageProc.read(filmno);
     QualityVO qualityVO = this.qualityProc.read(filmno);
+    RentpriceVO priceVO = this.rentpriceProc.read(filmno);
+    
     ArrayList<Film_Genre_VO> film_genre_VO_list  = this.filmgenreProc.filmgenre_list_by_filmno(filmno);
     ArrayList<GenreVO> genreVO_list = this.genreProc.list();
     
     mav.addObject("filmVO", filmVO);
     mav.addObject("languageVO", languageVO);
     mav.addObject("qualityVO", qualityVO);
+    mav.addObject("priceVO", priceVO);
+    
     mav.addObject("film_genre_VO_list", film_genre_VO_list);
     mav.addObject("genreVO_list", genreVO_list);
+    
     mav.setViewName("/film/read");
     return mav;
   } 
@@ -255,20 +271,28 @@ public class FilmCont {
       method = RequestMethod.GET)
   public ModelAndView read_customer (int filmno) {
     ModelAndView mav = new ModelAndView();
+    
     FilmVO filmVO = this.filmProc.read(filmno);
     LanguageVO languageVO = this.languageProc.read(filmno);
     QualityVO qualityVO = this.qualityProc.read(filmno);
+    RentpriceVO priceVO = this.rentpriceProc.read(filmno);
+
     ArrayList<PhotoVO> photoVO_list= this.photoProc.list_by_filmno(filmno);
     ArrayList<Film_Genre_VO> film_genre_VO_list = this.filmgenreProc.filmgenre_list_by_filmno(filmno);
     ArrayList<Film_Actor_VO> film_actor_VO_list =  this.castProc.cast_list_by_filmno(filmno);
     ArrayList<Member_Review_VO> member_review_VO_list = this.reviewProc.review_list_by_memberno(filmno);
     String dirnamekr = this.directorProc.read(filmVO.getDirno()).getDirnamekr();
     
-    mav.addObject("dirnamekr", dirnamekr);
+
+    
     mav.addObject("filmVO", filmVO);
     mav.addObject("languageVO", languageVO);
     mav.addObject("qualityVO", qualityVO);
+    mav.addObject("priceVO", priceVO);
+    mav.addObject("dirnamekr", dirnamekr);
+
     mav.addObject("photoVO_list", photoVO_list);
+    
     mav.addObject("film_genre_VO_list", film_genre_VO_list);
     mav.addObject("film_actor_VO_list", film_actor_VO_list);
     mav.addObject("member_review_VO_list", member_review_VO_list);
@@ -292,29 +316,6 @@ public class FilmCont {
     return mav;
   }
   
-  /**
-   *  6개 레코드 최신순 목록 (메인 페이지용 ) 
-   * @return
-   *  http://localhost:9090/movie/film/list.do
-   */
-  @RequestMapping(value = "/film/list.do",
-      method = RequestMethod.GET)
-  public ModelAndView list_6_main () {
-    ModelAndView mav = new ModelAndView();
-    ArrayList<FilmVO> list_6_main = this.filmProc.list_6_main();
-    
-//    ArrayList<Film_Genre_VO> film_genre_VO_list = new ArrayList<>();
-//    for (int i=0; i<list_6_main.size(); i++) {
-//      film_genre_VO_list.addAll(this.filmgenreProc.filmgenre_list_by_filmno(list_6_main.get(i).getFilmno()));
-//    }
-
-    mav.addObject("list_6_main", list_6_main);
-    // mav.addObject("film_genre_VO_list", film_genre_VO_list);
-    mav.setViewName("/index");
-    return mav;
-  }
-  
-  
 
   /**
    * 수정 처리 1
@@ -326,7 +327,7 @@ public class FilmCont {
   @RequestMapping(value = "/film/update1.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  public String update1 (FilmVO filmVO, HttpServletRequest request) {
+  public String update1 (HttpServletRequest request, FilmVO filmVO, RentpriceVO priceVO) {
     
     FilmVO filmVO_old = this.filmProc.read(filmVO.getFilmno());
     MultipartFile posterMF = filmVO.getPosterMF();
@@ -378,8 +379,13 @@ public class FilmCont {
     
     // System.out.println(filmVO.toString());
     
+    System.out.println("getDay1 결과: " + priceVO.getDay1());
+    
+    
     int cnt = this.filmProc.update(filmVO);
+    int cnt_price = this.rentpriceProc.update(priceVO);
     System.out.println("처리 결과: " + cnt);
+    System.out.println("cnt_price: " + cnt_price);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -388,23 +394,6 @@ public class FilmCont {
     return json.toString();
   }
 
-  /**
-   * 수정 처리 2
-   * @param filmVO
-   * @param request 
-   * @return
-   */
-//  @ResponseBody
-//  @RequestMapping(value = "/film/update2.do",
-//  method = RequestMethod.POST,
-//  produces = "text/plain;charset=UTF-8")
-//  public String update2 (FilmVO filmVO, HttpServletRequest request) {
-//    
-//    
-//  }
-  
-  
-  
   /**
    * 삭제 처리
    * @param filmVO
@@ -416,7 +405,13 @@ public class FilmCont {
                             produces = "text/plain;charset=UTF-8")
   public String delete (int filmno) {
     
+    this.languageProc.delete(filmno);
+    this.qualityProc.delete(filmno);
+    this.rentpriceProc.delete(filmno);
+    this.castProc.delete(filmno);
+    
     int cnt = this.filmProc.delete(filmno);
+    
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
     

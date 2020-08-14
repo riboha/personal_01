@@ -117,6 +117,83 @@ SELECT g.genreno, g.genrename,
           x.filmgenreno, x.genreno as x_genreno, x.filmno as x_filmno
 FROM genre g, film f, filmgenre x
 WHERE g.genreno = x.genreno AND f.filmno = x.filmno AND f.filmno = 8
-
 ORDER BY g.genreno DESC;
+
+SELECT g.genrename, f.filmno          
+FROM genre g, film f, filmgenre x
+WHERE g.genreno = x.genreno AND f.filmno = x.filmno 
+ORDER BY f.filmno DESC;
+
+
+
+SELECT filmno, titlekr, poster
+FROM film
+WHERE ROWNUM <= 6
+ORDER BY filmno DESC;
+
+    FILMNO TITLEKR                         POSTER                                                                                              
+---------- ----------------------------------------------------------
+        24 ff                                       prada2_0.jpg                                                                                        
+        23 악마는 사라지지 않는다         devilallthetime.jpg                                                                                 
+        21 ff                                                                                                                                                                                                       
+        20 ff                                                                                                                                                                                                       
+        19 ff                                                                                                                                                                                                       
+        18 ff                                                                                                                                                                                                       
+
+
+SELECT filmno
+FROM (           
+            SELECT filmno
+            FROM film
+            WHERE ROWNUM <= 6
+            ORDER BY filmno DESC
+         );
+
+
+    FILMNO          R
+---------- ----------
+        24          1
+        23          2
+        21          3
+        20          4
+        19          5
+        18          6
+        
+        
+        
+        
+SELECT MIN(filmno) AS filmno_min, MAX(filmno) AS filmno_max
+FROM (           
+            SELECT filmno
+            FROM film
+            WHERE ROWNUM <= 6
+            ORDER BY filmno DESC
+         );
+
+FILMNO_MIN FILMNO_MAX
+---------- ----------
+        18         24
+         
+
+
+-- ♣ 메인 페이지용 최신순 6개 레코드에 해당하는 장르 레코드 
+
+SELECT g.genrename, f.filmno          
+FROM genre g, film f, filmgenre x, (SELECT MIN(filmno) AS filmno_min, MAX(filmno) AS filmno_max
+                                                FROM (           
+                                                            SELECT filmno
+                                                            FROM film
+                                                            WHERE ROWNUM <= 6
+                                                            ORDER BY filmno DESC
+                                                         ))
+WHERE g.genreno = x.genreno AND f.filmno = x.filmno AND f.filmno <= filmno_max AND f.filmno >= filmno_min
+ORDER BY f.filmno DESC;
+
+
+-- ♣ 메인 페이지용 최신순 6개 레코드 출력
+SELECT filmno, titlekr, poster
+FROM film
+WHERE ROWNUM <= 6
+ORDER BY filmno DESC;
+
 

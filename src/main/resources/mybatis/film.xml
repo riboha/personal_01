@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="list_6_main" resultType="FilmVO">
   SELECT filmno, titlekr, poster
   FROM film
-  WHERE ROWNUM - &lt;= 6
+  WHERE ROWNUM <![CDATA[ <= ]]> 6
   ORDER BY filmno DESC
 </select>
 

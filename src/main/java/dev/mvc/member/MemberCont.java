@@ -351,6 +351,7 @@ public class MemberCont {
       Cookie ck_remember_pw; // pw Ã¼Å©¹Ú½º ÀúÀå ÄíÅ° °´Ã¼
       
       Cookie ck_nick; // nick ÀúÀå ÄíÅ° °´Ã¼
+      Cookie ck_memberno; // memberno ÀúÀå ÄíÅ° °´Ã¼
       
       // ¢º id ÀúÀå ÄíÅ°
       if (remember_id.equals("Y")) { // id¸¦ ÀúÀåÇÒ °æ¿ì
@@ -382,14 +383,37 @@ public class MemberCont {
       ck_remember_pw.setMaxAge(60 * 60 * 72 * 10); // 30 day
       response.addCookie(ck_remember_pw);
 
-      // ¢º nick Ã¼Å© ¹Ú½º Äí±â
+      // ¢º nick ÀúÀå ÄíÅ°
       ck_nick = new Cookie("ck_nick", memberVO.getNick());
       ck_nick.setMaxAge(60 * 60 * 72 * 10); // 30 day
+      response.addCookie(ck_nick);
+
+      // ¢º memberno ÀúÀå ÄíÅ°
+      ck_memberno = new Cookie("ck_memberno", Integer.toString(memberVO.getMemberno()));
+      ck_memberno.setMaxAge(60 * 60 * 72 * 10); // 30 day
       response.addCookie(ck_nick);
       
     }
     JSONObject json = new JSONObject();
     json.put("count", count);
+    
+    return json.toString();
+  }
+  
+  /**
+   * ·Î±×¾Æ¿ô Ã³¸®
+   * @param session
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value="/member/signout.do", 
+                             method=RequestMethod.POST)
+  public String signout(HttpSession session){
+    
+    session.invalidate(); // ¸ðµç session º¯¼ö »èÁ¦
+    
+    JSONObject json = new JSONObject();
+    json.put("cnt", 1);
     
     return json.toString();
   }
