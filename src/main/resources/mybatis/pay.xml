@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.pay.PayDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="PayVO">
+  INSERT INTO pay (payno, 
+                        optionlan, optionqual, optionprice, optionrent,
+                        pntdisc, promopercent, promoamount, 
+                        priceoriginal, pricediscount, pricefinal, payvalid,
+                        memberno, paytotalno, promono, filmno)
+  VALUES (pay_seq.nextval, 
+            #{optionlan}, #{optionqual}, #{optionprice}, #{optionrent},
+            #{pntdisc}, #{promopercent}, #{promoamount},
+            #{priceoriginal}, #{pricediscount}, #{pricefinal}, #{payvalid},
+            #{memberno}, #{paytotalno}, #{promono}, #{filmno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="PayVO">
+  SELECT payno, 
+            optionlan, optionqual, optionprice, optionrent,
+            pntdisc, promopercent, promoamount, 
+            priceoriginal, pricediscount, pricefinal, payvalid,
+            memberno, paytotalno, promono, filmno
+ FROM pay           
+ ORDER BY payno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="PayVO" parameterType="int">
+  SELECT payno, 
+            optionlan, optionqual, optionprice, optionrent,
+            pntdisc, promopercent, promoamount, 
+            priceoriginal, pricediscount, pricefinal, payvalid,
+            memberno, paytotalno, promono, filmno
+  FROM pay
+  WHERE payno = #{payno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="PayVO" >
+  UPDATE pay
+  SET day1=#{day1}, day3=#{day3}, day7=#{day7}, day30=#{day30}, dayperm=#{dayperm}
+  WHERE filmno = #{filmno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM pay
+  WHERE payno= #{payno}
+</delete>
+
+</mapper>

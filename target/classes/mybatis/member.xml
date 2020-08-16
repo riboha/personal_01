@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 조회 -->
 <select id="read" resultType="MemberVO" parameterType="int">
-  SELECT memberno, id, pw, nick, tel, birth, email, memthumb, mempic, mempicsize
+  SELECT memberno, id, pw, nick, tel, birth, email, memthumb, mempic, mempicsize, pnt
   FROM member
   WHERE memberno = #{memberno}
   

@@ -99,6 +99,17 @@ SELECT priceno, day1, day3, day7, day30, dayperm, filmno
 FROM price
 ORDER BY priceno;
 
+SELECT f.titlekr, f.titleen, f.filmno, 
+        c.optionlan, c.optionqual, c.optionprice, c.cartno, c.optionrent
+FROM film f, cart c
+WHERE f.filmno = c.filmno AND c.memberno = 1
+ORDER BY c.cartno DESC;
+
+
+SELECT f.titlekr, f.titleen, f.filmno, 
+        c.optionlan, c.optionqual, c.optionprice, c.cartno, c.optionrent
+FROM film f, cart c
+WHERE f.filmno = c.filmno AND c.cartno = 2;
 
 
 -- cart 갯수
@@ -110,9 +121,9 @@ WHERE memberno=1;
 
 -- 중복 확인
 
-  SELECT COUNT(cartno) as cnt
-  FROM cart
-  WHERE memberno=1 AND filmno = 28;
+SELECT COUNT(cartno) as cnt
+FROM cart
+WHERE memberno=1 AND filmno = 28;
 
 
 

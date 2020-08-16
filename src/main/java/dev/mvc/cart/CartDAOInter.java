@@ -14,7 +14,7 @@ public interface CartDAOInter {
 
   public ArrayList<Film_Cart_VO> list_cart (int memberno);
   
-  public int count_cart(int memberno);
+  public Film_Cart_VO read(int cartno);
   
   public int findduplicate (CartVO cartVO);
 

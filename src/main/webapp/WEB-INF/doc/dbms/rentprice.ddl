@@ -32,20 +32,26 @@ COMMENT ON COLUMN rentprice.filmno is '영화 번호';
 
 -- ♣CREATE♣
 
-INSERT INTO price (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (1, 1000, 3000, 7000, 10000, 15000, 1);
              
-INSERT INTO price (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (2, 1000, 3000, 7000, 10000, 15000, 2);
             
-INSERT INTO price (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (3, 1000, 3000, 7000, 10000, 15000, 3);
 
-INSERT INTO price (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (24, 1000, 3000, 7000, 10000, 15000, 24);
-            
-INSERT INTO price (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+VALUES (25, 1000, 3000, 7000, 10000, 15000, 25);         
+
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (26, 1000, 3000, 7000, 10000, 15000, 26);            
+
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+VALUES (27, 1000, 3000, 7000, 10000, 15000, 27);         
 COMMIT;
 
 

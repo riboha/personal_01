@@ -48,9 +48,9 @@ public class CartProc implements CartProcInter {
   }
 
   @Override
-  public int count_cart(int memberno) {
-    int count_cart = this.cartDAO.count_cart(memberno);
-    return count_cart;
+  public Film_Cart_VO read(int cartno) {
+    Film_Cart_VO film_Cart_VO = this.cartDAO.read(cartno);
+    return film_Cart_VO;
   }
 
 }

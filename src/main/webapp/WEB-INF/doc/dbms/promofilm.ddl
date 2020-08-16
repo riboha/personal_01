@@ -37,14 +37,20 @@ CREATE SEQUENCE promofilm_seq
 -- ¢ÀCREATE¢À
 
 INSERT INTO promofilm(promofilmno, promono, filmno)
-VALUES (promofilm_seq.nextval, 1, 8);
+VALUES (promofilm_seq.nextval, 1, 25);
 
 INSERT INTO promofilm(promofilmno, promono, filmno)
-VALUES (promofilm_seq.nextval, 1, 6);
+VALUES (promofilm_seq.nextval, 1, 26);
 
 INSERT INTO promofilm(promofilmno, promono, filmno)
-VALUES (promofilm_seq.nextval, 1, 7);
+VALUES (promofilm_seq.nextval, 2, 26);
 
+
+INSERT INTO promofilm(promofilmno, promono, filmno)
+VALUES (promofilm_seq.nextval, 1, 27);
+
+INSERT INTO promofilm(promofilmno, promono, filmno)
+VALUES (promofilm_seq.nextval, 4, 27);
 COMMIT;
 
 -- ¢ÀLIST¢À
@@ -77,22 +83,33 @@ WHERE promofilmno=1;
 
 
 
+-- ¢º Promotion / Film / Promofilm Join
+
+-- ¢¹ Promotion
+SELECT promono, promotitle, promodetail, 
+            promopercent, promoamount, 
+            promovalid, promostart, promoend
+FROM promotion
+ORDER BY promono;
+
+-- ¢¹ Film
+SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
+FROM film
+ORDER BY filmno;
+
+-- ¢¹ Promofilm
+SELECT promofilmno, promono, filmno
+FROM promofilm
+ORDER BY promofilmno;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- ¢¹ Join by filmno
+SELECT p.promono, p.promotitle, p.promopercent, p.promoamount, p.promovalid,
+           f.filmno,
+           x.promofilmno
+FROM promotion p, film f, promofilm x
+WHERE p.promono = x.promono AND f.filmno = x.filmno AND x.filmno = 27
+ORDER BY promofilmno;
 
 
 

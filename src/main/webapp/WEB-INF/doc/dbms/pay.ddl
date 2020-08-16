@@ -6,14 +6,20 @@ DROP TABLE pay CASCADE CONSTRAINTS;
 
 CREATE TABLE pay(
         payno                               NUMBER(10)       NOT NULL        PRIMARY KEY,
+        optionlan                           VARCHAR2(10)         NOT NULL,
+        optionqual                          VARCHAR2(10)         NOT NULL,
+        optionprice                         NUMBER(10)       NOT NULL,
+        optionrent                          VARCHAR2(10)         NOT NULL,
         pntdisc                             NUMBER(10)       DEFAULT 0       NOT NULL,
-        promodiscper                        NUMBER(10)       DEFAULT 0       NOT NULL,
-        promodiscsub                        NUMBER(10)       DEFAULT 0       NOT NULL,
-        priceoriginal                       NUMBER(10)       DEFAULT 0       NOT NULL,
-        price                               NUMBER(10)       NOT NULL,
+        promopercent                        NUMBER(3)        DEFAULT 0       NOT NULL,
+        promoamount                         NUMBER(10)       DEFAULT 0       NOT NULL,
+        priceoriginal                       NUMBER(10)       NOT NULL,
+        pricediscount                       NUMBER(10)       DEFAULT 0       NOT NULL,
+        pricefinal                          NUMBER(10)       NOT NULL,
+        payvalid                            NUMBER(1)        DEFAULT 1       NOT NULL,
         memberno                            NUMBER(10)       NOT NULL,
         paytotalno                          NUMBER(10)       NOT NULL,
-        promono                             NUMBER(10)       NOT NULL,
+        promono                             NUMBER(10)       DEFAULT 1       NOT NULL,
         filmno                              NUMBER(10)       NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
@@ -23,19 +29,23 @@ CREATE TABLE pay(
 
 COMMENT ON TABLE pay is '결제';
 COMMENT ON COLUMN pay.payno is '결제 번호';
+COMMENT ON COLUMN pay.optionlan is '옵션 언어';
+COMMENT ON COLUMN pay.optionqual is '옵션 화질';
+COMMENT ON COLUMN pay.optionprice is '옵션 가격';
+COMMENT ON COLUMN pay.optionrent is '옵션 대여';
 COMMENT ON COLUMN pay.pntdisc is '포인트 할인액';
-COMMENT ON COLUMN pay.promodiscper is '프로모션 할인율';
-COMMENT ON COLUMN pay.promodiscsub is '프로모션 할인액';
+COMMENT ON COLUMN pay.promopercent is '프로모션 할인율';
+COMMENT ON COLUMN pay.promoamount is '프로모션 할인액';
 COMMENT ON COLUMN pay.priceoriginal is '결제 원 금액';
-COMMENT ON COLUMN pay.price is '결제 최종 금액';
+COMMENT ON COLUMN pay.pricediscount is '결제 할인 금액';
+COMMENT ON COLUMN pay.pricefinal is '결제 최종 금액';
+COMMENT ON COLUMN pay.payvalid is '결제 상품 유효 여부';
 COMMENT ON COLUMN pay.memberno is '회원 번호';
 COMMENT ON COLUMN pay.paytotalno is '총결제 번호';
 COMMENT ON COLUMN pay.promono is '프로모션 번호';
 COMMENT ON COLUMN pay.filmno is '영화 번호';
 
-
 DESC pay;
-
 
 DROP SEQUENCE pay_seq;
 
@@ -54,37 +64,25 @@ CREATE SEQUENCE pay_seq
 -- ♣CREATE♣
 
 INSERT INTO pay (payno, 
-                        pntdisc, promodiscsub, promodiscper, 
-                        priceoriginal, price, 
+                        optionlan, optionqual, optionprice, optionrent,
+                        pntdisc, promopercent, promoamount, 
+                        priceoriginal, pricediscount, pricefinal, payvalid,
                         memberno, paytotalno, promono, filmno)
 VALUES (pay_seq.nextval, 
-            0, 1000, 15,
-            10000,  7650,
-            1, 1, 1, 8);
-            
-INSERT INTO pay (payno, 
-                        pntdisc, promodiscsub, promodiscper, 
-                        priceoriginal, price, 
-                        memberno, paytotalno, promono, filmno)
-VALUES (pay_seq.nextval, 
-            500, 1000, 20,
-            20000,  14800,
-            1, 1, 1, 8);
-
-INSERT INTO pay (payno, 
-                        pntdisc, promodiscsub, promodiscper, 
-                        priceoriginal, price, 
-                        memberno, paytotalno, promono, filmno)
-VALUES (pay_seq.nextval, 
-            0, 1000, 15,
-            10000,  7650,
-            1, 1, 1, 8);
+            'EN', '720p', 5000, '7일',
+            0, 0, 0,
+            5000, 0, 5000, 1,
+            1, 1, 1, 1); 
+               
             
 COMMIT;
 
 -- ♣LIST♣
 
-SELECT payno, pntdisc, promodiscper,  promodiscsub, priceoriginal, price, 
+SELECT payno, 
+            optionlan, optionqual, optionprice, optionrent,
+            pntdisc, promopercent, promoamount, 
+            priceoriginal, pricediscount, pricefinal, payvalid,
             memberno, paytotalno, promono, filmno
 FROM pay
 ORDER BY payno;
@@ -92,7 +90,10 @@ ORDER BY payno;
 
 -- ♣READ♣
 
-SELECT payno, pntdisc, promodiscper,  promodiscsub, priceoriginal, price, 
+SELECT payno, 
+            optionlan, optionqual, optionprice, optionrent,
+            pntdisc, promopercent, promoamount, 
+            priceoriginal, pricediscount, pricefinal, payvalid,
             memberno, paytotalno, promono, filmno
 FROM pay
 WHERE payno = 1;

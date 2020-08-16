@@ -20,6 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY promofilmno DESC
 </select>
 
+<!-- Join by filmno -->
+<select id="promotion_list_by_filmno" resultType="Film_Promotion_VO" parameterType="int">
+  SELECT p.promono, p.promotitle, p.promopercent, p.promoamount, p.promovalid,
+             f.filmno,
+             x.promofilmno
+  FROM promotion p, film f, promofilm x
+  WHERE p.promono = x.promono AND f.filmno = x.filmno AND x.filmno = #{filmno}
+  ORDER BY promofilmno
+</select>
+
 
 <!-- 수정 -->
 <update id="update" parameterType="PromofilmVO" >

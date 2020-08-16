@@ -7,33 +7,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 등록  -->
 <insert id="create" parameterType="PromotionVO">
-  INSERT INTO promotion(promono, promotitle, promocontent, promodisc, 
+  INSERT INTO promotion(promono, promotitle, promodetail, 
+                                promopercent, promoamount, 
                                 promovalid, promostart, promoend )
-  VALUES (promo_seq.nextval, #{promotitle}, #{promocontent}, #{promodisc},
+  VALUES (promo_seq.nextval, #{promotitle}, #{promodetail}, 
+                #{promopercent}, #{promoamount},
               #{promovalid}, #{promostart}, #{promoend})
 </insert>
 
 <!-- 목록 -->
 <select id="list" resultType="PromotionVO">
-  SELECT promono, promotitle, promocontent, promodisc, promovalid, promostart, promoend
+  SELECT promono, promotitle, promodetail, 
+            promopercent, promoamount, 
+            promovalid, promostart, promoend
   FROM promotion
   ORDER BY promono
 </select>
 
 <!-- 조회 -->
 <select id="read" resultType="PromotionVO" parameterType="int">
-  SELECT promono, promotitle, promocontent, promodisc, promovalid, promostart, promoend
+  SELECT promono, promotitle, promodetail, 
+            promopercent, promoamount, 
+            promovalid, promostart, promoend
   FROM promotion
   WHERE promono = #{promono}
 </select>
 
 <!-- 수정 -->
-<update id="update" parameterType="HashMap" >
+<update id="update" parameterType="PromotionVO" >
   UPDATE promotion
-  SET promotitle=#{promotitle, jdbcType=VARCHAR}, promocontent=#{promocontent, jdbcType=VARCHAR}, promodisc=#{promodisc, jdbcType=INTEGER},
+  SET promotitle=#{promotitle, jdbcType=VARCHAR}, promodetail=#{promodetail, jdbcType=VARCHAR}, 4
+        promopercent=#{promopercent, jdbcType=INTEGER}, promoamount=#{promoamount, jdbcType=INTEGER},
         promovalid=#{promovalid, jdbcType=INTEGER}, promostart=#{promostart, jdbcType=VARCHAR}, promoend=#{promoend, jdbcType=VARCHAR}
   WHERE promono = #{promono, jdbcType=INTEGER}
 </update>
+
+<!-- 프로모션 시작 / 종료 -->
+<update id="update_valid" parameterType="HashMap" >
+  UPDATE promotion
+  SET promovalid=#{promovalid, jdbcType=INTEGER}
+  WHERE promono = #{promono, jdbcType=INTEGER}
+</update>
+
 
 <!-- 삭제 -->
 <delete id="delete" parameterType="int">

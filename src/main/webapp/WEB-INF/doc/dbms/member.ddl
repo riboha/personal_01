@@ -91,6 +91,9 @@ SET id = 'Maya Hawke', pw='1234', nick='Maya', tel='01000000004', email='member1
         mempic=null, memthumb=null, mempicsize=0
 WHERE memberno = 1;
 
+UPDATE member
+SET pnt = 500
+WHERE memberno = 1;
 
 
 -- ¢ÀDELETE¢À

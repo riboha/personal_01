@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.paytotal.PaytotalDAOInter">
+
+<!-- 등록  -->
+<insert id="create" parameterType="PaytotalVO">
+  <selectKey keyProperty="filmno" resultType="int" order="BEFORE">
+      SELECT paytotal_seq.nextval FROM dual
+  </selectKey> 
+  INSERT INTO paytotal ( paytotalno, memberno )
+  VALUES (#{paytotalno}, #{memberno})
+</insert>
+
+<!-- 목록 -->
+<select id="list" resultType="PaytotalVO">
+  SELECT paytotalno, 
+          paytotaloriginal, paytotaldiscount, pricetotalfinal, pntsave,
+          method, paytotaldate, memberno
+  FROM paytotal
+  ORDER BY paytotalno
+</select>
+
+<!-- 조회 -->
+<select id="read" resultType="PaytotalVO" parameterType="int">
+  SELECT paytotalno, 
+          paytotaloriginal, paytotaldiscount, pricetotalfinal, pntsave,
+          method, paytotaldate, memberno
+  FROM paytotal
+  WHERE paytotalno = #{paytotalno}
+</select>
+
+<!-- 수정 -->
+<update id="update" parameterType="PaytotalVO" >
+  UPDATE paytotal
+  SET paytotaloriginal=#{paytotaloriginal}, paytotaldiscount=#{paytotaldiscount}, pricetotalfinal=#{pricetotalfinal}, pntsave=#{pntsave}, 
+        method=#{method}, paytotaldate=#{paytotaldate}
+  WHERE filmno = #{filmno}
+</update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterType="int">
+  DELETE 
+  FROM paytotal
+  WHERE paytotalno= #{paytotalno}
+</delete>
+
+</mapper>

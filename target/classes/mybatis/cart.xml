@@ -30,11 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY c.cartno DESC
 </select>
 
-<!-- 장바구니 갯수 -->
-<select id="count_cart" resultType="int" parameterType="int">
-  SELECT COUNT(cartno) as cnt
-  FROM cart
-  WHERE memberno=#{memberno}
+
+<!-- 조회 -->
+<select id="read" resultType="Film_Cart_VO" parameterType="int">
+  SELECT f.titlekr, f.titleen, f.filmno, 
+            c.optionlan, c.optionqual, c.optionprice, c.cartno, c.optionrent
+  FROM film f, cart c
+  WHERE f.filmno = c.filmno AND c.cartno = #{cartno}
 </select>
 
 

@@ -82,10 +82,7 @@ public class CartCont {
     ModelAndView mav = new ModelAndView();
     
     ArrayList<Film_Cart_VO> list_cart = this.cartProc.list_cart(memberno);
-    int count_cart = this.cartProc.count_cart(memberno);
-
     mav.addObject("list", list_cart);
-    mav.addObject("count_cart", count_cart);
     mav.setViewName("/cart/list");
     return mav;
   }

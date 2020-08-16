@@ -46,6 +46,14 @@ public class PromofilmProc implements PromofilmProcInter{
     return cnt;
   }
 
+  // 
+  @Override
+  public ArrayList<Film_Promotion_VO> promotion_list_by_filmno(int filmno) {
+    ArrayList<Film_Promotion_VO> promotion_list_by_filmno 
+    = this.promofilmDAO.promotion_list_by_filmno(filmno);
+    return promotion_list_by_filmno;
+  }
+
 
 
   
