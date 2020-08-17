@@ -47,5 +47,11 @@ public class FilmfavProc implements FilmfavProcInter {
     return duplicate;
   }
 
+  @Override
+  public ArrayList<Member_Film_wish_VO> list_by_memberno(int memberno) {
+    ArrayList<Member_Film_wish_VO> list_by_memberno = this.FilmfavDAO.list_by_memberno(memberno);
+    return list_by_memberno;
+  }
+
 
 }

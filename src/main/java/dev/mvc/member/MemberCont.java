@@ -20,6 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.actorfav.ActorfavProcInter;
+import dev.mvc.actorfav.Member_Actor_VO;
+import dev.mvc.directorfav.DirectorfavProcInter;
+import dev.mvc.directorfav.Member_Director_VO;
+import dev.mvc.filmfav.FilmfavProcInter;
+import dev.mvc.filmwish.FilmwishProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 
@@ -29,6 +35,22 @@ public class MemberCont {
   @Autowired
   @Qualifier("dev.mvc.member.MemberProc")
   private MemberProcInter memberProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.filmfav.FilmfavProc")
+  private FilmfavProcInter filmfavProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.filmwish.FilmwishProc")
+  private FilmwishProcInter filmwishProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.actorfav.ActorfavProc")
+  private ActorfavProcInter actorfavProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.directorfav.DirectorfavProc")
+  private DirectorfavProcInter directorfavProc;
   
   
 
@@ -137,6 +159,35 @@ public class MemberCont {
     ArrayList<MemberVO> list = this.memberProc.list();
     mav.addObject("list", list);
     mav.setViewName("/member/list_");
+    return mav;
+  }
+
+  
+  /**
+   * 좋아요 목록 (영화 / 배우 / 감독 / 장르)
+   * @return
+   *  http://localhost:9090/movie/member/list_fav.do
+   */
+  @RequestMapping(value = "/member/list_fav.do",
+      method = RequestMethod.GET)
+  public ModelAndView list_fav (HttpSession session) {
+    
+    int memberno = 1;
+    // int memberno = (int)session.getAttribute("memberno");
+    
+    ModelAndView mav = new ModelAndView();
+    
+    ArrayList<dev.mvc.filmfav.Member_Film_wish_VO> filmfavlist = this.filmfavProc.list_by_memberno(memberno);
+    ArrayList<dev.mvc.filmwish.Member_Film_fav_VO> filmwishlist = this.filmwishProc.list_by_memberno(memberno);
+    ArrayList<Member_Actor_VO> actorfavlist = this.actorfavProc.list_by_memberno(memberno);
+    ArrayList<Member_Director_VO> directorfavlist =  this.directorfavProc.list_by_memberno(memberno);
+    
+    mav.addObject("filmfavlist", filmfavlist);
+    mav.addObject("filmwishlist", filmwishlist);
+    mav.addObject("actorfavlist", actorfavlist);
+    mav.addObject("directorfavlist", directorfavlist);
+
+    mav.setViewName("/member/list_fav");
     return mav;
   }
   

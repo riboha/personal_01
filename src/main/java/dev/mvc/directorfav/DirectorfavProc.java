@@ -47,5 +47,11 @@ public class DirectorfavProc implements DirectorfavProcInter {
     return duplicate;
   }
 
+  @Override
+  public ArrayList<Member_Director_VO> list_by_memberno(int memberno) {
+    ArrayList<Member_Director_VO> list_by_memberno = this.DirectorfavDAO.list_by_memberno(memberno);
+    return list_by_memberno;
+  }
+
 
 }

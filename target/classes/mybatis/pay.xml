@@ -8,13 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 등록  -->
 <insert id="create" parameterType="PayVO">
   INSERT INTO pay (payno, 
-                        optionlan, optionqual, optionprice, optionrent,
-                        pntdisc, promopercent, promoamount, 
+                        optionlan, optionqual, optionrent,
                         priceoriginal, pricediscount, pricefinal, payvalid,
                         memberno, paytotalno, promono, filmno)
   VALUES (pay_seq.nextval, 
-            #{optionlan}, #{optionqual}, #{optionprice}, #{optionrent},
-            #{pntdisc}, #{promopercent}, #{promoamount},
+            #{optionlan}, #{optionqual}, #{optionrent},
             #{priceoriginal}, #{pricediscount}, #{pricefinal}, #{payvalid},
             #{memberno}, #{paytotalno}, #{promono}, #{filmno})
 </insert>
@@ -22,8 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 목록 -->
 <select id="list" resultType="PayVO">
   SELECT payno, 
-            optionlan, optionqual, optionprice, optionrent,
-            pntdisc, promopercent, promoamount, 
+            optionlan, optionqual, optionrent,
             priceoriginal, pricediscount, pricefinal, payvalid,
             memberno, paytotalno, promono, filmno
  FROM pay           
@@ -33,11 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 조회 -->
 <select id="read" resultType="PayVO" parameterType="int">
   SELECT payno, 
-            optionlan, optionqual, optionprice, optionrent,
-            pntdisc, promopercent, promoamount, 
+            optionlan, optionqual, optionrent,
             priceoriginal, pricediscount, pricefinal, payvalid,
             memberno, paytotalno, promono, filmno
-  FROM pay
+    FROM pay       
   WHERE payno = #{payno}
 </select>
 

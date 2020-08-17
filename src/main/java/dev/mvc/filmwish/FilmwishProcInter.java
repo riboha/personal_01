@@ -7,6 +7,8 @@ public interface FilmwishProcInter {
   public int create (FilmwishVO filmwishVO);
   
   public ArrayList<FilmwishVO> list ();
+
+  public ArrayList<Member_Film_fav_VO> list_by_memberno (int memberno);
   
   public FilmwishVO read (int filmwishno);
   

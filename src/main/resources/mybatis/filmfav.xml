@@ -5,7 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "dev.mvc.filmfav.FilmfavDAOInter">
 
-
 <!-- 등록  -->
 <insert id="create" parameterType="FilmfavVO">
   INSERT INTO filmfav(filmfavno, memberno, filmno)
@@ -16,6 +15,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="list" resultType="FilmfavVO">
   SELECT filmfavno, memberno, filmno
   FROM filmfav
+  ORDER BY filmfavno DESC
+</select>
+
+<!-- 목록 (회원번호 별) -->
+<select id="list_by_memberno" resultType="Member_Film_fav_VO" parameterType="int">
+  SELECT f.filmno, f.titleen, f.titlekr, f.poster,
+              m.memberno,
+              x.filmfavno
+  FROM film f, member m, filmfav x
+  WHERE f.filmno=x.filmno AND m.memberno = x.memberno AND x.memberno = #{memberno}
   ORDER BY filmfavno DESC
 </select>
 
@@ -47,5 +56,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE filmfavno=#{filmfavno}
 </delete>
 
+<!-- 영화별 좋아요 갯수 -->
+<select id="count_filmfav" resultType="int" parameterType="int">
+  SELECT COUNT(filmfavno) as cnt_filmfav
+  FROM filmfav
+  WHERE filmno = #{filmno}
+</select>
 
 </mapper>

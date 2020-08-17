@@ -120,23 +120,29 @@ public class PayCont {
     PaytotalVO paytotalVO = new PaytotalVO();
     PayVO payVO = new PayVO();
     Film_Cart_VO film_cart_VO = new Film_Cart_VO();
-    paytotalVO.setMemberno(memberno);
+    
     int paytotalno= 0;
     int pay_cnt = 0;
     int cartno = 0;
     
+    String optionlan = "";
+    String optionqual = "";
+    int optionprice = 0;
+    
+    paytotalVO.setMemberno(memberno);
     if (this.paytotalProc.create(paytotalVO) == 1) { // paytotalVO »ý¼º
       paytotalno= paytotalVO.getPaytotalno();
+      
       for (int i=0; i<cartno_list.size(); i ++) {
         cartno = cartno_list.get(i);
         film_cart_VO = this.cartProc.read(cartno);
-        String optionlan = film_cart_VO.getOptionlan();
-        String optionqual = film_cart_VO.getOptionqual();
-        int optionprice = film_cart_VO.getOptionprice();
+        optionlan = film_cart_VO.getOptionlan();
+        optionqual = film_cart_VO.getOptionqual();
+        optionprice = film_cart_VO.getOptionprice();
         
         
       }
-      }
+    }
     
     JSONObject json = new JSONObject();
     json.put("pay_cnt", pay_cnt);

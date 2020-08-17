@@ -47,4 +47,16 @@ public class ActorfavProc implements ActorfavProcInter {
     return duplicate;
   }
 
+  @Override
+  public ArrayList<Member_Actor_VO> list_by_memberno(int memberno) {
+    ArrayList<Member_Actor_VO> list_by_memberno = this.ActorfavDAO.list_by_memberno(memberno);
+    return list_by_memberno;
+  }
+
+  @Override
+  public int count_actorfav(int actorno) {
+    int cnt_actorfav = this.ActorfavDAO.count_actorfav(actorno);
+    return cnt_actorfav;
+  }
+
 }

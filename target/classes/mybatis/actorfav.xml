@@ -5,7 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "dev.mvc.actorfav.ActorfavDAOInter">
 
-
 <!-- 등록  -->
 <insert id="create" parameterType="ActorfavVO">
   INSERT INTO actorfav(actorfavno, memberno, actorno)
@@ -16,6 +15,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="list" resultType="ActorfavVO">
   SELECT actorfavno, memberno, actorno
   FROM actorfav
+  ORDER BY actorfavno DESC
+</select>
+
+<!-- 목록 (회원번호 별)-->
+<select id="list_by_memberno" resultType="Member_Actor_VO" parameterType="int">
+  SELECT a.actorno, a.actornameen, a.actornamekr, a.actorpic,
+              m.memberno,
+              x.actorfavno
+  FROM actor a, member m, actorfav x
+  WHERE a.actorno=x.actorno AND m.memberno = x.memberno AND x.memberno = #{memberno}
   ORDER BY actorfavno DESC
 </select>
 
@@ -47,5 +56,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE actorfavno=#{actorfavno}
 </delete>
 
+<!-- 배우별 좋아요 갯수 -->
+<select id="count_actorfav" resultType="int" parameterType="int">
+  SELECT COUNT(actorfavno) as cnt_actorfav
+  FROM actorfav
+  WHERE actorno = #{actorno}
+</select>
 
 </mapper>

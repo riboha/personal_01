@@ -156,7 +156,8 @@ COMMENT ON COLUMN member.mempicsize is '프로필 크기';
 CREATE TABLE paytotal(
 		paytotalno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		pricetotaloriginal            		NUMBER(10)		 DEFAULT 0		 NOT NULL,
-		pricetotaldiscount            		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		pricetotaldiscpromo           		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		pricetotaldiscpnt             		NUMBER(10)		 NULL ,
 		pricetotalfinal               		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		pntsave                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		method                        		NUMBER(1)		 DEFAULT 0		 NOT NULL,
@@ -168,9 +169,10 @@ CREATE TABLE paytotal(
 COMMENT ON TABLE paytotal is '총결제';
 COMMENT ON COLUMN paytotal.paytotalno is '총결제 번호';
 COMMENT ON COLUMN paytotal.pricetotaloriginal is '총결제 원 금액';
-COMMENT ON COLUMN paytotal.pricetotaldiscount is '총결제 할인 금액';
+COMMENT ON COLUMN paytotal.pricetotaldiscpromo is '총결제 프로모션 할인 금액';
+COMMENT ON COLUMN paytotal.pricetotaldiscpnt is '총결제 포인트 할인 금액';
 COMMENT ON COLUMN paytotal.pricetotalfinal is '총결제 최종 금액';
-COMMENT ON COLUMN paytotal.pntsave is '총결제 적립 포인트';
+COMMENT ON COLUMN paytotal.pntsave is '총결제 포인트 적립';
 COMMENT ON COLUMN paytotal.method is '결제 방식';
 COMMENT ON COLUMN paytotal.paytotaldate is '결제 일자';
 COMMENT ON COLUMN paytotal.memberno is '회원 번호';
@@ -208,18 +210,14 @@ CREATE TABLE pay(
 		payno                         		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		optionlan                     		VARCHAR2(10)		 NOT NULL,
 		optionqual                    		VARCHAR2(10)		 NOT NULL,
-		optionprice                   		NUMBER(10)		 NOT NULL,
 		optionrent                    		VARCHAR2(10)		 NOT NULL,
-		pntdisc                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
-		promopercent                  		NUMBER(3)		 DEFAULT 0		 NOT NULL,
-		promoamount                   		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		priceoriginal                 		NUMBER(10)		 NOT NULL,
 		pricediscount                 		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		pricefinal                    		NUMBER(10)		 NOT NULL,
 		payvalid                      		NUMBER(1)		 DEFAULT 1		 NOT NULL,
 		memberno                      		NUMBER(10)		 NOT NULL,
 		paytotalno                    		NUMBER(10)		 NOT NULL,
-		promono                       		NUMBER(10)		 DEFAULT 1		 NOT NULL,
+		promono                       		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
@@ -231,11 +229,7 @@ COMMENT ON TABLE pay is '결제';
 COMMENT ON COLUMN pay.payno is '결제 번호';
 COMMENT ON COLUMN pay.optionlan is '옵션 언어';
 COMMENT ON COLUMN pay.optionqual is '옵션 화질';
-COMMENT ON COLUMN pay.optionprice is '옵션 가격';
 COMMENT ON COLUMN pay.optionrent is '옵션 대여';
-COMMENT ON COLUMN pay.pntdisc is '포인트 할인액';
-COMMENT ON COLUMN pay.promopercent is '프로모션 할인율';
-COMMENT ON COLUMN pay.promoamount is '프로모션 할인액';
 COMMENT ON COLUMN pay.priceoriginal is '결제 원 금액';
 COMMENT ON COLUMN pay.pricediscount is '결제 할인 금액';
 COMMENT ON COLUMN pay.pricefinal is '결제 최종 금액';

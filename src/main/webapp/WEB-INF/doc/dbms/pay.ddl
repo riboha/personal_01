@@ -8,18 +8,14 @@ CREATE TABLE pay(
         payno                               NUMBER(10)       NOT NULL        PRIMARY KEY,
         optionlan                           VARCHAR2(10)         NOT NULL,
         optionqual                          VARCHAR2(10)         NOT NULL,
-        optionprice                         NUMBER(10)       NOT NULL,
         optionrent                          VARCHAR2(10)         NOT NULL,
-        pntdisc                             NUMBER(10)       DEFAULT 0       NOT NULL,
-        promopercent                        NUMBER(3)        DEFAULT 0       NOT NULL,
-        promoamount                         NUMBER(10)       DEFAULT 0       NOT NULL,
         priceoriginal                       NUMBER(10)       NOT NULL,
         pricediscount                       NUMBER(10)       DEFAULT 0       NOT NULL,
         pricefinal                          NUMBER(10)       NOT NULL,
         payvalid                            NUMBER(1)        DEFAULT 1       NOT NULL,
         memberno                            NUMBER(10)       NOT NULL,
         paytotalno                          NUMBER(10)       NOT NULL,
-        promono                             NUMBER(10)       DEFAULT 1       NOT NULL,
+        promono                             NUMBER(10)       DEFAULT 0       NOT NULL,
         filmno                              NUMBER(10)       NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
@@ -31,11 +27,7 @@ COMMENT ON TABLE pay is '결제';
 COMMENT ON COLUMN pay.payno is '결제 번호';
 COMMENT ON COLUMN pay.optionlan is '옵션 언어';
 COMMENT ON COLUMN pay.optionqual is '옵션 화질';
-COMMENT ON COLUMN pay.optionprice is '옵션 가격';
 COMMENT ON COLUMN pay.optionrent is '옵션 대여';
-COMMENT ON COLUMN pay.pntdisc is '포인트 할인액';
-COMMENT ON COLUMN pay.promopercent is '프로모션 할인율';
-COMMENT ON COLUMN pay.promoamount is '프로모션 할인액';
 COMMENT ON COLUMN pay.priceoriginal is '결제 원 금액';
 COMMENT ON COLUMN pay.pricediscount is '결제 할인 금액';
 COMMENT ON COLUMN pay.pricefinal is '결제 최종 금액';
@@ -64,13 +56,11 @@ CREATE SEQUENCE pay_seq
 -- ♣CREATE♣
 
 INSERT INTO pay (payno, 
-                        optionlan, optionqual, optionprice, optionrent,
-                        pntdisc, promopercent, promoamount, 
+                        optionlan, optionqual, optionrent,
                         priceoriginal, pricediscount, pricefinal, payvalid,
                         memberno, paytotalno, promono, filmno)
 VALUES (pay_seq.nextval, 
-            'EN', '720p', 5000, '7일',
-            0, 0, 0,
+            'EN', '720p', '7일',
             5000, 0, 5000, 1,
             1, 1, 1, 1); 
                
@@ -80,8 +70,7 @@ COMMIT;
 -- ♣LIST♣
 
 SELECT payno, 
-            optionlan, optionqual, optionprice, optionrent,
-            pntdisc, promopercent, promoamount, 
+            optionlan, optionqual, optionrent,
             priceoriginal, pricediscount, pricefinal, payvalid,
             memberno, paytotalno, promono, filmno
 FROM pay
@@ -91,8 +80,7 @@ ORDER BY payno;
 -- ♣READ♣
 
 SELECT payno, 
-            optionlan, optionqual, optionprice, optionrent,
-            pntdisc, promopercent, promoamount, 
+            optionlan, optionqual, optionrent,
             priceoriginal, pricediscount, pricefinal, payvalid,
             memberno, paytotalno, promono, filmno
 FROM pay
@@ -100,11 +88,6 @@ WHERE payno = 1;
 
 
 -- ♣UPDATE♣
-
-UPDATE pay
-SET paynameen = 'Maya Hawke', paynamekr='마야 호크', birth='1998-07-08', nation='USA', 
-        paypic=null, paythumb=null, paypicsize=0
-WHERE payno = 1;
 
 
 -- ♣DELETE♣

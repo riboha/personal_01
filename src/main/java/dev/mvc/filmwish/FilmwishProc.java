@@ -47,6 +47,12 @@ public class FilmwishProc implements FilmwishProcInter {
     return exist;
   }
 
+  @Override
+  public ArrayList<Member_Film_fav_VO> list_by_memberno(int memberno) {
+    ArrayList<Member_Film_fav_VO> list_by_memberno = this.FilmwishDAO.list_by_memberno(memberno);
+    return list_by_memberno;
+  }
+
 
 
 

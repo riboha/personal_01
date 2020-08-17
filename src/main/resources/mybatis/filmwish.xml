@@ -11,7 +11,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   VALUES (filmwish_seq.nextval, #{memberno}, #{filmno})
 </insert>
 
-
 <!-- 목록 -->
 <select id="list" resultType="FilmwishVO">
   SELECT filmwishno, memberno, filmno
@@ -19,6 +18,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY filmwishno DESC
 </select>
 
+<!-- 목록 (회원번호 별) -->
+<select id="list_by_memberno" resultType="Member_Film_wish_VO" parameterType="int">
+  SELECT f.filmno, f.titleen, f.titlekr, f.poster,
+            m.memberno,
+            x.filmwishno
+  FROM film f, member m, filmwish x
+  WHERE f.filmno=x.filmno AND m.memberno = x.memberno AND x.memberno = #{memberno}
+  ORDER BY filmwishno DESC
+</select>
 
 <!-- 조회 -->
 <select id="read" resultType="FilmwishVO" parameterType="int">
@@ -27,14 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE filmwishno = #{filmwishno}
 </select>
 
-
 <!-- 중복 확인-->
 <select id="findduplicate" resultType="int" parameterType="FilmwishVO">
   SELECT COUNT(filmwishno) as cnt
   FROM filmwish
   WHERE memberno=#{memberno} AND filmno = #{filmno}
 </select>
-
 
 <!-- 수정 -->
 <update id="update" parameterType="FilmwishVO" >
@@ -43,7 +49,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE filmwishno = #{filmwishno}
 </update>
 
-
 <!-- 삭제 -->
 <delete id="delete" parameterType="int">
   DELETE 
@@ -51,5 +56,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE filmwishno=#{filmwishno}
 </delete>
 
+<!-- 영화별 보고싶어요 갯수 -->
+<select id="count_filmwish" resultType="int" parameterType="int">
+  SELECT COUNT(filmwishno) as cnt_filmwish
+  FROM filmwish
+  WHERE filmno = #{filmno}
+</select>
 
 </mapper>

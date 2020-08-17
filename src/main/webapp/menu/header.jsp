@@ -52,8 +52,8 @@
 	                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 	                                        <li><a href="catalog1.html">보관함</a></li>
 	                                        <li><a href="catalog2.html">구매 내역</a></li>
-	                                        <li><a href="details1.html">Details Movie</a></li>
-	                                        <li><a href="details2.html">계정</a></li>
+	                                        <li><a href="${root }/member/list_fav.do?memberno=${sessionScope.memberno}">좋아요</a></li>
+	                                        <li><a href="${root }/member/read.do?memberno=${sessionScope.memberno}">나의 계정</a></li>
 	                                    </ul>
 	                                </li>
                                 </c:when>

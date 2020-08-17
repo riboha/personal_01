@@ -7,16 +7,13 @@ public class PayVO {
 //  optionqual                          VARCHAR2(10)         NOT NULL,
 //  optionprice                         NUMBER(10)       NOT NULL,
 //  optionrent                          VARCHAR2(10)         NOT NULL,
-//  pntdisc                             NUMBER(10)       DEFAULT 0       NOT NULL,
-//  promopercent                        NUMBER(10)       DEFAULT 0       NOT NULL,
-//  promoamount                        NUMBER(10)       DEFAULT 0       NOT NULL,
 //  priceoriginal                       NUMBER(10)       NOT NULL,
 //  pricediscount                       NUMBER(10)       DEFAULT 0       NOT NULL, 
 //  pricefinal                          NUMBER(10)       NOT NULL,
 //  payvalid                            NUMBER(1)        DEFAULT 1       NOT NULL,
 //  memberno                            NUMBER(10)       NOT NULL,
 //  paytotalno                          NUMBER(10)       NOT NULL,
-//  promono                             NUMBER(10)       DEFAULT 1       NOT NULL,
+//  promono                             NUMBER(10)       DEFAULT 0       NOT NULL,
 //  filmno                              NUMBER(10)       NOT NULL,
 //  FOREIGN KEY (memberno) REFERENCES member (memberno),
 //  FOREIGN KEY (paytotalno) REFERENCES paytotal (paytotalno),
@@ -29,10 +26,6 @@ public class PayVO {
   private String optionqual; /**옵션 화질*/
   private String optionprice; /**옵션 가격*/
   private String optionrent; /**결제 대여*/
-
-  private int pntdisc; /**포인트 할인액*/
-  private int promopercent; /**프로모션 할인율*/
-  private int promoamount; /**프로모션 할인액*/
   
   private int priceoriginal; /**결제 원 금액*/
   private int pricediscount; /**결제 할인 금액*/
@@ -44,6 +37,7 @@ public class PayVO {
   private int paytotalno; /**총결제 번호*/
   private int promono; /**프로모션 번호*/
   private int filmno; /**영화 번호*/
+  
   public int getPayno() {
     return payno;
   }
@@ -73,24 +67,6 @@ public class PayVO {
   }
   public void setOptionrent(String optionrent) {
     this.optionrent = optionrent;
-  }
-  public int getPntdisc() {
-    return pntdisc;
-  }
-  public void setPntdisc(int pntdisc) {
-    this.pntdisc = pntdisc;
-  }
-  public int getPromopercent() {
-    return promopercent;
-  }
-  public void setPromopercent(int promopercent) {
-    this.promopercent = promopercent;
-  }
-  public int getPromoamount() {
-    return promoamount;
-  }
-  public void setPromoamount(int promoamount) {
-    this.promoamount = promoamount;
   }
   public int getPriceoriginal() {
     return priceoriginal;
