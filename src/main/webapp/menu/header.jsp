@@ -31,14 +31,22 @@
 
                                 <!-- dropdown -->
                                 <li class="header__nav-item">
-                                    <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
-
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="catalog1.html">Catalog Grid</a></li>
-                                        <li><a href="catalog2.html">Catalog List</a></li>
-                                    </ul>
+                                    <a href="${root }/film/list_customer.do?search_genre=&search_language=&search_quality=&nowPage=" class="header__nav-link">영화</a>
                                 </li>
                                 <!-- end dropdown -->
+                                
+                                <!-- dropdown -->
+                                <li class="header__nav-item">
+                                    <a class="dropdown-toggle header__nav-link"href="${root }/actor/list_customer.do" role="" id="" data-toggle="" aria-haspopup="" aria-expanded="">배우</a>
+                                </li>
+                                <!-- end dropdown -->
+                                
+                                <!-- dropdown -->
+                                <li class="header__nav-item">
+                                    <a class="dropdown-toggle header__nav-link"href="${root }/film/list_customer.do" role="" id="" data-toggle="" aria-haspopup="" aria-expanded="">??</a>
+                                </li>
+                                <!-- end dropdown -->
+
                                 
                                 <li class="header__nav-item">
                                     <a href="faq.html" class="header__nav-link">Help</a>
@@ -51,7 +59,7 @@
 	                                    <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MY</a>
 	                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 	                                        <li><a href="catalog1.html">보관함</a></li>
-	                                        <li><a href="catalog2.html">구매 내역</a></li>
+	                                        <li><a href="${root }/pay/list_by_memberno.do?memberno=${sessionScope.memberno}">구매 내역</a></li>
 	                                        <li><a href="${root }/member/list_fav.do?memberno=${sessionScope.memberno}">좋아요</a></li>
 	                                        <li><a href="${root }/member/read.do?memberno=${sessionScope.memberno}">나의 계정</a></li>
 	                                    </ul>

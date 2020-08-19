@@ -1,6 +1,7 @@
 package dev.mvc.film;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface FilmDAOInter {
   
@@ -16,7 +17,6 @@ public interface FilmDAOInter {
    * @return
    */
   public ArrayList<FilmVO> list ();
-  
 
 
    /**
@@ -24,6 +24,19 @@ public interface FilmDAOInter {
    * @return
    */
   public ArrayList<FilmVO> list_6_main ();
+
+  /**
+   * 페이징 + 검색 (화질, 언어, 장르) 갯수
+   * @param hashMap
+   * @return
+   */
+  public int search_count (HashMap<String, Object> hashMap);
+  
+  /**
+   * 페이징 + 검색 (화질, 언어, 장르)
+   * @return
+   */
+  public ArrayList<FilmVO> list_paging_search (HashMap<String, Object> hashMap);
   
   /**
    * 조회

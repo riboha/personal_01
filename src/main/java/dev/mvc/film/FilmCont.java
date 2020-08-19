@@ -1,6 +1,7 @@
 package dev.mvc.film;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,8 @@ import dev.mvc.language.LanguageProcInter;
 import dev.mvc.language.LanguageVO;
 import dev.mvc.photo.PhotoProcInter;
 import dev.mvc.photo.PhotoVO;
+import dev.mvc.promofilm.PromofilmProcInter;
+import dev.mvc.promofilm.PromofilmVO;
 import dev.mvc.quality.QualityProcInter;
 import dev.mvc.quality.QualityVO;
 import dev.mvc.rentprice.RentpriceProcInter;
@@ -79,6 +82,10 @@ public class FilmCont {
   @Autowired
   @Qualifier ("dev.mvc.rentprice.RentpriceProc")
   private RentpriceProcInter rentpriceProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.promofilm.PromofilmProc")
+  private PromofilmProcInter promofilmProc;
   
 
   /**
@@ -133,6 +140,7 @@ public class FilmCont {
     filmVO.setPosterthumb(posterthumb);
     filmVO.setPostersize(postersize);
       
+    // ▷ 영화 레코드 생성
     int cnt = this.filmProc.create(filmVO);
     
     // ---------------------------------------------------------------------------------------
@@ -144,9 +152,15 @@ public class FilmCont {
     int filmno = filmVO.getFilmno();  // MyBATIS 리턴된 PK
     // ---------------------------------------------------------------------------------------
     
+    // ▷ 가격 레코드 생성
     priceVO.setFilmno(filmno);
-    int cnt_price = this.rentpriceProc.create(priceVO);
-    System.out.println("cnt_price: " + cnt_price);
+    this.rentpriceProc.create(priceVO);
+    
+    // ▷ 프로모션 레코드 생성 (default 0)
+    PromofilmVO promofilmVO = new PromofilmVO();
+    promofilmVO.setPromono(0);
+    promofilmVO.setFilmno(filmno);
+    this.promofilmProc.create(promofilmVO);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -313,6 +327,59 @@ public class FilmCont {
     ArrayList<FilmVO> list = this.filmProc.list();
     mav.addObject("list", list);
     mav.setViewName("/film/list");
+    return mav;
+  }
+
+  
+  /**
+   * 목록 (회원용)
+   * 페이징 + 검색 (화질, 언어, 장르)
+   * @return
+   *  http://localhost:9090/movie/film/list_customer.do
+   */
+  @RequestMapping(value = "/film/list_customer.do",
+      method = RequestMethod.GET)
+  public ModelAndView list_customer (
+      @RequestParam(value="search_genre", defaultValue="1") String search_genre,
+      @RequestParam(value="search_language", defaultValue="",  required=false) String search_language,
+      @RequestParam(value="search_quality", defaultValue="", required=false) String search_quality,
+      @RequestParam(value="nowPage", defaultValue="1") int nowPage
+      ) {
+    
+    ModelAndView mav = new ModelAndView();
+
+    System.out.println("--> search_genre:" + search_genre);
+    System.out.println("--> search_language:" + search_language);
+    System.out.println("--> search_quality:" + search_quality);
+    System.out.println("--> nowPage:" + nowPage);
+    
+    System.out.println("--> search_genre:" + search_genre.length());
+    System.out.println("--> search_language:" + search_language.length());
+    System.out.println("--> search_quality:" + search_quality.length());
+    
+    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    hashMap.put("search_genre", search_genre );
+    hashMap.put("search_language", search_language );
+    hashMap.put("search_quality", search_quality );
+    hashMap.put("nowPage", nowPage );
+    
+    // 검색 목록
+    ArrayList<FilmVO> list_paging_search = this.filmProc.list_paging_search(hashMap);
+    mav.addObject("list_paging_search", list_paging_search);
+    
+    // 검색 레코드 갯수
+    int search_count = this.filmProc.search_count(hashMap);
+    mav.addObject("search_count", search_count);
+    System.out.println("--> search_count: " + search_count);
+    
+    // 페이징 박스
+    String paging = this.filmProc.pagingBox("list_paging_search.do", search_count, nowPage, search_genre, search_language, search_quality);
+    mav.addObject("paging", paging);
+    
+    // 현재 페이지 번호
+    mav.addObject("nowPage", nowPage);
+    
+    mav.setViewName("/film/list_customer");
     return mav;
   }
   

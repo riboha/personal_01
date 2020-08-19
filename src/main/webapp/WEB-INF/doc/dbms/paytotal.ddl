@@ -90,18 +90,60 @@ WHERE paytotalno = 1;
 -- ♣DELETE♣
 
 DELETE 
-FROM paytotal
+FROM paytotal;
 WHERE paytotalno=1;  
 
 
 
 
 
+-- ♣LIST♣
+
+SELECT paytotalno, 
+            pricetotaloriginal, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, 
+            pntsave, method, paytotaldate, memberno
+FROM paytotal
+ORDER BY paytotalno;
 
 
+SELECT payno, 
+            optionlan, optionqual, optionrent,
+            priceoriginal, pricediscount, pricefinal, payvalid,
+            memberno, paytotalno, promono, filmno
+FROM pay
+ORDER BY payno;
 
 
+-- Pay, Paytotal, Film Join (memberno별 결제 내역)
 
+-- Paytotal
+SELECT paytotalno, 
+            pricetotaloriginal, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, 
+            pntsave, method, paytotaldate, memberno
+FROM paytotal
+ORDER BY paytotalno;
+
+-- Pay
+SELECT payno, 
+            optionlan, optionqual, optionrent,
+            priceoriginal, pricediscount, pricefinal, payvalid,
+            memberno, paytotalno, promono, filmno
+FROM pay
+ORDER BY payno;
+
+-- Film
+SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
+FROM film
+WHERE filmno = 8
+ORDER BY photono ASC, filmno DESC;
+
+-- Join
+SELECT t.paytotalno, t.pricetotaldiscpromo, t.pricetotaldiscpnt, t.pricetotalfinal, t.pntsave, t.method, t.paytotaldate,
+            p.payno, p.optionlan, p.optionqual, p.optionrent, p.pricediscount, p.pricefinal, p.filmno,
+            f.titleen, f.titlekr, f.poster
+FROM pay p, paytotal t, film f
+WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+ORDER BY payno;
 
 
 

@@ -26,5 +26,11 @@ public interface MemberProcInter {
   public int signin (Map<String, Object> map);
   
   public MemberVO read_by_id (String id);
-
+  
+  /**
+   * 포인트 업데이트
+   * @param pnt
+   * @return
+   */
+  public int update_pnt (MemberVO memberVO);
 }

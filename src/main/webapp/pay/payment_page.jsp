@@ -8,7 +8,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	   
 
     <!-- JS -->
     <script src="${root }/js/jquery-3.3.1.min.js"></script>
@@ -46,7 +45,6 @@
     <link rel="apple-touch-icon" sizes="72x72" href="${root }/icon/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="${root }/icon/apple-touch-icon-114x114.png">
     <link rel="apple-touch-icon" sizes="144x144" href="${root }/icon/apple-touch-icon-144x144.png">
-
 	
 	<meta name="description" content="">
 	<meta name="keywords" content="">
@@ -113,16 +111,25 @@ $(function(){
       price = parseInt(price_list[i].trim()) || 0 ;
       total_price += price;
     }
+
     
     total_price -= pntuse_val;
     pricetotalfinal_id.textContent=total_price;
     
-     //alert('total_price: ' + total_price);
-     //alert('option_total_price: ' + option_total_price);
-
     pricetotaldiscount_id.textContent = option_total_price - total_price;
-    pntsave_id.textContent = (total_price) / 100;
+    pntsave_id.textContent = Math.ceil((total_price) / 100);
+    //pntsave_id.textContent = total_price / 100;
+
+    // ▼ form_paytotal 값 할당 ▼
+    document.getElementById('pricetotaloriginal_paytotal').value = option_total_price;
+    document.getElementById('pricetotaldiscpromo_paytotal').value = option_total_price - total_price - pntuse_val;
+    document.getElementById('pricetotaldiscpnt_paytotal').value = pntuse_val;
+    document.getElementById('pricetotalfinal_paytotal').value = total_price;
+    document.getElementById('pntsave_paytotal').value =Math.ceil((total_price) / 100);
+    
   }
+
+
   
   // ▶ 포인트 사용
   function pntuse () {
@@ -190,9 +197,11 @@ $(function(){
     var priceoriginal = parseInt(priceoriginal_id.textContent);
     var pricefinal_id = document.getElementById('pricefinal_'+cartno);
     var pricefinal = parseInt(priceoriginal) - promoamount;
+    var pricediscount_id = document.getElementById('pricediscount_'+cartno);
 
     var btn_promoamount_id = document.getElementById('btn_promoamount_'+promofilmno);
     var btn_promoamount_cancel_id = document.getElementById('btn_promoamount_cancel_'+promofilmno);
+
 
     priceoriginal_id.style.textDecoration  = "line-through";
     pricefinal_id.textContent = pricefinal;
@@ -201,10 +210,14 @@ $(function(){
     btn_promoamount_id.style.display = "none";
     btn_promoamount_cancel_id.style.display = "inline-block";
 
-    alert('pricefinal: ' + pricefinal);
+    pricefinal_id.value = parseInt(pricefinal);
+    pricediscount_id.value = parseInt(promoamount);
 
-    document.getElementById('pricefinal_'+cartno).value = parseInt(pricefinal);
-    document.getElementById('pricediscount_'+cartno).value = promoamount;
+    alert('pricefinal_: ' + pricefinal_id.value);
+    alert('pricediscount_: ' + pricediscount_id.value);
+
+    var params = $('#form_' + cartno).serialize();
+    alert('params: ' + params);
     
     cal();
   }
@@ -220,12 +233,16 @@ $(function(){
     var btn_promoamount_id = document.getElementById('btn_promoamount_'+promofilmno);
     var btn_promoamount_cancel_id = document.getElementById('btn_promoamount_cancel_'+promofilmno);
 
+    
     priceoriginal_id.style.textDecoration  = "none";
     pricefinal_id.textContent = priceoriginal;
     pricefinal_id.style.display = "none";
 
+    // Desactive Buttons 
     btn_promoamount_id.style.display = "inline-block";
     btn_promoamount_cancel_id.style.display = "none";
+
+
 
     cal();
   }
@@ -276,28 +293,96 @@ $(function(){
   }
 
 
-  
+    var cartno_count = ${cartno_count};
+    var cartno_list = ('${cartno_list_string}').split(',' , );
+    var cartno_array = [];
+    for (var i in cartno_list) {
+      if (parseInt(cartno_list[i] || 0) != 0) {
+        cartno_array.push(parseInt(cartno_list[i] || 0));
+        //alert(parseInt(cartno_list[i] || 0));
+      }
+    }
+
+  // 총 결제 생성 → 개별 결제 진행
   function order () {
 
-    alert('order: ' + order);
+    var params = $('#form_paytotal').serialize();
+    alert('params: ' + params); 
 
+    // return;
     if (confirm("결제를 진행하시겠습니까?")) {
-        // return;
       $.ajax({
-          url : "../pay/create.do",
+          url : "../paytotal/create.do",
           type : "post",
           cache : false,
           async : false,
           dataType : "json",
-          data : {} ,
+          data : params,
           success : function(rdata) {
-              if (rdata.cnt >= 1) { 
-                  alert('등록 성공');
+              if (rdata.paytotalno >= 1) { 
+                  alert(' paytotal 등록 성공');
+
+                  // ▶ 개별 결제
+                  for (var i =0; i < cartno_array.length; i ++ ) {
+                    params = $('#form_' + cartno_array[i]).serialize() + '&paytotalno=' + rdata.paytotalno;
+                    // alert('params: ' + params);
+					$.ajax({
+					  url : "../pay/create.do",
+					  type : "post",
+					  cache : false,
+					  async : false,
+					  dataType : "json",
+					  data : params ,
+					  success : function(rdata) {
+					      if (rdata.cnt >= 1) { 
+					          // alert('pay 등록 성공');
+					      } else {
+					          // alert('결제 실패: pay');
+					      }
+					  },
+					  error : function(request, status, error) {
+						  alert('결제 실패: pay');
+					      var msg = 'ERROR<br><br>';
+					      msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+					      msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+					      console.log(msg);
+					  }
+					});
+                  }
+                  alert('전체 결제 등록 성공');
+                  
+                  // ▶ 장바구니 삭제
+                  for (var i =0; i < cartno_array.length; i ++ ) {
+					$.ajax({
+					  url : "../cart/delete.do",
+					  type : "post",
+					  cache : false,
+					  async : false,
+					  dataType : "json",
+					  data : {'cartno' : cartno_array[i]} ,
+					  success : function(rdata) {
+					      if (rdata.cnt >= 1) { 
+					          alert('cartno ' + cartno_array[i] +  '삭제 성공');
+					      } else {
+					          alert('cartno ' + cartno_array[i] +  '삭제 실패');
+					      }
+					  },
+					  error : function(request, status, error) {
+						  alert('결제 실패: pay');
+					      var msg = 'ERROR<br><br>';
+					      msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+					      msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+					      console.log(msg);
+					  }
+					});
+                  }
+                  alert('전체 장바구니 삭제 성공');
               } else {
-                  alert('결제 실패');
+                  alert('결제 실패: paytotalno');
               }
           },
           error : function(request, status, error) {
+                  alert('결제 실패: paytotalno');
               var msg = 'ERROR<br><br>';
               msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
               msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
@@ -307,12 +392,10 @@ $(function(){
      } else {
      alert('아니오를 누르셨습니다');
      }
-
-
   }
 
   function submit(cartno) {
-    alert('cartno: ' + cartno);
+    // alert('cartno: ' + cartno);
 
     var params = $('#form_' + cartno).serialize();
     alert('params: ' + params);
@@ -428,13 +511,12 @@ $(function(){
 							         <input type="hidden" id="optionqual_${cartno }" name="optionqual" value="${VO.optionqual }">
 							         <input type="hidden" id="optionrent_${cartno }" name="optionrent" value="${VO.optionrent }">
 
-							         <input type="hidden" id="priceoriginal_${cartno }" name="priceoriginal" value="${VO.optionprice }">
-							         <input type="hidden" id="pricediscount_${cartno }" name="pricediscount" value="0">
-							         <input type="hidden" id="pricefinal_${cartno }" name="pricefinal" value="">
+							         <input type="hidden" id="priceoriginal_${cartno }" name="priceoriginal"  value="${VO.optionprice }">
+							         <input type="hidden" id="pricediscount_${cartno }" name="pricediscount"  value="0">
+							         <input type="hidden" id="pricefinal_${cartno }" name="pricefinal" value="${VO.optionprice }">
 
 							         <input type="hidden" id="memberno_${cartno }" name="memberno" value="${sessionScope.memberno }">
-							         <input type="hidden" id="paytotalno_${cartno }" name="paytotalno" value="">
-							         <input type="hidden" id="promono_${cartno }" name="promono" value="">
+							         <input type="hidden" id="promono_${cartno }" name="promono" value="0">
 							         <input type="hidden" id="filmno_${cartno }" name="filmno" value="${filmno}">
 							         
 							       </form>
@@ -480,7 +562,7 @@ $(function(){
 					  <br>
 					  <br>
 					  <h4 class="faq__title">결제</h4>
-			         <TABLE style = "width:100%; margin: 30px 25px; pointer-events: none;" >
+			         <TABLE style = "width:100%; margin: 30px 25px; " >
 					  <colgroup>
 					    <col style='width: 100%;'/>
 					  </colgroup>
@@ -493,24 +575,59 @@ $(function(){
 					  <tbody>
 					    <TR >
 					      <TD style="text-align: center; " >
-					       <span>적립 예정 포인트</span> 
-					       <span id="pntsave"> 점</span> 
+						       
+						  <form id="form_paytotal" name="form_paytotal" action="../paytotal/create.do">
+						    <input type="hidden" id="pricetotaloriginal_paytotal" name="pricetotaloriginal" value="${VO.optionlan }">
+							<input type="hidden" id="pricetotaldiscpromo_paytotal" name="pricetotaldiscpromo" value="${VO.optionqual }">
+							<input type="hidden" id="pricetotaldiscpnt_paytotal" name="pricetotaldiscpnt" value="${VO.optionqual }">
+							<input type="hidden" id="pricetotalfinal_paytotal" name="pricetotalfinal" value="${VO.optionrent }">
+							<input type="hidden" id="pntsave_paytotal" name="pntsave"  value="${VO.optionprice }">
+							<input type="hidden" id="memberno_paytotal" name="memberno" value="${sessionScope.memberno }">
+							
+					       <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " > 
+					          <input id="kakaopay" name="method" type="radio"  value="1" checked="checked"> 
+                              <label for="kakaopay"> KAKAO PAY </label>
+                            </div>
+					       <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " > 
+					          <input id="naverpay" name="method" type="radio"  value="2"> 
+                              <label for="naverpay"> NAVER PAY </label>
+                            </div>
+					        <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " >
+                              <input id="creditcard" name="method" type="radio"  value="3" > 
+                              <label for="creditcard"> 신용카드 </label>
+                            </div>
+					        <div class=" sign__group--checkbox" style = "width: 80%; display:inline; " >
+                              <input id="paypal" name="method" type="radio"  value="4" > 
+                              <label for="paypal"> PAYPAL </label>
+                            </div> 
+		                  </form>
+                            
+					      </TD>
+					    </TR>
+					    <TR >
+					      <TD style="text-align: center; " >
+					       적립 예정　<span id="pntsave"> </span> 점 
 					      </TD>
 					    </TR>
 					    <TR >
 					      <TD style="text-align: center; width:100%; " >
 					           할인　<span id="pricetotaldiscount"></span> 원
+					      </TD>
+					    </TR>
+					    <TR >
+					      <TD style="text-align: center; width:100%; " >
 					           총　<span id="pricetotalfinal"></span> 원
 					      </TD>
 					    </TR>
 					  </tbody>
 					  </TABLE>
 					  
+	                  
 					  <div  >
-					  <a href="#" class="header__sign-in" style="margin-right: 50px;">
+					  <button onclick="order();" class="header__sign-in" style="margin-right: 50px;">
 					       <i class="icon ion-ios-log-in" ></i>
 					       <span>결제</span>
-                      </a>
+                      </button>
 					  </div>
 			</div>
 		</div>

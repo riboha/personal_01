@@ -85,6 +85,13 @@ public class MemberProc implements MemberProcInter {
     int cnt = this.memberDAO.findduplicate_by_email(email);
     return cnt;
   }
+
+  @Override
+  // 포인트 업데이트
+  public int update_pnt(MemberVO memberVO) {
+    int cnt = this.memberDAO.update_pnt(memberVO);
+    return cnt;
+  }
   
 
 }

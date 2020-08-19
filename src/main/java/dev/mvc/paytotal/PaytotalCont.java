@@ -11,12 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.member.MemberProcInter;
+import dev.mvc.member.MemberVO;
+
 @Controller
 public class PaytotalCont {
   
   @Autowired
   @Qualifier ("dev.mvc.paytotal.PaytotalProc")
   private PaytotalProcInter paytotalProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.member.MemberProc")
+  private MemberProcInter memberProc;
   
 
   /**
@@ -30,11 +37,20 @@ public class PaytotalCont {
                             produces = "text/plain;charset=UTF-8")
   public String create (PaytotalVO paytotalVO) {
     
-    int cnt = this.paytotalProc.create(paytotalVO);
+    int paytotalno =0;
+    if (this.paytotalProc.create(paytotalVO) == 1 ) {
+      paytotalno = paytotalVO.getPaytotalno();
+    
+      // 멤버 포인트 업데이트
+      MemberVO memberVO = new MemberVO();
+      memberVO.setMemberno(paytotalVO.getMemberno());
+      memberVO.setPnt(paytotalVO.getPntsave() - paytotalVO.getPricetotaldiscpnt());
+      this.memberProc.update_pnt(memberVO);
+    }
     
     JSONObject json = new JSONObject();
-    json.put("cnt", cnt);
-    
+    json.put("paytotalno", paytotalno);
+    System.out.println("Paytotal 등록 성공");
     return json.toString();
   }
   

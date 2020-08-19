@@ -35,6 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE memberno = #{memberno, jdbcType=INTEGER}
 </update>
 
+<!-- 포인트 업데이트 -->
+<update id="update_pnt" parameterType="MemberVO" >
+  UPDATE member
+  SET pnt = pnt + #{pnt, jdbcType=INTEGER} 
+  WHERE memberno = #{memberno, jdbcType=INTEGER}
+</update>
+
 <!-- 이미지 삭제 -->
 <delete id="delete_img" parameterType="int">
   UPDATE member 

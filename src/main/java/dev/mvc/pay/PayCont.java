@@ -1,7 +1,6 @@
 package dev.mvc.pay;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,14 +65,17 @@ public class PayCont {
     ArrayList<Film_Promotion_VO> film_promotion_list = new ArrayList<>(); // 영화 프로모션 배열 리스트 선언
     
     String[] cartno_list = null; // 장바구니 번호 리스트 선언
+    String cartno_list_string = null; // 장바구니 번호 리스트 문자열
     int cartno = 0; // 장바구니 번호 
     int filmno = 0; // 영화 번호
     
     // 선택 결제 OR 전체 결제 확인 → 장바구니 번호 문자열 → 배열로 전환
     if (checkout_select.equals("N")) {
       cartno_list = checkout_select_all.split(",");
+      cartno_list_string = checkout_select_all;
     } else if (checkout_select_all.equals("N")) {
       cartno_list = checkout_select.split(",");
+      cartno_list_string = checkout_select;
     }
     
     Film_Cart_VO film_cart_VO = new Film_Cart_VO();
@@ -91,11 +93,12 @@ public class PayCont {
     }
     
     ModelAndView mav = new ModelAndView();
-    mav.addObject("list", list_cart);
-    mav.addObject("memberVO", memberVO);
-    mav.addObject("film_promotion_list", film_promotion_list);
+    mav.addObject("list", list_cart); // 장바구니 리스트
+    mav.addObject("cartno_list_string", cartno_list_string); // 장바구니 번호 배열
+    mav.addObject("cartno_count", cartno_list.length); // 장바구니 번호 갯수
+    mav.addObject("film_promotion_list", film_promotion_list); // 프로모션 리스트
+    mav.addObject("memberVO", memberVO); 
     mav.setViewName("/pay/payment_page");
-    
     return mav;
   }
   
@@ -110,43 +113,36 @@ public class PayCont {
   @RequestMapping(value = "/pay/create.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String create (
-      @RequestParam(value="checkout_select[]") List<Integer>cartno_list,
-      int memberno) {
+  public String create (PayVO payVO) {
     
-    System.out.println("Controller 진입");
-    System.out.println("cartno_list: " + cartno_list);
-    
-    PaytotalVO paytotalVO = new PaytotalVO();
-    PayVO payVO = new PayVO();
-    Film_Cart_VO film_cart_VO = new Film_Cart_VO();
-    
-    int paytotalno= 0;
-    int pay_cnt = 0;
-    int cartno = 0;
-    
-    String optionlan = "";
-    String optionqual = "";
-    int optionprice = 0;
-    
-    paytotalVO.setMemberno(memberno);
-    if (this.paytotalProc.create(paytotalVO) == 1) { // paytotalVO 생성
-      paytotalno= paytotalVO.getPaytotalno();
-      
-      for (int i=0; i<cartno_list.size(); i ++) {
-        cartno = cartno_list.get(i);
-        film_cart_VO = this.cartProc.read(cartno);
-        optionlan = film_cart_VO.getOptionlan();
-        optionqual = film_cart_VO.getOptionqual();
-        optionprice = film_cart_VO.getOptionprice();
-        
-        
-      }
-    }
-    
+    System.out.println("Pay Controller 진입");
+    int cnt = this.payProc.create(payVO);
+    System.out.println("Pay 등록 성공");
+
     JSONObject json = new JSONObject();
-    json.put("pay_cnt", pay_cnt);
+    json.put("cnt", cnt);
     return json.toString();
+  }
+  
+  
+  /**
+   * 목록
+   * @return
+   *  http://localhost:9090/movie/pay/list_by_memberno.do
+   */
+  @RequestMapping(value = "/pay/list_by_memberno.do",
+                            method = RequestMethod.GET)
+  public ModelAndView list_by_memberno (int memberno) {
+    ModelAndView mav = new ModelAndView();
+    
+    ArrayList<PaytotalVO> list_paytotal = this.paytotalProc.list();
+    ArrayList<Paytotal_Pay_Film_VO> list_by_memberno = this.payProc.list_by_memberno(memberno);
+    
+    mav.addObject("list_paytotal", list_paytotal);
+    mav.addObject("list", list_by_memberno);
+    mav.setViewName("/pay/list_by_memberno");
+    
+    return mav;
   }
   
   

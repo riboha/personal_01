@@ -9,11 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="create" parameterType="PayVO">
   INSERT INTO pay (payno, 
                         optionlan, optionqual, optionrent,
-                        priceoriginal, pricediscount, pricefinal, payvalid,
+                        priceoriginal, pricediscount, pricefinal, 
                         memberno, paytotalno, promono, filmno)
   VALUES (pay_seq.nextval, 
             #{optionlan}, #{optionqual}, #{optionrent},
-            #{priceoriginal}, #{pricediscount}, #{pricefinal}, #{payvalid},
+            #{priceoriginal}, #{pricediscount}, #{pricefinal},
             #{memberno}, #{paytotalno}, #{promono}, #{filmno})
 </insert>
 
@@ -26,6 +26,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  FROM pay           
  ORDER BY payno
 </select>
+
+
+<!-- Pay, Paytotal Join (memberno별 결제 내역) -->
+<select id="list_by_memberno" resultType="Paytotal_Pay_Film_VO" parameterType="int">
+  SELECT t.paytotalno, t.pricetotaldiscpromo, t.pricetotaldiscpnt, t.pricetotalfinal, t.pntsave, t.method, t.paytotaldate,
+            p.payno, p.optionlan, p.optionqual, p.optionrent, p.pricediscount, p.pricefinal, p.filmno,
+            f.titleen, f.titlekr, f.poster
+  FROM pay p, paytotal t, film f
+  WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
+  ORDER BY payno
+</select>
+
 
 <!-- 조회 -->
 <select id="read" resultType="PayVO" parameterType="int">

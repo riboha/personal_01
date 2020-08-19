@@ -2,15 +2,16 @@ package dev.mvc.paytotal;
 
 public class PaytotalVO {
   
-  //  paytotalno                          NUMBER(10)       NOT NULL        PRIMARY KEY,
-  //  pricetotaloriginal                  NUMBER(10)       DEFAULT 0       NOT NULL,
-  //  pricetotaldiscpromo                 NUMBER(10)       DEFAULT 0       NOT NULL,
-  //  pricetotaldiscpnt                   NUMBER(10)       NULL ,
-  //  pricetotalfinal                     NUMBER(10)       DEFAULT 0       NOT NULL,
-  //  pntsave                             NUMBER(10)       DEFAULT 0       NOT NULL,
-  //  method                              NUMBER(1)        DEFAULT 0       NOT NULL,
-  //  paytotaldate                        DATE         DEFAULT '2020-08-15'        NOT NULL,
-  //  memberno                            NUMBER(10)       NOT NULL,
+  
+  //paytotalno                          NUMBER(10)       NOT NULL        PRIMARY KEY,
+  //pricetotaloriginal                  NUMBER(10)       DEFAULT 0       NOT NULL,
+  //pricetotaldiscpromo                 NUMBER(10)       DEFAULT 0       NOT NULL,
+  //pricetotaldiscpnt                   NUMBER(10)       NULL ,
+  //pricetotalfinal                     NUMBER(10)       DEFAULT 0       NOT NULL,
+  //pntsave                             NUMBER(10)       DEFAULT 0       NOT NULL,
+  //method                              NUMBER(1)        DEFAULT 0       NOT NULL,
+  //paytotaldate                        DATE         DEFAULT '2020-08-15'        NOT NULL,
+  //memberno                            NUMBER(10)       NOT NULL,
   //FOREIGN KEY (memberno) REFERENCES member (memberno)
 
   private int paytotalno; /**ÃÑ°áÁ¦ ¹øÈ£*/

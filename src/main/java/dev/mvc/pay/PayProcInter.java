@@ -8,6 +8,13 @@ public interface PayProcInter {
   
   public ArrayList<PayVO> list ();
   
+  /**
+   * Pay, Paytotal Join (memberno별 결제 내역) 
+   * @param payno
+   * @return
+   */
+  public ArrayList<Paytotal_Pay_Film_VO> list_by_memberno (int memeberno);
+  
   public PayVO read (int payno);
   
   public int update (PayVO payVO);

@@ -45,7 +45,17 @@ public class PayProc implements PayProcInter {
     int cnt = this.payDAO.delete(payno);
     return cnt;
   }
-  
+
+  /**
+   * Pay, Paytotal Join (memberno별 결제 내역) 
+   * @param payno
+   * @return
+   */
+  @Override
+  public ArrayList<Paytotal_Pay_Film_VO> list_by_memberno(int memeberno) {
+    ArrayList<Paytotal_Pay_Film_VO> list_by_memberno = this.payDAO.list_by_memberno(memeberno);
+    return list_by_memberno;
+  }
 
 
 }

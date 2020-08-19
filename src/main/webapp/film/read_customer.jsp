@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}" /> 
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -8,32 +9,47 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- JS -->
+    <script src="${root }/js/jquery-3.3.1.min.js"></script>
+    <script src="${root }/js/bootstrap.bundle.min.js"></script>
+    <script src="${root }/js/owl.carousel.min.js"></script>
+    <script src="${root }/js/jquery.mousewheel.min.js"></script>
+    <script src="${root }/js/jquery.mCustomScrollbar.min.js"></script>
+    <script src="${root }/js/wNumb.js"></script>
+    <script src="${root }/js/nouislider.min.js"></script>
+    <script src="${root }/js/plyr.min.js"></script>
+    <script src="${root }/js/jquery.morelines.min.js"></script>
+    <script src="${root }/js/photoswipe.min.js"></script>
+    <script src="${root }/js/photoswipe-ui-default.min.js"></script>
+    <script src="${root }/js/main.js"></script>
+    
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
-        
+
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="../css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="../css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="../css/nouislider.min.css">
-    <link rel="stylesheet" href="../css/ionicons.min.css">
-    <link rel="stylesheet" href="../css/plyr.css">
-    <link rel="stylesheet" href="../css/photoswipe.css">
-    <link rel="stylesheet" href="../css/default-skin.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="${root }/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="${root }/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="${root }/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="${root }/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="${root }/css/nouislider.min.css">
+    <link rel="stylesheet" href="${root }/css/ionicons.min.css">
+    <link rel="stylesheet" href="${root }/css/plyr.css">
+    <link rel="stylesheet" href="${root }/css/photoswipe.css">
+    <link rel="stylesheet" href="${root }/css/default-skin.css">
+    <link rel="stylesheet" href="${root }/css/main.css">
+    <link rel="stylesheet" href="${root }/css/breadcrumb.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="${root }/image/png" href="${root }/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="${root }/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="${root }/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="${root }/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="${root }/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>FlixGo</title>
     
 
     <script type="text/javascript">
@@ -45,20 +61,21 @@
 		    if ($('#optionlan').val() == null) {
 			    alert('지원 언어를 선택해 주세요');
 			}
-		    // alert('optionrent+price:' + $('#optionprice').val() ); 
-		    // alert( 'optionrent:' + $('#optionprice').val().split(':')[0] ); 
-		    // alert('optionprice:' + $('#optionprice').val().split(':')[1].slice(2,)); 
-
-		    // return;
+		    alert('optionlan:' + $('#optionlan').val()); 
+		    alert('optionqual:' + $('#optionqual').val().toString().trim()); 
+		    alert('optionrent:' + $('#optionprice').val().split(':')[0].trim()); 
+		    alert('optionprice:' + $('#optionprice').val().split(':')[1].slice(2,).trim()); 
 
 		    var params = {'optionlan' : $('#optionlan').val(),
-								'optionqual' : $('#optionqual').val().toString(),
-								'optionrent' : $('#optionprice').val().split(':')[0],
-								'optionprice' : $('#optionprice').val().split(':')[1].slice(2,),
+								'optionqual' : $('#optionqual').val().toString().trim(),
+								'optionrent' : $('#optionprice').val().split(':')[0].trim(),
+								'optionprice' : $('#optionprice').val().split(':')[1].slice(2,).trim(),
 								'memberno' : 1,
 								'filmno' : ${param.filmno}
 								};
 
+		    // return;
+	        
 	        $.ajax({
 	            url : "../cart/create.do",
 	            type : "post",
@@ -266,9 +283,9 @@
                                     <div class="card__wrap">
                                         <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
                                         <ul class="card__list">
-                                            <c:choose><c:when test="${qualityVO.q1440 == 1}"><li> 1440p</li></c:when></c:choose>
-                                            <c:choose><c:when test="${qualityVO.q1024 == 1}"><li> 1024p</li></c:when></c:choose>
-                                            <c:choose><c:when test="${qualityVO.q720 == 1}"><li> 720p</li></c:when></c:choose>  
+                                            <c:choose><c:when test="${qualityVO.q1440 == 1}"><li>1440p</li></c:when></c:choose>
+                                            <c:choose><c:when test="${qualityVO.q1024 == 1}"><li>1024p</li></c:when></c:choose>
+                                            <c:choose><c:when test="${qualityVO.q720 == 1}"><li>720p</li></c:when></c:choose>  
                                             <c:choose><c:when test="${qualityVO.q576 == 1}"><li>576p</li></c:when></c:choose>  
                                             <li>${filmVO.restrict }+</li>
                                         </ul>
@@ -384,9 +401,9 @@
                                     <span></span>
                                 </div>
                                 <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter__quality">
-                                    <c:choose><c:when test="${qualityVO.q1440 == 1}"><li> 1440p</li></c:when></c:choose>
-                                    <c:choose><c:when test="${qualityVO.q1024 == 1}"><li> 1024p</li></c:when></c:choose>
-                                    <c:choose><c:when test="${qualityVO.q720 == 1}"><li> 720p</li></c:when></c:choose>  
+                                    <c:choose><c:when test="${qualityVO.q1440 == 1}"><li>1440p</li></c:when></c:choose>
+                                    <c:choose><c:when test="${qualityVO.q1024 == 1}"><li>1024p</li></c:when></c:choose>
+                                    <c:choose><c:when test="${qualityVO.q720 == 1}"><li>720p</li></c:when></c:choose>  
                                     <c:choose><c:when test="${qualityVO.q576 == 1}"><li>576p</li></c:when></c:choose>  
                                 </ul>
                             </div>
