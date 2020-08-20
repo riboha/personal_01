@@ -198,6 +198,15 @@
             <artifactId>asm</artifactId>
             <version>3.3.1</version>
         </dependency>
+        
+        
+        <!-- Query 실행 Log 출력 위한 Dependency -->
+        <dependency> 
+            <groupId>org.lazyluke</groupId> 
+            <artifactId>log4jdbc-remix</artifactId> 
+            <version>0.2.7</version> 
+        </dependency>
+
                 
      
         <!-- ******************** 추가 선언 영역 종료 ******************** -->

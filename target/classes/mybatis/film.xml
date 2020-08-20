@@ -23,65 +23,107 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY filmno
 </select>
 
+
+<!-- 페이징 + 검색 (화질, 언어, 장르) 갯수-->
+<select id="search_count" resultType="int" parameterType="HashMap">
+  SELECT  COUNT(filmno) as cnt
+  FROM (
+              SELECT DISTINCT f.filmno
+              FROM film f, quality q, language l, genre g, filmgenre x            
+              WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
+              <choose>
+              <when test="search_genre == null || search_genre.equals('')">
+              </when>
+              <otherwise>
+                AND g.genrename = #{search_genre} 
+              </otherwise> 
+             </choose>
+             <choose>
+              <when test="search_quality == null || search_quality.equals('')">
+              </when>
+              <otherwise>
+                AND ${search_quality} =1 
+              </otherwise> 
+             </choose>
+             <choose>
+              <when test="search_language == null || search_language.equals('')">
+              </when>
+              <otherwise>
+                AND ${search_language} =1 
+              </otherwise> 
+             </choose>
+              ORDER BY filmno DESC
+          )     
+</select>
+
+
+<!-- 페이징 + 검색 (화질, 언어, 장르) filmno list-->
+<select id="list_paging_search_filmno_list" resultType="FilmVO" parameterType="HashMap">
+  SELECT DISTINCT f.filmno
+  FROM film f, quality q, language l, genre g, filmgenre x            
+  WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
+  <choose>
+    <when test="search_genre == null || search_genre.equals('')">
+    </when>
+    <otherwise>
+      AND g.genrename = #{search_genre} 
+    </otherwise> 
+ </choose>
+<choose>
+  <when test="search_quality == null || search_quality.equals('')">
+  </when>
+  <otherwise>
+    AND ${search_quality} =1 
+  </otherwise> 
+</choose>
+<choose>
+  <when test="search_language == null || search_language.equals('')">
+  </when>
+  <otherwise>
+    AND ${search_language} =1 
+  </otherwise> 
+</choose>
+  ORDER BY filmno DESC
+</select>
+
+
 <!-- 페이징 + 검색 (화질, 언어, 장르) -->
 <select id="list_paging_search" resultType="FilmVO" parameterType="HashMap">
-  SELECT filmno, titlekr, titleen, poster, restrict, r
+  SELECT filmno, titlekr, titleen, poster, restrict
   FROM ( 
-              SELECT filmno, titlekr, titleen, poster, restrict, rownum as r
-              FROM (
-                          SELECT DISTINCT filmno, titlekr, titleen, poster, restrict
-                          FROM (
-                                      SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster, f.restrict,
-                                                l.en, l.ch, l.es, l.fr, l.ar, l.rs, l.pt, l.de, l.jp, l.hi, l.kr,
-                                                q.q576, q.q720, q.q1024, q.q1440,
-                                                g.genrename
+            SELECT filmno, titlekr, titleen, poster, restrict, rownum as r
+            FROM (
+                        SELECT DISTINCT filmno, titlekr, titleen, poster, restrict
+                        FROM (
+                                      SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster, f.restrict
                                       FROM film f, quality q, language l, genre g, filmgenre x            
                                       WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
                                       <choose>
-                                          <when test="search_genre != null or search_genre !='' "> 
-                                              AND g.genreno = 1
-                                          </when>
-                                          <when test="search_quality != null or search_quality !='' "> 
-                                              AND g.genreno = 2
-                                          </when>
-                                          <when test="search_language != null or search_language !='' ">
-                                              AND g.genreno = 3
-                                          </when>
+                                        <when test="search_genre == null || search_genre.equals('')">
+                                        </when>
+                                        <otherwise>
+                                          AND g.genrename = #{search_genre} 
+                                        </otherwise> 
                                       </choose>
-  
+                                      <choose>
+                                        <when test="search_quality == null || search_quality.equals('')">
+                                        </when>
+                                        <otherwise>
+                                          AND ${search_quality} =1 
+                                        </otherwise> 
+                                      </choose>
+                                      <choose>
+                                        <when test="search_language == null || search_language.equals('')">
+                                        </when>
+                                        <otherwise>
+                                          AND ${search_language} =1 
+                                        </otherwise> 
+                                      </choose>
                                    )
                           ORDER BY filmno DESC
                         )          
             )
   WHERE <![CDATA[ r >= #{startNum, jdbcType=INTEGER} AND r <= #{endNum, jdbcType=INTEGER} ]]>
-</select>
-
-<!-- 페이징 + 검색 (화질, 언어, 장르) 갯수-->
-<select id="search_count" resultType="int" parameterType="HashMap">
-  SELECT COUNT(*) as cnt
-  FROM ( 
-              SELECT filmno, rownum as r
-              FROM (
-                          SELECT DISTINCT filmno
-                          FROM (
-                                      SELECT f.filmno
-                                      FROM film f, quality q, language l, genre g, filmgenre x        
-                                      WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
-                                        <choose>
-                                          <when test="search_genre != null or search_genre !='' "> 
-                                              AND g.genreno = 1
-                                          </when>
-                                          <when test="search_quality != null or search_quality !='' "> 
-                                              AND g.genreno = 2
-                                          </when>
-                                          <when test="search_language != null or search_language !='' ">
-                                              AND g.genreno = 3
-                                          </when>
-                                      </choose>
-                                   )
-                          ORDER BY filmno DESC
-                        )          
-            )
 </select>
 
 

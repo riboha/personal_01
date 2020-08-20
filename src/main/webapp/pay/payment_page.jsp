@@ -63,7 +63,6 @@ $(function(){
     cal(); // pricetotal 계산
 });
 
-
   // ▶ pricetotal 계산
   function cal() {
     var total_price = 0;

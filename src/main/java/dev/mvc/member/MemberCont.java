@@ -348,6 +348,7 @@ public class MemberCont {
         }else if(cookie.getName().equals("ck_remember_pw")){
           ck_remember_pw = cookie.getValue();  // Y, N
         }
+        
       }
     }
     
@@ -443,8 +444,8 @@ public class MemberCont {
       ck_memberno = new Cookie("ck_memberno", Integer.toString(memberVO.getMemberno()));
       ck_memberno.setMaxAge(60 * 60 * 72 * 10); // 30 day
       response.addCookie(ck_nick);
-      
     }
+    
     JSONObject json = new JSONObject();
     json.put("count", count);
     

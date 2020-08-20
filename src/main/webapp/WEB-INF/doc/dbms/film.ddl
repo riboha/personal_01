@@ -181,73 +181,41 @@ ORDER BY filmno;
 -- Film + Language + Quality + Genre + Filmgenre  Join
 -- filter by genreno / quality / language 
           
-          
-SELECT filmno, titlekr, titleen, poster, r
-FROM ( 
-            SELECT filmno, titlekr, titleen, poster, rownum as r, 
-            FROM (
-                        SELECT DISTINCT filmno, titlekr, titleen, poster
-                        FROM (
-                                    SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster,
-                                              l.en, l.ch, l.es, l.fr, l.ar, l.rs, l.pt, l.de, l.jp, l.hi, l.kr,
-                                              q.q576, q.q720, q.q1024, q.q1440,
-                                              g.genrename
-                                    FROM film f, quality q, language l, genre g, filmgenre x            
-                                    WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno AND l.en =1
-                                    <choose>
-                                        <when test="search_genre != null or search_genre != ''"> 
-                                            AND g.genreno = #{search_genre}
-                                        </when>
-                                        <when test="search_quality != null or search_quality != ''"> 
-                                            AND q.#{search_quality} =1 
-                                        </when>
-                                        <when test="search_lan != null or search_lan != ''">
-                                            AND l.#{search_lan} =1 
-                                        </when>
-                                    </choose>
-
-                                 )
-                        ORDER BY filmno DESC
-                      )          
-          )
-WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
-
-
-
-
-  SELECT filmno, titlekr, titleen, poster, restrict, r
-  FROM ( 
-              SELECT filmno, titlekr, titleen, poster, restrict, rownum as r
-              FROM (
-                          SELECT DISTINCT filmno, titlekr, titleen, poster, restrict
-                          FROM (
-                                      SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster, f.restrict,
-                                                l.en, l.ch, l.es, l.fr, l.ar, l.rs, l.pt, l.de, l.jp, l.hi, l.kr,
-                                                q.q576, q.q720, q.q1024, q.q1440,
-                                                g.genrename
-                                      FROM film f, quality q, language l, genre g, filmgenre x            
-                                      WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
      
-                                              AND genreno = #{search_genre}
-                                              AND #{search_quality, jdbcType=VARCHAR} =1 
-                                              AND #{search_language, jdbcType=VARCHAR} =1 
-                                   )
-                          ORDER BY filmno DESC
-                        )          
-            )
-
-
--- °¹¼ö 
-SELECT COUNT(*) as cnt
+-- ¸ñ·Ï
+SELECT filmno, titlekr, titleen, poster, restrict
 FROM ( 
-            SELECT filmno, rownum as r
-            FROM (
-                        SELECT DISTINCT filmno
-                        FROM (
-                                    SELECT f.filmno
-                                    FROM film f, quality q, language l, genre g, filmgenre x            
-                                    WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno AND l.en =1
-                                 )
-                        ORDER BY filmno DESC
-                      )          
-          );
+          SELECT filmno, titlekr, titleen, poster, restrict, rownum as r
+          FROM (
+                      SELECT DISTINCT filmno, titlekr, titleen, poster, restrict
+                      FROM (
+                                  SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster, f.restrict,
+                                            
+                                  FROM film f, quality q, language l, genre g, filmgenre x            
+                                  WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno 
+                               )
+                      ORDER BY filmno DESC
+                    )          
+         )
+
+
+-- °¹¼ö
+
+SELECT  COUNT(filmno) as cnt
+FROM (
+              SELECT DISTINCT f.filmno
+              FROM film f, quality q, language l, genre g, filmgenre x            
+              WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
+              ORDER BY filmno DESC
+            );
+
+            
+-- filmno ¸ñ·Ï
+
+SELECT DISTINCT f.filmno
+FROM film f, quality q, language l, genre g, filmgenre x            
+WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
+ORDER BY filmno DESC;
+
+    
+    

@@ -340,22 +340,18 @@ public class FilmCont {
   @RequestMapping(value = "/film/list_customer.do",
       method = RequestMethod.GET)
   public ModelAndView list_customer (
-      @RequestParam(value="search_genre", defaultValue="1") String search_genre,
-      @RequestParam(value="search_language", defaultValue="",  required=false) String search_language,
-      @RequestParam(value="search_quality", defaultValue="", required=false) String search_quality,
+      @RequestParam(value="search_genre", required=false) String search_genre,
+      @RequestParam(value="search_language",  required=false) String search_language,
+      @RequestParam(value="search_quality",  required=false) String search_quality,
       @RequestParam(value="nowPage", defaultValue="1") int nowPage
       ) {
     
     ModelAndView mav = new ModelAndView();
 
-    System.out.println("--> search_genre:" + search_genre);
-    System.out.println("--> search_language:" + search_language);
-    System.out.println("--> search_quality:" + search_quality);
-    System.out.println("--> nowPage:" + nowPage);
-    
-    System.out.println("--> search_genre:" + search_genre.length());
-    System.out.println("--> search_language:" + search_language.length());
-    System.out.println("--> search_quality:" + search_quality.length());
+    //System.out.println("--> search_genre:" + search_genre + "◀");
+    // System.out.println("--> search_language:" + search_language + "◀");
+    // System.out.println("--> search_quality:" + search_quality + "◀");
+    // System.out.println("--> nowPage:" + nowPage + "◀");
     
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
     hashMap.put("search_genre", search_genre );
@@ -363,21 +359,48 @@ public class FilmCont {
     hashMap.put("search_quality", search_quality );
     hashMap.put("nowPage", nowPage );
     
-    // 검색 목록
-    ArrayList<FilmVO> list_paging_search = this.filmProc.list_paging_search(hashMap);
-    mav.addObject("list_paging_search", list_paging_search);
-    
     // 검색 레코드 갯수
     int search_count = this.filmProc.search_count(hashMap);
     mav.addObject("search_count", search_count);
-    System.out.println("--> search_count: " + search_count);
+    //System.out.println("--> search_count: " + search_count);
+    //System.out.println("♧♧♧♧♧♧♧♧♧♧♧♧♧♧♧♧");
     
+    // 검색 목록
+    ArrayList<FilmVO> list_paging_search = this.filmProc.list_paging_search(hashMap);
+    mav.addObject("list_paging_search", list_paging_search);
+
     // 페이징 박스
-    String paging = this.filmProc.pagingBox("list_paging_search.do", search_count, nowPage, search_genre, search_language, search_quality);
+    String paging = this.filmProc.pagingBox("list_customer.do", search_count, nowPage, search_genre, search_language, search_quality);
     mav.addObject("paging", paging);
     
     // 현재 페이지 번호
     mav.addObject("nowPage", nowPage);
+    
+    // 검색 조건
+    if (search_genre == "") { mav.addObject("search_genre", "ALL"); } else { mav.addObject("search_genre", search_genre); }
+    if (search_language == "") { mav.addObject("search_language", "ALL"); } else { mav.addObject("search_language", search_language); }
+    if (search_quality == "") { mav.addObject("search_quality", "ALL"); } else { mav.addObject("search_quality", search_quality); }
+    
+    // 장르 리스트
+    ArrayList<GenreVO>list_genre = this.genreProc.list();
+    mav.addObject("list_genre", list_genre);
+
+    ArrayList<FilmVO>  filmno_list = this.filmProc.list_paging_search_filmno_list(hashMap);
+    ArrayList<FilmVO> filmVO_list = new ArrayList<>();
+    ArrayList<QualityVO> qualityVO_list = new ArrayList<>();
+    ArrayList<Film_Genre_VO> film_genre_VO_list = new ArrayList<>();
+    int filmno = 0;
+    
+    for (int i = 0; i < filmno_list.size() ; i++) {
+      filmno = filmno_list.get(i).getFilmno();
+      filmVO_list.add(this.filmProc.read(filmno));
+      qualityVO_list.add(this.qualityProc.read(filmno));
+      film_genre_VO_list.addAll(this.filmgenreProc.filmgenre_list_by_filmno(filmno));
+    }
+    
+    mav.addObject("filmVO_list", filmVO_list);
+    mav.addObject("qualityVO_list", qualityVO_list);
+    mav.addObject("film_genre_VO_list", film_genre_VO_list);
     
     mav.setViewName("/film/list_customer");
     return mav;

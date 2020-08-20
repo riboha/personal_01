@@ -53,18 +53,62 @@
     
     <script type="text/javascript">
 
+    $(function(){
+
+      filter_default ();
+
+    });
+
+    // 페이지 로딩시 필터값 적용
+    function filter_default () {
+      
+      var search_genre = '${search_genre}';
+      var search_quality =  '${search_quality}';
+      var search_language = '${search_language}';
+      
+      if (search_quality != 'ALL') {
+        search_quality =  search_quality.substring(1, search_quality.length) + "P";
+      } 
+      // alert(' genre: ' + search_genre + ' language: ' + search_language + ' quality: ' + search_quality);
+      
+      document.getElementById('filter_genre_value').value = search_genre;
+      document.getElementById('filter_quality_value').value = search_quality;
+      document.getElementById('filter_language_value').value = search_language;
+    }
+
+    // 필터 적용 검색
     function search () {
-      alert('search');
+      
+      var search_genre = "";
+      var search_language = "";
+      var search_quality = "";
+
+      if ( $('#filter_genre_value').val() == " 　　" || $('#filter_language_value').val() == " 　　" || $('#filter_quality_value').val() == " 　　" ) {
+        alert('검색 조건을 설정해주세요');
+        return;
+      }
+      
+
+      if ($('#filter_genre_value').val() != 'ALL') { search_genre=$('#filter_genre_value').val(); } 
+      if ($('#filter_language_value').val() != 'ALL') { search_language=$('#filter_language_value').val(); } 
+      if ($('#filter_quality_value').val() != 'ALL') {
+         search_quality=$('#filter_quality_value').val(); 
+         search_quality = "q" + search_quality.substring(0, search_quality.length - 1);
+      } 
+
+      // alert(' genre: ' + search_genre + ' language: ' + search_language + ' quality: ' + search_quality);
+
+      location.href='list_customer.do?search_genre=' + search_genre + '&search_language=' + search_language + '&search_quality=' + search_quality ;
     }
 
     </script>
 
 </head>
 <body class="body">
- <jsp:include page="/menu/header.jsp" flush='false' />    
+ <jsp:include page="../menu/header.jsp" flush='false' />    
   
     <!-- page title -->
-    <section class="section section--first section--bg" data-bg="img/section/section.jpg">
+    <section class="section section--first section--bg" data-bg="../img/section/section.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -99,10 +143,11 @@
                             <div class="filter__item" id="filter__genre">
                                 <span class="filter__item-label">장르:</span>
                                 <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <input type="button" value="액션">
+                                    <input type="button"  id="filter_genre_value" value=" 　　">
                                     <span></span>
                                 </div>
                                 <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
+	                                    <li>ALL</li>
                                     <c:forEach var="list_genre" items="${list_genre }">
 	                                    <li>${list_genre.genrename }</li>
                                     </c:forEach>
@@ -114,26 +159,28 @@
                             <div class="filter__item" id="filter__quality">
                                 <span class="filter__item-label">화질:</span>
                                 <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-quality" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <input type="button" value="1440p">
+                                    <input type="button"  id="filter_quality_value" value=" 　　">
                                     <span></span>
                                 </div>
                                 <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-quality">
-                                    <li>1440p</li>
-                                    <li>1024p</li>
-                                    <li>720p</li>
-                                    <li>560p</li>
+                                    <li>ALL</li>
+                                    <li>1440P</li>
+                                    <li>1024P</li>
+                                    <li>720P</li>
+                                    <li>576P</li>
                                 </ul>
                             </div>
                             <!-- end filter item -->
 
                             <!-- filter item -->
-                            <div class="filter__item" id="filter__quality">
+                            <div class="filter__item" id="filter__langauge">
                                 <span class="filter__item-label">언어:</span>
-                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-quality" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <input type="button" value="KR">
+                                <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-langauge" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <input type="button"  id="filter_language_value" value=" 　　">
                                     <span></span>
                                 </div>
-                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-quality">
+                                <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-langauge">
+                                    <li>ALL</li>
                                     <li>KR</li>
                                     <li>EN</li>
                                     <li>CH</li>
@@ -193,13 +240,18 @@
                                         <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
 
                                         <ul class="card__list">
-                                            <li>HD</li>
                                             <li>${list.restrict }+</li>
+<%--                                             <c:choose>
+                                                <c:if test="${list.q1024 == 1}"><li>1024P</li></c:if>
+                                                <c:if test="${list.q1440 == 1}"><li>1440P</li></c:if>
+                                                <c:if test="${list.q720 == 1}"><li>720P</li></c:if>
+                                                <c:if test="${list.q576 == 1}"><li>576P</li></c:if>
+                                            </c:choose> --%>
                                         </ul>
                                     </div>
 
                                     <div class="card__description">
-                                        <p> ${list.summary } </p>
+                                        <p> </p>
                                     </div>
                                 </div>
                             </div>
@@ -209,26 +261,11 @@
                 </c:forEach>
                 <!-- end card -->
 
-           
                 <!-- paginator -->
                 <div class="col-12">
-                    <!--<ul class="paginator paginator--list">
-                         <li class="paginator__item paginator__item--prev">
-                            <a href="#"><i class="icon ion-ios-arrow-back"></i></a>
-                        </li>
-                        <li class="paginator__item"><a href="#">1</a></li>
-                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>
-                        <li class="paginator__item"><a href="#">3</a></li>
-                        <li class="paginator__item"><a href="#">4</a></li>
-                        <li class="paginator__item paginator__item--next">
-                            <a href="#"><i class="icon ion-ios-arrow-forward"></i></a>
-                        </li> 
-                    </ul>-->
                     ${paging }
                 </div>
                 <!-- end paginator -->
-                
-                
                 
             </div>
         </div>

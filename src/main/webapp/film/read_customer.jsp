@@ -283,11 +283,11 @@
                                     <div class="card__wrap">
                                         <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
                                         <ul class="card__list">
+                                            <li>${filmVO.restrict }+</li>
                                             <c:choose><c:when test="${qualityVO.q1440 == 1}"><li>1440p</li></c:when></c:choose>
                                             <c:choose><c:when test="${qualityVO.q1024 == 1}"><li>1024p</li></c:when></c:choose>
                                             <c:choose><c:when test="${qualityVO.q720 == 1}"><li>720p</li></c:when></c:choose>  
                                             <c:choose><c:when test="${qualityVO.q576 == 1}"><li>576p</li></c:when></c:choose>  
-                                            <li>${filmVO.restrict }+</li>
                                         </ul>
                                     </div>
 
@@ -913,20 +913,6 @@
             </div>
         </div>
     </div>
-
-    <!-- JS -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/owl.carousel.min.js"></script>
-    <script src="../js/jquery.mousewheel.min.js"></script>
-    <script src="../js/jquery.mCustomScrollbar.min.js"></script>
-    <script src="../js/wNumb.js"></script>
-    <script src="../js/nouislider.min.js"></script>
-    <script src="../js/plyr.min.js"></script>
-    <script src="../js/jquery.morelines.min.js"></script>
-    <script src="../js/photoswipe.min.js"></script>
-    <script src="../js/photoswipe-ui-default.min.js"></script>
-    <script src="../js/main.js"></script>
 </body>
 
 </html>

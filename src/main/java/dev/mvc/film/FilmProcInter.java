@@ -27,17 +27,24 @@ public interface FilmProcInter {
 
   
   /**
-   * 페이징 + 검색 (화질, 언어, 장르)
-   * @return
-   */
-  public ArrayList<FilmVO> list_paging_search (HashMap<String, Object> hashMap);
-  
-  /**
    * 페이징 + 검색 (화질, 언어, 장르) 갯수
    * @param hashMap
    * @return
    */
   public int search_count (HashMap<String, Object> hashMap);
+
+  /**
+   * 페이징 + 검색 (화질, 언어, 장르) filmno list
+   * @param hashMap
+   * @return
+   */
+  public ArrayList<FilmVO>  list_paging_search_filmno_list (HashMap<String, Object> hashMap);
+  
+  /**
+   * 페이징 + 검색 (화질, 언어, 장르)
+   * @return
+   */
+  public ArrayList<FilmVO> list_paging_search (HashMap<String, Object> hashMap);
   
   /**
    * 

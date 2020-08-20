@@ -122,6 +122,7 @@ public class FilmProc implements FilmProcInter {
     int endPage = (nowGrp * Film.PAGE_PER_BLOCK);             // 특정 그룹의 페이지 목록 종료  ( 1 * 5 = 5) 
    
     StringBuffer str = new StringBuffer(); 
+    str.append("<ul class='paginator paginator--list'>");
 
     // ▶ 이전 5개 페이지로 이동
     // nowGrp: 1 (1 ~ 5 page)
@@ -132,13 +133,10 @@ public class FilmProc implements FilmProcInter {
     
     int _nowPage = (nowGrp-1) * Film.PAGE_PER_BLOCK;  
     if (nowGrp >= 2){ 
-      // str.append("<span class='span_box_1'><A href='"+listFile+"?word="+word+"&nowPage="+_nowPage+"'>이전</A></span>");  
-
-      
-      str.append("<li class=\"paginator__item paginator__item--prev\"><a href=\"#\"><i class=\"icon ion-ios-arrow-back\"></i></a></li> ");  
-      
+      str.append("<li class='paginator__item paginator__item--prev'>"
+                    + "<a href=' " +listFile+"?search_genre=" + search_genre + "&search_language="+ search_language+ "&search_quality=" + search_quality + "&nowPage="+ _nowPage+ " '>"
+                    + "<i class='icon ion-ios-arrow-back'></i></a></li>");  
     } 
-    
     
     // ▶ 중앙의 페이지 목록
     for(int i=startPage; i<=endPage; i++){ 
@@ -149,10 +147,12 @@ public class FilmProc implements FilmProcInter {
         str.append("<li class=\"paginator__item paginator__item--active\"><a href=\"#\">" + i + "</a></li>"); // 현재 페이지, 강조 
       }else{
         // 현재 페이지가 아닌 페이지는 이동이 가능하도록 링크를 설정
-        str.append("<li class=\"paginator__item\"><a href=\"#\">" + i + "</a></li>"); 
+        str.append("<li class='paginator__item'>"
+            + "<a href=' " +listFile+"?search_genre=" + search_genre + "&search_language="+ search_language+ "&search_quality=" + search_quality + "&nowPage="+  i + " '>"
+            + i 
+            + "</a></li>");  
       } 
     } 
- 
     
     // ▶ 5개 다음 페이지로 이동
     // nowGrp: 1 (1 ~ 10 page),  nowGrp: 2 (11 ~ 20 page),  nowGrp: 3 (21 ~ 30 page) 
@@ -160,11 +160,21 @@ public class FilmProc implements FilmProcInter {
     // 현재 2그룹일 경우: (2 * 10) + 1 = 3그룹의 시작페이지 21
     _nowPage = (nowGrp * Film.PAGE_PER_BLOCK)+1;  
     if (nowGrp < totalGrp){ 
-      // str.append("<span class='span_box_1'><A href='"+listFile+"?word="+word+"&nowPage="+_nowPage+"'>다음</A></span>"); 
-      str.append("<li class=\"paginator__item paginator__item--next\"><a href=\"#\"><i class=\"icon ion-ios-arrow-forward\"></i></a></li>"); 
+      str.append("<li class='paginator__item paginator__item--next'>"
+          + "<a href=' " +listFile+"?search_genre=" + search_genre + "&search_language="+ search_language+ "&search_quality=" + search_quality + "&nowPage="+ _nowPage+ " '>"
+          + "<<i class='icon ion-ios-arrow-forward'></i></a></li>");  
     } 
-     
+    str.append("</ul>");
     return str.toString(); 
+  }
+
+  /**
+   * 페이징 + 검색 (화질, 언어, 장르) filmno list
+   */
+  @Override
+  public ArrayList<FilmVO>  list_paging_search_filmno_list(HashMap<String, Object> hashMap) {
+    ArrayList<FilmVO>  list_paging_search_filmno_list = this.FilmDAO.list_paging_search_filmno_list(hashMap);
+    return list_paging_search_filmno_list;
   }
   
   

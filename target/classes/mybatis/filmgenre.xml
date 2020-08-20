@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="filmgenre_list_by_filmno" resultType="Film_Genre_VO" parameterType="int">
   SELECT g.genreno, g.genrename,
              f.filmno,
-             x.filmgenreno, x.genreno as x_genreno, x.filmno as x_filmno
+             x.filmgenreno
   FROM genre g, film f, filmgenre x
   WHERE g.genreno = x.genreno AND f.filmno = x.filmno AND f.filmno = #{filmno}
   ORDER BY g.genreno DESC
