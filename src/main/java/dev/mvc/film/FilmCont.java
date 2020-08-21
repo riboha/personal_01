@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import dev.mvc.cast.CastProcInter;
 import dev.mvc.cast.Film_Actor_VO;
 import dev.mvc.director.DirectorProcInter;
+import dev.mvc.director.DirectorVO;
 import dev.mvc.filmgenre.Film_Genre_VO;
 import dev.mvc.filmgenre.FilmgenreProcInter;
 import dev.mvc.filmgenre.FilmgenreVO;
@@ -42,7 +45,7 @@ import dev.mvc.tool.Upload;
 
 @Controller
 public class FilmCont {
-
+  
   @Autowired
   @Qualifier ("dev.mvc.film.FilmProc")
   private FilmProcInter filmProc;
@@ -385,17 +388,19 @@ public class FilmCont {
     ArrayList<GenreVO>list_genre = this.genreProc.list();
     mav.addObject("list_genre", list_genre);
 
-    ArrayList<FilmVO>  filmno_list = this.filmProc.list_paging_search_filmno_list(hashMap);
     ArrayList<FilmVO> filmVO_list = new ArrayList<>();
     ArrayList<QualityVO> qualityVO_list = new ArrayList<>();
     ArrayList<Film_Genre_VO> film_genre_VO_list = new ArrayList<>();
+    
     int filmno = 0;
     
-    for (int i = 0; i < filmno_list.size() ; i++) {
-      filmno = filmno_list.get(i).getFilmno();
-      filmVO_list.add(this.filmProc.read(filmno));
-      qualityVO_list.add(this.qualityProc.read(filmno));
-      film_genre_VO_list.addAll(this.filmgenreProc.filmgenre_list_by_filmno(filmno));
+    for (int i = 0; i < list_paging_search.size() ; i++) {
+      filmno = list_paging_search.get(i).getFilmno(); // filmno 추출
+      
+      filmVO_list.add(this.filmProc.read(filmno)); // filmno에 해당하는 filmVO 객체 저장
+      qualityVO_list.add(this.qualityProc.read(filmno)); // filmno에 해당하는 QualityVO 객체 저장
+      
+      film_genre_VO_list.addAll(this.filmgenreProc.filmgenre_list_by_filmno(filmno)); // filmno에 해당하는 Film_Genre_VO 객체 저장
     }
     
     mav.addObject("filmVO_list", filmVO_list);
@@ -507,6 +512,41 @@ public class FilmCont {
     
     return json.toString();
   }
+  
+  
+  /**
+   * 감독 검색 자동 완성 list
+   * @param filmVO
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/film/search_auto.do",
+  method = RequestMethod.POST,
+  produces = "text/plain;charset=UTF-8")
+  // public JSONArray search_auto (String search_dir, HttpServletResponse response) {
+  public String search_auto (String search_dir, HttpServletResponse response) {
+
+    ArrayList<DirectorVO> search_auto_list = this.directorProc.search_auto(search_dir);
+    
+    JSONArray array = new JSONArray();
+    JSONObject json = new JSONObject();
+
+    for (DirectorVO vo : search_auto_list) {
+      json.put("dirnamekr", vo.getDirnamekr());
+      json.put("dirnameen", vo.getDirnameen());
+      json.put("dirno", vo.getDirno());
+      System.out.println(json);
+      array.put(json);
+    }
+    
+    System.out.println(array);
+
+    // JSONObject json_main = new JSONObject();
+    // json_main.put("array", array);
+    return array.toString();
+  }
+  
+  
   
   
 

@@ -6,8 +6,8 @@ DROP TABLE director CASCADE CONSTRAINTS;
 
 CREATE TABLE director(
         dirno                               NUMBER(10)       NOT NULL        PRIMARY KEY,
-        dirnamekr                           VARCHAR2(200)        NOT NULL,
-        dirnameen                           VARCHAR2(200)        NOT NULL,
+        dirnamekr                           VARCHAR2(200)        NOT NULL   UNIQUE,
+        dirnameen                           VARCHAR2(200)        NOT NULL   UNIQUE,
         dirnation                           VARCHAR2(100)        NOT NULL,
         dirphoto                            VARCHAR2(300)        NULL ,
         dirthumb                            VARCHAR2(300)        NULL ,
@@ -37,6 +37,13 @@ COMMENT ON COLUMN director.dirphotosize is '감독 사진 크기';
 -- ALTER TABLE director ADD (dirphoto VARCHAR(300));
 -- ALTER TABLE director ADD (dirthumb VARCHAR(300));
 -- ALTER TABLE director ADD (dirphotosize VARCHAR(300));
+
+-- ALTER TABLE director ADD  UNIQUE (dirnamekr);
+-- ALTER TABLE director ADD  UNIQUE (dirnameen);
+
+-- ALTER TABLE  director DROP  UNIQUE (dirnamekr, dirnameen);
+-- ALTER TABLE  director DROP  UNIQUE (dirnameen);
+-- ALTER TABLE  director DROP  UNIQUE (dirnamekr);
 
 DESC director;
 
@@ -121,3 +128,21 @@ WHERE dirno=3;
 
 
 ROLLBACK;
+
+
+COMMIT;
+
+
+
+-- ♣SELECT: AUTOCOMPLETE 자동완성 검색 기능♣
+
+-- Preset: Case insensitive → NOT WORKING! DONT KNOW WHY
+-- ALTER SESSION SET NLS_COMP=LINGUISTIC;
+
+-- ① LIKE 키워드 + UPPER 
+
+SELECT dirnamekr, dirnameen, dirno
+FROM director
+WHERE upper(dirnameen) like upper('%W%') OR  dirnamekr like '%W%';
+
+

@@ -44,5 +44,12 @@ public interface DirectorDAOInter {
    * @return
    */
   public int delete (int dirno);
+  
+  /**
+   * 검색 자동완성
+   * @param search_dir
+   * @return
+   */
+  public ArrayList<DirectorVO> search_auto (String search_dir);
 
 }

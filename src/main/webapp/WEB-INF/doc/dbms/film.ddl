@@ -113,8 +113,8 @@ ORDER BY filmno DESC;
 
 SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
 FROM film
-WHERE filmno = 8
-ORDER BY photono ASC, filmno DESC;
+--WHERE filmno = 8
+--ORDER BY photono ASC, filmno DESC;
 
 
 -- ¢ÀREAD¢À
@@ -183,20 +183,18 @@ ORDER BY filmno;
           
      
 -- ¸ñ·Ï
-SELECT filmno, titlekr, titleen, poster, restrict
+SELECT filmno
 FROM ( 
-          SELECT filmno, titlekr, titleen, poster, restrict, rownum as r
+          SELECT filmno,  rownum as r
           FROM (
-                      SELECT DISTINCT filmno, titlekr, titleen, poster, restrict
-                      FROM (
-                                  SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster, f.restrict,
-                                            
-                                  FROM film f, quality q, language l, genre g, filmgenre x            
-                                  WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno 
-                               )
+                      SELECT DISTINCT f.filmno                         
+                      FROM film f, quality q, language l, genre g, filmgenre x            
+                      WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno 
                       ORDER BY filmno DESC
                     )          
          )
+WHERE r >= 1 AND r <= 10;
+         
 
 
 -- °¹¼ö
@@ -217,5 +215,34 @@ FROM film f, quality q, language l, genre g, filmgenre x
 WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
 ORDER BY filmno DESC;
 
-    
+
+SELECT filmno, r
+FROM ( 
+          SELECT filmno, titlekr, titleen, poster, restrict, rownum as r
+          FROM (
+                      SELECT DISTINCT filmno, titlekr, titleen, poster, restrict
+                      FROM (
+                                  SELECT f.filmno, f.titleen, f.titlekr, f.lan, f.year, f.poster, f.restrict                                            
+                                  FROM film f, quality q, language l, genre g, filmgenre x            
+                                  WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno 
+                               )
+                      ORDER BY filmno DESC
+                    )          
+         )
+WHERE r >= 1 AND r <= 10;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     

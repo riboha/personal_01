@@ -102,7 +102,7 @@
                                         <c:forEach var="list_6_main_genre" items="${list_6_main_genre }">
                                             <c:choose>
                                                 <c:when test="${list_6_main.filmno == list_6_main_genre.filmno }">
-		                                            <a href="#">${list_6_main_genre.genrename }</a>
+		                                            <a href="${root }/film/list_customer.do?search_genre=${list_6_main_genre.genrename }&search_language=&search_quality=">${list_6_main_genre.genrename }</a>
                                                 </c:when>
                                             </c:choose>
                                         </c:forEach>

@@ -215,14 +215,14 @@
             
             
                 <!-- card -->
-                <c:forEach var="list" items = "${list_paging_search }">
+                <c:forEach var="filmVO_list" items = "${filmVO_list }">
                 <div class="col-6 col-sm-12 col-lg-6" >
                     <div class="card card--list">
                         <div class="row">
                             <div class="col-12 col-sm-4">
                                 <div class="card__cover">
-                                    <img src="./poster/${list.poster }" alt="">
-                                    <a href="./read_customer.do?filmno=${list.filmno }" class="card__play">
+                                    <img src="./poster/${filmVO_list.poster }" alt="">
+                                    <a href="./read_customer.do?filmno=${filmVO_list.filmno }" class="card__play">
                                         <i class="icon ion-ios-play"></i>
                                     </a>
                                 </div>
@@ -230,28 +230,39 @@
 
                             <div class="col-12 col-sm-8">
                                 <div class="card__content">
-                                    <h3 class="card__title" style="margin:1px;"><a href="./read_customer.do?filmno=${list.filmno }">${list.titlekr }<br>${list.titleen }</a></h3>
+                                    <h3 class="card__title" style="margin:1px;"><a href="./read_customer.do?filmno=${filmVO_list.filmno }">${filmVO_list.titlekr }<br>${filmVO_list.titleen }</a></h3>
                                     <span class="card__category">
-                                        <a href="#">Action</a>
-                                        <a href="#">Triler</a>
+                                        <!-- filmgenre -->
+                                        <c:forEach var="film_genre_VO_list" items="${film_genre_VO_list }">
+                                            <c:choose>
+                                                <c:when test="${filmVO_list.filmno == film_genre_VO_list.filmno }">
+                                                    <a href="${root }/film/list_customer.do?search_genre=${film_genre_VO_list.genrename }&search_language=&search_quality=">${film_genre_VO_list.genrename }</a>
+                                                </c:when>
+                                            </c:choose>
+                                        </c:forEach>
+                                        <!-- filmgenre end -->
                                     </span>
 
                                     <div class="card__wrap">
                                         <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
 
                                         <ul class="card__list">
-                                            <li>${list.restrict }+</li>
-<%--                                             <c:choose>
-                                                <c:if test="${list.q1024 == 1}"><li>1024P</li></c:if>
-                                                <c:if test="${list.q1440 == 1}"><li>1440P</li></c:if>
-                                                <c:if test="${list.q720 == 1}"><li>720P</li></c:if>
-                                                <c:if test="${list.q576 == 1}"><li>576P</li></c:if>
-                                            </c:choose> --%>
+                                            <li>${filmVO_list.restrict }+</li>
+                                            <c:forEach var="qualityVO_list" items="${qualityVO_list }">
+	                                            <c:choose>
+	                                                <c:when test="${filmVO_list.filmno == qualityVO_list.filmno }">
+                                                       <c:if test="${qualityVO_list.q1440 == 1}"><li>1440P</li></c:if>
+                                                       <c:if test="${qualityVO_list.q1024 == 1}"><li>1024P</li></c:if>
+                                                       <c:if test="${qualityVO_list.q720 == 1}"><li>720P</li></c:if>
+                                                       <c:if test="${qualityVO_list.q576 == 1}"><li>576P</li></c:if>
+	                                                </c:when>
+	                                            </c:choose>
+                                            </c:forEach>
                                         </ul>
                                     </div>
 
                                     <div class="card__description">
-                                        <p> </p>
+                                        <p> ${filmVO_list.summary }</p>
                                     </div>
                                 </div>
                             </div>

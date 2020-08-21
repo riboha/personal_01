@@ -45,9 +45,6 @@
     
     
     
-    
-    
-    
     <!-- typeAliasesPackage: MyBATIS에서 클래스 사용시 패키지 생략 가능,
           mapperLocations: MyBATIS 설정 파일인 xml의 위치 등록 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -100,5 +97,7 @@
     <bean class= "org.mybatis.spring.mapper.MapperScannerConfigurer">
       <property name="basePackage" value="dev.mvc" />
     </bean>
+    
+    <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 		
 </beans>

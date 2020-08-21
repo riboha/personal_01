@@ -3,7 +3,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public interface DirectorProcInter {
+ public interface DirectorProcInter {
   
   /**
    * 등록
@@ -43,6 +43,13 @@ public interface DirectorProcInter {
    * @return
    */
   public int delete (int dirno);
+  
+  /**
+   * 검색 자동완성
+   * @param search_dir
+   * @return
+   */
+  public ArrayList<DirectorVO> search_auto (String search_dir);
 
 
 

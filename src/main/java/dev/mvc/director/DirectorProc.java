@@ -46,6 +46,14 @@ public class DirectorProc implements DirectorProcInter {
     int cnt = this.directorDAO.delete(dirno);
     return cnt;
   }
+
+  // 검색 자동완성
+  @Override
+  public ArrayList<DirectorVO> search_auto(String search_dir) {
+    ArrayList<DirectorVO> search_auto = this.directorDAO.search_auto(search_dir);
+    return search_auto;
+  }
+
   
   
 }

@@ -1,50 +1,144 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}" /> 
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-	<!-- Font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
-	
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	    
-	<!-- CSS -->
-	<link rel="stylesheet" href="../css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="../css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="../css/owl.carousel.min.css">
-	<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" href="../css/nouislider.min.css">
-	<link rel="stylesheet" href="../css/ionicons.min.css">
-	<link rel="stylesheet" href="../css/plyr.css">
-	<link rel="stylesheet" href="../css/photoswipe.css">
-	<link rel="stylesheet" href="../css/default-skin.css">
-	<link rel="stylesheet" href="../css/main.css">
-	
-	<!-- Favicons -->
-	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="icon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="icon/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="icon/apple-touch-icon-144x144.png">
+    <!-- JS -->
+    <script src="${root }/js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <!-- autocomoplete library import -->
+
+    <script src="${root }/js/bootstrap.bundle.min.js"></script>
+    <script src="${root }/js/owl.carousel.min.js"></script>
+    <script src="${root }/js/jquery.mousewheel.min.js"></script>
+    <script src="${root }/js/jquery.mCustomScrollbar.min.js"></script>
+    <script src="${root }/js/wNumb.js"></script>
+    <script src="${root }/js/nouislider.min.js"></script>
+    <script src="${root }/js/plyr.min.js"></script>
+    <script src="${root }/js/jquery.morelines.min.js"></script>
+    <script src="${root }/js/photoswipe.min.js"></script>
+    <script src="${root }/js/photoswipe-ui-default.min.js"></script>
+    <script src="${root }/js/main.js"></script>
+
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="${root }/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="${root }/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="${root }/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="${root }/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="${root }/css/nouislider.min.css">
+    <link rel="stylesheet" href="${root }/css/ionicons.min.css">
+    <link rel="stylesheet" href="${root }/css/plyr.css">
+    <link rel="stylesheet" href="${root }/css/photoswipe.css">
+    <link rel="stylesheet" href="${root }/css/default-skin.css">
+    <link rel="stylesheet" href="${root }/css/main.css">
+    <link rel="stylesheet" href="${root }/css/breadcrumb.css">
+    
+
+    <!-- Favicons -->
+    <link rel="icon" type="${root }/image/png" href="${root }/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="${root }/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="${root }/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="${root }/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="${root }/icon/apple-touch-icon-144x144.png">
+
 	
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo â Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>FlixGo</title>
 		
 	<script type="text/javascript">
 $(function() {
+
+	  /* $('#dirno').on('autocompleteSelect', function(event, node) {
+	
+	  }); */
+  
+  var dirno_var = 0;
+  $("#dirname").change(function(){
+    // selectedUser = "";
+    // $("#userId").val("");
+    alert('dirno_var: ' + dirno_var );
+    $('#dirno').val(dirno_var);
+  });
+
+  $( "#dirname" ).autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        type: 'post',
+        url: './search_auto.do',
+        data: {'search_dir' : $( "#dirname" ).val()},
+        dataType: "JSON",
+        success: function (rdata) {
+          response (
+              $.map(rdata, function(item) {
+                return {
+                  label : item.dirnamekr + ' ' + item.dirnameen,
+                  value : item.dirnamekr + ' ' + item.dirnameen,
+                  dirnamekr : item.dirnamekr,
+                  dirnameen : item.dirnameen,
+                  dirno : item.dirno
+                  }
+              })
+          );
+        },
+        select : function(event, ui) { // 아이템 선택시 발생하는 이벤트
+          // $('#dirno').val(ui.item.dirno);
+          dirno_var = dirno;
+          // $('#dirname').val(ui.item.label);
+          
+          //사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체
+          /* console.log(ui); 
+          console.log(ui.item.label);    
+          console.log(ui.item.value); 
+          console.log(ui.item.dirno);  */
+        },
+        focus: function (event, ui){
+          return false;
+        },
+        minLength: 2,
+        // autoFocus: true,
+        // delay: 500,
+        // disabled: true, // 자동완성 기능 끄기
+        // position: {my: "right top", at: "right bottom"},
+        /* close: function (event) {
+          console.log(event);
+        }, */
+        error : function(request, status, error) {
+          alert('auto_search error');
+          var msg = 'ERROR<br><br>';
+          msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+          msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+          console.log(msg);
+        }
+      });
+    }
+  });
+/*   .autocomplete( "instance" )._renderItem = function( ul, item ) {    //요 부분이 UI를 마음대로 변경하는 부분
+    return $( "<li>" )    //기본 tag가 li로 되어 있음 
+    .append( "<div>" + item.value + "<br>" + item.label + "</div>" )    //여기에다가 원하는 모양의 HTML을 만들면 UI가 원하는 모양으로 변함.
+    .appendTo( ul ); 
+};
+ */
+
+  
   $('#btn_update_form').on('click', update_form);
   $('#btn_update_proc').on('click', update_proc1);
   $('#btn_delete').on('click', delete_proc);
@@ -61,6 +155,7 @@ function update_form () {
   $("input[name='len']").attr("readonly", false);
   $("input[name='restrict']").attr("readonly", false);
   $("input[name='dirno']").attr("readonly", false);
+  $("input[name='dirname']").attr("readonly", false);
   $("textarea[name='summary']").attr("readonly", false);
   $("textarea[name='youtube']").attr("readonly", false);
 
@@ -219,19 +314,6 @@ $('input:checkbox[name="quality"]').each(function() {
    }
 });
 
-
-/* 
-$.each($("input[name='language']:checked"), function(){
-                favorite.push($(this).val());
-});
-
-$('#language[value="1"]').prop('checked', true);
- */
-// var kr =$("input[id='kr']").val();
-
-// var kr =${languageVO.kr};
-// alert('kr: ' + kr);
-
 	</script>
 	
 
@@ -240,7 +322,7 @@ $('#language[value="1"]').prop('checked', true);
  <jsp:include page="/menu/header.jsp" flush='false' />
 
 	<!-- page title -->
-	<section class="section section--first section--bg" data-bg="img/section/section.jpg">
+	<section class="section section--first section--bg" data-bg="${root }/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -302,15 +384,18 @@ $('#language[value="1"]').prop('checked', true);
 			                        <input type="number"  id='len' name='len' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.len }"  required="required" readonly="readonly">
 			                    </div>
 			                    
+			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 연령가 </label>
 			                        <input type="number"  id='restrict' name='restrict' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.restrict }"  required="required" readonly="readonly">
 			                    </div>
+
 			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 감독 </label>
-			                        <input type="number"  id='dirno' name='dirno' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.dirno }"  required="required" readonly="readonly">
-			                    </div>
+			                        <input type="text"  id='dirname' name='dirname' class="sign__input" style = "width: 80%; display:inline;" value=""  required="required" readonly="readonly">
+			                        <input type="text"  id='dirno' name='dirno' class="sign__input" style = "width: 80%; display:inline;" value=""  required="required" readonly="readonly">
+			                    </div> 
 			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 내용 </label>
@@ -402,7 +487,6 @@ $('#language[value="1"]').prop('checked', true);
                                     <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 15px; color: rgba(255,255,255,0.7);" > 영구소장 가격 </label>
                                     <input type="number"  id='dayperm' name='dayperm' class="sign__input" style = "width: 80%; display:inline;" value="${priceVO.dayperm }" readonly="readonly">
                                 </div>
-                                
 
 			                    <div class="col-md-12 sign__group " style="width: 100%; ">
     								<button class="sign__btn"  id='btn_update_form' name="btn_update_form"  type="button"  style = "width:32%; display: inline-block; margin: 3px;">수정 모드</button>
@@ -420,22 +504,6 @@ $('#language[value="1"]').prop('checked', true);
 	</section>
 	<!-- end faq -->
 	
-<%--     <jsp:include page="/menu/partner.jsp" flush='false' />
-    <jsp:include page="/menu/footer.jsp" flush='false' /> --%>
-
-    <!-- JS -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/owl.carousel.min.js"></script>
-    <script src="../js/jquery.mousewheel.min.js"></script>
-    <script src="../js/jquery.mCustomScrollbar.min.js"></script>
-    <script src="../js/wNumb.js"></script>
-    <script src="../js/nouislider.min.js"></script>
-    <script src="../js/plyr.min.js"></script>
-    <script src="../js/jquery.morelines.min.js"></script>
-    <script src="../js/photoswipe.min.js"></script>
-    <script src="../js/photoswipe-ui-default.min.js"></script>
-    <script src="../js/main.js"></script>
 </body>
 
 </html>

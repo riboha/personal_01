@@ -46,4 +46,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE dirno= #{dirno}
 </delete>
 
+<!-- 검색 자동완성 -->
+<select id="search_auto" resultType="DirectorVO" parameterType="String">
+  SELECT dirnamekr, dirnameen, dirno
+  FROM director
+  WHERE upper(dirnameen) LIKE '%' || upper(#{search_dir})  || '%' OR  dirnamekr LIKE '%' || upper(#{search_dir})  || '%'
+</select>
+
+
+
 </mapper>
