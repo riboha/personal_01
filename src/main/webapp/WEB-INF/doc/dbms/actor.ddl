@@ -124,63 +124,41 @@ WHERE actornameen = 'Chris Hemsworth';
 
 -- ♣ Paging + Searching ♣
 
--- actorno 목록
-SELECT filmno
-FROM ( 
-          SELECT filmno,  rownum as r
-          FROM (
-                      SELECT DISTINCT f.filmno                         
-                      FROM film f, quality q, language l, genre g, filmgenre x            
-                      WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno 
-                      ORDER BY filmno DESC
-                    )          
-         )
-WHERE r >= 1 AND r <= 10;
-         
+-- 검색 조건: ActorVO actornameen, actornamekr, nation
+                    -- Cast role, 
+                    -- Film titleen, titlekr
 
+-- actorno 목록         
 
--- 검색 조건: ActorVO actornameen, actornamekr, Cast role, Film title
--- 목록
+SELECT actorno
+FROM (
+            SELECT actorno,  rownum as r
+            FROM (            
+                        SELECT DISTINCT  a.actorno
+                        FROM actor a, film f, cast c
+                        WHERE UPPER(a.actornameen) LIKE UPPER('%tom%') OR a.actornamekr LIKE '%tom%' OR a.nation LIKE '%tom%' 
+                                    OR c.role LIKE '%tom%' 
+                                    OR f.titleen LIKE '%tom%' OR f.titlekr LIKE '%tom%' 
+                        ORDER BY actorno
+                      )
+          )
+WHERE r >= 1 AND r <= 12;         
 
--- Actor 
-SELECT actorno, actornameen, actornamekr,  birth, nation, actorpic, actorthumb, actorpicsize
-FROM actor
-ORDER BY actorno;
+                      
 
--- Film
-SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
-FROM film
-ORDER BY photono ASC, filmno DESC;
+-- actorno 갯수
 
+SELECT  COUNT (actorno) as cnt
+FROM (
+            SELECT DISTINCT  a.actorno
+            FROM actor a, film f, cast c
+            WHERE UPPER(a.actornameen) LIKE UPPER('%tom%') OR a.actornamekr LIKE '%tom%' OR a.nation LIKE '%tom%' 
+                        OR c.role LIKE '%tom%' 
+                        OR f.titleen LIKE '%tom%' OR f.titlekr LIKE '%tom%' 
+          );
+ 
 
-SELECT castno, actorno, role, filmno
-FROM cast
-ORDER BY castno;
-
-
-
-
-
-WHERE f.filmno = c.filmno AND a.actorno = c.actorno
-FROM actor a, film f, cast c
-ORDER BY actorno;
-
-
-
-
-SELECT filmno
-FROM ( 
-          SELECT filmno,  rownum as r
-          FROM (
-                      SELECT DISTINCT f.filmno                         
-                      FROM film f, quality q, language l, genre g, filmgenre x            
-                      WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno 
-                      ORDER BY filmno DESC
-                    )          
-         )
-WHERE r >= 1 AND r <= 10;
-         
-
+                      
 
 
 
