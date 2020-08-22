@@ -124,13 +124,13 @@ public class ActorCont {
    * @return
    *  http://localhost:9090/movie/actor/list.do
    */
-  @RequestMapping(value = "/actor/list_.do",
+  @RequestMapping(value = "/actor/list_customer.do",
                             method = RequestMethod.GET)
   public ModelAndView list_ () {
     ModelAndView mav = new ModelAndView();
     ArrayList<ActorVO> list = this.actorProc.list();
     mav.addObject("list", list);
-    mav.setViewName("/actor/list_");
+    mav.setViewName("/actor/list_customer");
     return mav;
   }
   

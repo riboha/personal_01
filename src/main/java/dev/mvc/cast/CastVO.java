@@ -2,10 +2,10 @@ package dev.mvc.cast;
 
 public class CastVO {
   
-//castno                              NUMBER(10)       NOT NULL        PRIMARY KEY,
-//actorno                             NUMBER(10)       NOT NULL,
-//role                                VARCHAR2(60)         NOT NULL,
-//filmno                              NUMBER(10)       NULL ,
+//  castno                              NUMBER(10)       NOT NULL        PRIMARY KEY,
+//  actorno                             NUMBER(10)       NOT NULL,
+//  role                                VARCHAR2(60)         NULL ,
+//  filmno                              NUMBER(10)       NOT NULL,
 //FOREIGN KEY (actorno) REFERENCES actor (actorno),
 //FOREIGN KEY (filmno) REFERENCES film (filmno)
   

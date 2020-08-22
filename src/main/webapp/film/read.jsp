@@ -4,17 +4,15 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <!-- JS -->
-    <script src="${root }/js/jquery-3.3.1.min.js"></script>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     
-    <!-- autocomoplete library import -->
-
+    <!-- JavaScript-->
     <script src="${root }/js/bootstrap.bundle.min.js"></script>
     <script src="${root }/js/owl.carousel.min.js"></script>
     <script src="${root }/js/jquery.mousewheel.min.js"></script>
@@ -27,13 +25,9 @@
     <script src="${root }/js/photoswipe-ui-default.min.js"></script>
     <script src="${root }/js/main.js"></script>
 
+    <!-- autocomoplete library import -->
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
-    
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-    
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
 
@@ -50,40 +44,40 @@
     <link rel="stylesheet" href="${root }/css/main.css">
     <link rel="stylesheet" href="${root }/css/breadcrumb.css">
     
-
     <!-- Favicons -->
     <link rel="icon" type="${root }/image/png" href="${root }/icon/favicon-32x32.png" sizes="32x32">
     <link rel="apple-touch-icon" href="${root }/icon/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="72x72" href="${root }/icon/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="${root }/icon/apple-touch-icon-114x114.png">
     <link rel="apple-touch-icon" sizes="144x144" href="${root }/icon/apple-touch-icon-144x144.png">
-
 	
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
 	<title>FlixGo</title>
-		
+	
+
 	<script type="text/javascript">
 $(function() {
 
-	  /* $('#dirno').on('autocompleteSelect', function(event, node) {
-	
-	  }); */
-  
-  var dirno_var = 0;
-  $("#dirname").change(function(){
-    // selectedUser = "";
-    // $("#userId").val("");
-    alert('dirno_var: ' + dirno_var );
-    $('#dirno').val(dirno_var);
-  });
+  $('#dirname').val('${directorVO.dirnamekr}' + ' ' + '${directorVO.dirnameen}');
 
-  $( "#dirname" ).autocomplete({
+  console.log('${castlist}');
+  $('#cast').val('${castlist}');
+
+  // ▶ 감독 Dirname 자동 완성
+  $( "#dirname" )
+  /* .on( "keydown", function( event ) {
+    if ( event.keyCode === $.ui.keyCode.TAB &&
+        $( this ).autocomplete( "instance" ).menu.active ) {
+      event.preventDefault();
+    }
+  }) */
+  .autocomplete({
     source: function (request, response) {
       $.ajax({
         type: 'post',
-        url: './search_auto.do',
+        url: './search_auto_dir.do',
         data: {'search_dir' : $( "#dirname" ).val()},
         dataType: "JSON",
         success: function (rdata) {
@@ -91,46 +85,36 @@ $(function() {
               $.map(rdata, function(item) {
                 return {
                   label : item.dirnamekr + ' ' + item.dirnameen,
-                  value : item.dirnamekr + ' ' + item.dirnameen,
-                  dirnamekr : item.dirnamekr,
-                  dirnameen : item.dirnameen,
-                  dirno : item.dirno
-                  }
-              })
-          );
+	              value : item.dirnamekr + ' ' + item.dirnameen,
+	              dirno : item.dirno
+	            }
+	          })
+	      );
         },
-        select : function(event, ui) { // 아이템 선택시 발생하는 이벤트
-          // $('#dirno').val(ui.item.dirno);
-          dirno_var = dirno;
-          // $('#dirname').val(ui.item.label);
-          
-          //사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체
-          /* console.log(ui); 
-          console.log(ui.item.label);    
-          console.log(ui.item.value); 
-          console.log(ui.item.dirno);  */
-        },
-        focus: function (event, ui){
-          return false;
-        },
-        minLength: 2,
-        // autoFocus: true,
-        // delay: 500,
-        // disabled: true, // 자동완성 기능 끄기
-        // position: {my: "right top", at: "right bottom"},
-        /* close: function (event) {
-          console.log(event);
-        }, */
-        error : function(request, status, error) {
+        error : function (request, status, error) {
           alert('auto_search error');
-          var msg = 'ERROR<br><br>';
-          msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
-          msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
-          console.log(msg);
         }
       });
-    }
-  });
+    },    
+    select : function (event, ui) { 
+      // 아이템 선택시 발생하는 이벤트
+      //사용자가 오토컴플릿이 만들어준 목록에서 선택을 하면 반환되는 객체
+      $('#dirno').val(ui.item.dirno);
+      $('#dirnmae').val(ui.item.value);
+      //return false;
+    },
+    focus: function (event, ui){
+      return false;
+    },
+    minLength: 0
+    // autoFocus: true,
+    // delay: 500,
+    // disabled: true, // 자동완성 기능 끄기
+    // position: {my: "right top", at: "right bottom"},
+    /* close: function (event) {
+      console.log(event);
+    } */
+    });
 /*   .autocomplete( "instance" )._renderItem = function( ul, item ) {    //요 부분이 UI를 마음대로 변경하는 부분
     return $( "<li>" )    //기본 tag가 li로 되어 있음 
     .append( "<div>" + item.value + "<br>" + item.label + "</div>" )    //여기에다가 원하는 모양의 HTML을 만들면 UI가 원하는 모양으로 변함.
@@ -138,12 +122,67 @@ $(function() {
 };
  */
 
+ // pop() 메서드는 배열에서 마지막 요소를 제거하고 그 요소를 반환
+ // filter() 메서드는 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환
+ 
+ // pattern: possible white space then semicolon then possible white space
+ // var pattern = /\s*;\s*/;
+
+ function split( val ) { return val.split( /,\s*/ ); }
+ function extractLast ( term ) { return split( term ).pop(); }
+ 
+  // ▶ 배우 Actorname 자동 완성
+  $( "#cast" )
+    .on( "keydown", function( event ) {
+      if ( event.keyCode === $.ui.keyCode.TAB &&
+          $( this ).autocomplete( "instance" ).menu.active ) {
+        event.preventDefault();
+      }
+    })
+    .autocomplete({
+      source: function( request, response ) {
+        $.ajax({
+          type: 'post',
+          url: './search_auto_actor.do',
+          data: {'search_dir' : extractLast($( "#cast" ).val())},
+          dataType: "JSON",
+          success: function (rdata) {
+            response (
+                $.map(rdata, function(item) {
+                  return {
+                    label : item.actornamekr + ' ' + item.actornameen,
+                    value : item.actornamekr + ' '  + '(' + item.actorno + ')' ,
+                    actorno : item.actorno
+                  }
+                }),
+            );
+          },
+          error : function (request, status, error) {
+            alert('auto_search error');
+          }
+        });
+      },
+      select : function ( event, ui ) {
+        var terms = split( this.value ); // 입력값 문자열을 공백 혹은 /로 나눈다
+        terms.pop(); // 배열에서 마지막 요소를 제거, 그 요소를 반환 (검색어를 없앤다)
+        terms.push( ui.item.value ); // 자동완성된 값을 추가한다
+        terms.push( "" ); // 공백을 추가한다
+        this.value = terms.join( ", " ); // 입력값 문자열에 콤마와 함께 더한다
+        return false;
+      },
+      focus: function (event, ui){
+        return false;
+      },
+      minLength: 0
+    });
+        
+
   
   $('#btn_update_form').on('click', update_form);
   $('#btn_update_proc').on('click', update_proc1);
   $('#btn_delete').on('click', delete_proc);
 	
-});
+})
 
 
   // ▶ 영화 레코드 수정 폼
@@ -156,6 +195,7 @@ function update_form () {
   $("input[name='restrict']").attr("readonly", false);
   $("input[name='dirno']").attr("readonly", false);
   $("input[name='dirname']").attr("readonly", false);
+  $("input[name='cast']").attr("readonly", false);
   $("textarea[name='summary']").attr("readonly", false);
   $("textarea[name='youtube']").attr("readonly", false);
 
@@ -183,15 +223,13 @@ function update_form () {
 }
 
 
+
 // ▶ 영화 레코드 수정 실행 1
 function update_proc1 () {
 
-   // $('#btn_create').click(function(){
 	var frm = $('#frm')[0];
 	var formData = new FormData(frm);
 	
-	alert('formData: '+ formData);
-
 	$.ajax({
 		url : "./update1.do",
 		type : "post",
@@ -204,14 +242,13 @@ function update_proc1 () {
 	    success : function(rdata) {
 	        if (rdata.cnt >= 1) {
 		        update_proc2(rdata.filmno);
-		        // alert('수정 성공');
-		        // window.location.reload();
 		    } else {
 		        alert('수정 실패');
 		        window.location.reload();
 			}
 	    },
 	    error : function(request, status, error) {
+	        alert('수정 실패');
 	        var msg = 'ERROR<br><br>';
 	        msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
 	        msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
@@ -222,21 +259,24 @@ function update_proc1 () {
 
 // ▶ 영화 레코드 수정 실행 2
 function update_proc2 (filmno) {
+  
   var genrelist =  [];
   var languagelist = [];
   var qualitylist = [];
+  var actornolist = [];
+  
+  actornolist = $('#cast').val().split(',');
+  actornolist.pop();
+   for (var i=0; i < actornolist.length; i++) {
+     actornolist[i] = parseInt(actornolist[i].split('(').slice(-1, ) );
+  }
 
-  $("input:checkbox[name=genre]:checked").each(function(){
-    genrelist.push($(this).val());
-  });
-  $("input:checkbox[name=language]:checked").each(function(){
-    languagelist.push($(this).val());
-  });
-  $("input:checkbox[name=quality]:checked").each(function(){
-    qualitylist.push($(this).val());
-  });
+  $("input:checkbox[name=genre]:checked").each(function(){ genrelist.push($(this).val()); });
+  $("input:checkbox[name=language]:checked").each(function(){ languagelist.push($(this).val()); });
+  $("input:checkbox[name=quality]:checked").each(function(){ qualitylist.push($(this).val()); });
 
-  var params = { 'genrelist' : genrelist, 'languagelist' : languagelist, 'qualitylist' : qualitylist, 'filmno' : filmno};
+  var params = 
+  { 'genrelist' : genrelist, 'languagelist' : languagelist, 'qualitylist' : qualitylist, 'actornolist': actornolist, 'filmno' : filmno};
   
 	$.ajax({
 		url : "./create2.do",
@@ -251,7 +291,6 @@ function update_proc2 (filmno) {
 		        window.location.reload();
 		    } else {
 		        alert('수정 실패');
-		        // window.location.reload();
 			}
 	    },
 	    error : function(request, status, error) {
@@ -271,6 +310,7 @@ function delete_proc () {
 
 	var filmno = ${filmVO.filmno};
 	alert('filmno; ' + filmno);
+	
 	$.ajax({
       url: "./delete.do", 
       type: "post",          
@@ -294,12 +334,10 @@ function delete_proc () {
       }
     });
 }
+
 var kr = $('input:checkbox[id="kr"]').val();
 
-// alert('kr: ' + kr);
-
 $('input:checkbox[name="language"]').each(function() {
-
   alert('value:' + this.value);
   if(this.value == "1"){ //값 비교
          this.checked = true; //checked 처리
@@ -307,13 +345,11 @@ $('input:checkbox[name="language"]').each(function() {
 });
 
 $('input:checkbox[name="quality"]').each(function() {
-
   alert('value:' + this.value);
   if(this.value == "1"){ //값 비교
          this.checked = true; //checked 처리
    }
 });
-
 	</script>
 	
 
@@ -359,8 +395,7 @@ $('input:checkbox[name="quality"]').each(function() {
 			                    <input type="hidden"  id='filmno' name='filmno' class=" sign__input " style = "width: 80%; display:inline;" value="${filmVO.filmno }" required="required" >
 			                    
 			                    <div class="sign__group" >
-				                    <label class="col-md-2 feature__text  sign__input "  
-				                            style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 18px;  margin: 0px ; padding: 10px; display:inline; " > 영문 제목 </label>
+				                     <label class=" col-md-2 feature__text  sign__input "   style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 영문 제목 </label>
 			                        <input type="text"  id='titleen' name='titleen' class=" sign__input " style = "width: 80%; display:inline;" value="${filmVO.titleen }" required="required" readonly="readonly">
 			                    </div>
 			                    
@@ -375,7 +410,7 @@ $('input:checkbox[name="quality"]').each(function() {
 			                    </div>
 			                    
 			                    <div class="sign__group " >
-				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7); width: 80%;" > 년도 </label>
+				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7); " > 년도 </label>
 			                        <input type="number"  id='year' name='year' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.year }"  required="required" readonly="readonly">
 			                    </div>
 			                    
@@ -389,12 +424,18 @@ $('input:checkbox[name="quality"]').each(function() {
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 연령가 </label>
 			                        <input type="number"  id='restrict' name='restrict' class="sign__input" style = "width: 80%; display:inline;" value="${filmVO.restrict }"  required="required" readonly="readonly">
 			                    </div>
-
 			                    
 			                    <div class="sign__group " >
 				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 감독 </label>
-			                        <input type="text"  id='dirname' name='dirname' class="sign__input" style = "width: 80%; display:inline;" value=""  required="required" readonly="readonly">
-			                        <input type="text"  id='dirno' name='dirno' class="sign__input" style = "width: 80%; display:inline;" value=""  required="required" readonly="readonly">
+			                        <input type="text"  id='dirname' name='dirname' class="sign__input" style = "width: 80%; display:inline;" value=" "  required="required">
+			                    </div> 
+			                    
+			                    <input type="hidden"  id='dirno' name='dirno' class="sign__input" style = "width: 80%; display:inline;" value="${directorVO.dirno }"  required="required" >
+
+			                    <div class="sign__group " >
+				                    <label class="col-md-2  feature__text  sign__input"  style="background-color: transparent; padding:10px; font-size: 18px; color: rgba(255,255,255,0.7);" > 출연 </label>
+			                        <input type="text"  id='cast' name='cast' class="sign__input" style = "width: 80%; display:inline;"  required="required" value=
+			                        "" >
 			                    </div> 
 			                    
 			                    <div class="sign__group " >

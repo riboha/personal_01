@@ -49,4 +49,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE actorno= #{actorno}
 </delete>
 
+<!-- 검색 자동완성 -->
+<select id="search_auto" resultType="ActorVO" parameterType="String">
+  SELECT DISTINCT actornameen, actornamekr, actorno
+  FROM actor
+  WHERE upper(actornameen) LIKE '%' || upper(#{search_dir})  || '%' OR  actornamekr LIKE '%' || upper(#{search_dir})  || '%'
+            AND ROWID IN (SELECT MAX(ROWID) FROM actor GROUP BY actorno)
+</select>
+
+ <!-- 배열에 따른 '배우 번호' 배열 반환 -->
+<select id="search_actorno" resultType="ArrayList" parameterType="ArrayList">
+  SELECT actorno
+  WHERE actornameen IN
+  <foreach item="search_actorno" index="index"  collection="actornolist" open="(" separator="," close=")">
+    ${search_actorno}
+  </foreach>
+</select>
+
+
+
 </mapper>

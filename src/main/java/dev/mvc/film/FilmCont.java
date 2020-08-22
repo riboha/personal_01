@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.actor.ActorProcInter;
+import dev.mvc.actor.ActorVO;
 import dev.mvc.cast.CastProcInter;
+import dev.mvc.cast.CastVO;
 import dev.mvc.cast.Film_Actor_VO;
 import dev.mvc.director.DirectorProcInter;
 import dev.mvc.director.DirectorVO;
@@ -89,6 +92,11 @@ public class FilmCont {
   @Autowired
   @Qualifier("dev.mvc.promofilm.PromofilmProc")
   private PromofilmProcInter promofilmProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.actor.ActorProc")
+  private ActorProcInter actorProc;
+
   
 
   /**
@@ -190,6 +198,7 @@ public class FilmCont {
       @RequestParam(value="genrelist[]") List<Integer>genrelist, 
       @RequestParam(value="languagelist[]") List<String>languagelist, 
       @RequestParam(value="qualitylist[]") List<String>qualitylist,
+      @RequestParam(value="actornolist[]") List<Integer>actornolist,
       int filmno) {
     
     int cnt = 0;
@@ -197,6 +206,7 @@ public class FilmCont {
     LanguageVO languageVO = new LanguageVO();
     FilmgenreVO filmgenreVO = new FilmgenreVO();
     QualityVO qualityVO = new QualityVO();
+    CastVO castVO = new CastVO();
     
     int cnt_language = 0;
     int cnt_filmgenre = 0;
@@ -208,6 +218,12 @@ public class FilmCont {
     if (this.languageProc.read(languageno)!= null) { this.languageProc.delete(languageno); }
     if (this.qualityProc.read(qualityno)!= null) { this.qualityProc.delete(qualityno); }
     if (this.filmgenreProc.count_by_filmno(filmno) > 0) { this.filmgenreProc.delete_by_filmno(filmno); }
+    if (this.castProc.cast_list_by_filmno(filmno) != null) {
+      ArrayList<Film_Actor_VO> film_actor_VO = this.castProc.cast_list_by_filmno(filmno);
+      for (int i = 0; i < film_actor_VO.size(); i++) {
+        this.castProc.delete(film_actor_VO.get(i).getCastno());
+      }
+    }
     
     if (languagelist.contains("kr")) {languageVO.setKr(1);}
     if (languagelist.contains("en")) {languageVO.setEn(1);}
@@ -226,9 +242,16 @@ public class FilmCont {
     if (qualitylist.contains("q1440")) {qualityVO.setQ1440(1);}
     
     languageVO.setFilmno(filmno);
-    qualityVO.setFilmno(filmno);
     cnt_language = this.languageProc.create(languageVO);
+
+    qualityVO.setFilmno(filmno);
     cnt_quality = this.qualityProc.create(qualityVO);
+    
+    for (int i = 0; i <actornolist.size(); i++) {
+      castVO.setFilmno(filmno);
+      castVO.setActorno(actornolist.get(i));
+      this.castProc.create(castVO);
+    }
 
     for (int genreno : genrelist) {
       filmgenreVO.setFilmno(filmno);
@@ -262,17 +285,29 @@ public class FilmCont {
     LanguageVO languageVO = this.languageProc.read(filmno);
     QualityVO qualityVO = this.qualityProc.read(filmno);
     RentpriceVO priceVO = this.rentpriceProc.read(filmno);
+    DirectorVO directorVO = this.directorProc.read(filmVO.getDirno());
     
     ArrayList<Film_Genre_VO> film_genre_VO_list  = this.filmgenreProc.filmgenre_list_by_filmno(filmno);
     ArrayList<GenreVO> genreVO_list = this.genreProc.list();
+    ArrayList<Film_Actor_VO> film_actor_VO_list = this.castProc.cast_list_by_filmno(filmno);
+    
+    StringBuffer castlist = new StringBuffer();
+    
+    for (Film_Actor_VO vo : film_actor_VO_list) {
+      castlist.append(vo.getActornamekr() + ' ' + '(' +  vo.getActorno() + ')' + ',' + ' ');
+    }
+    
     
     mav.addObject("filmVO", filmVO);
     mav.addObject("languageVO", languageVO);
     mav.addObject("qualityVO", qualityVO);
     mav.addObject("priceVO", priceVO);
+    mav.addObject("directorVO", directorVO);
     
     mav.addObject("film_genre_VO_list", film_genre_VO_list);
     mav.addObject("genreVO_list", genreVO_list);
+    // mav.addObject("film_actor_VO_list", film_actor_VO_list);
+    mav.addObject("castlist", castlist);
     
     mav.setViewName("/film/read");
     return mav;
@@ -293,26 +328,26 @@ public class FilmCont {
     LanguageVO languageVO = this.languageProc.read(filmno);
     QualityVO qualityVO = this.qualityProc.read(filmno);
     RentpriceVO priceVO = this.rentpriceProc.read(filmno);
+    DirectorVO directorVO = this.directorProc.read(filmVO.getDirno());
 
     ArrayList<PhotoVO> photoVO_list= this.photoProc.list_by_filmno(filmno);
     ArrayList<Film_Genre_VO> film_genre_VO_list = this.filmgenreProc.filmgenre_list_by_filmno(filmno);
     ArrayList<Film_Actor_VO> film_actor_VO_list =  this.castProc.cast_list_by_filmno(filmno);
     ArrayList<Member_Review_VO> member_review_VO_list = this.reviewProc.review_list_by_memberno(filmno);
-    String dirnamekr = this.directorProc.read(filmVO.getDirno()).getDirnamekr();
-    
-
+    ArrayList<Film_Actor_VO> film_review_VO_list = this.castProc.cast_list_by_filmno(filmno);
     
     mav.addObject("filmVO", filmVO);
     mav.addObject("languageVO", languageVO);
     mav.addObject("qualityVO", qualityVO);
     mav.addObject("priceVO", priceVO);
-    mav.addObject("dirnamekr", dirnamekr);
+    mav.addObject("directorVO", directorVO);
 
     mav.addObject("photoVO_list", photoVO_list);
-    
     mav.addObject("film_genre_VO_list", film_genre_VO_list);
     mav.addObject("film_actor_VO_list", film_actor_VO_list);
     mav.addObject("member_review_VO_list", member_review_VO_list);
+    mav.addObject("film_review_VO_list", film_review_VO_list);
+    
     mav.setViewName("/film/read_customer");
     return mav;
   } 
@@ -520,34 +555,56 @@ public class FilmCont {
    * @return
    */
   @ResponseBody
-  @RequestMapping(value = "/film/search_auto.do",
+  @RequestMapping(value = "/film/search_auto_dir.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  // public JSONArray search_auto (String search_dir, HttpServletResponse response) {
-  public String search_auto (String search_dir, HttpServletResponse response) {
+  public String search_auto_dir (String search_dir, HttpServletResponse response) {
 
     ArrayList<DirectorVO> search_auto_list = this.directorProc.search_auto(search_dir);
     
     JSONArray array = new JSONArray();
-    JSONObject json = new JSONObject();
+    JSONObject json = null;
 
     for (DirectorVO vo : search_auto_list) {
-      json.put("dirnamekr", vo.getDirnamekr());
+      json = new JSONObject(); // 반복 할 때마다 객체를 새로 생성 → 기존 데이터 삭제, 덮어쓰기 방지
+      
+      json.put("dirnamekr", vo.getDirnamekr()); 
       json.put("dirnameen", vo.getDirnameen());
-      json.put("dirno", vo.getDirno());
-      System.out.println(json);
+      json.put("dirno", vo.getDirno()); 
       array.put(json);
     }
-    
-    System.out.println(array);
 
-    // JSONObject json_main = new JSONObject();
-    // json_main.put("array", array);
+    return array.toString();
+  }
+
+  /**
+   * 배우 검색 자동 완성 list
+   * @param filmVO
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/film/search_auto_actor.do",
+  method = RequestMethod.POST,
+  produces = "text/plain;charset=UTF-8")
+  public String search_auto_actor (String search_dir, HttpServletResponse response) {
+    
+    ArrayList<ActorVO> search_auto_list = this.actorProc.search_auto(search_dir);
+    
+    JSONArray array = new JSONArray();
+    JSONObject json = null;
+    
+    for (ActorVO vo : search_auto_list) {
+      json = new JSONObject();
+      
+      json.put("actornamekr", vo.getActornamekr());
+      json.put("actornameen", vo.getActornameen());
+      json.put("actorno", vo.getActorno());
+      array.put(json);
+    }
+    System.out.println(array.toString());
     return array.toString();
   }
   
   
   
-  
-
 }

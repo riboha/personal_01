@@ -41,7 +41,7 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo â Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>FlixGo</title>
 		
 	<script type="text/javascript">
 	$(function() {
@@ -219,19 +219,19 @@
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >한글이름</label>
-                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  "  value="${VO.actornamekr }" readonly="readonly">
+                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  "  value="${VO.actornamekr }" readonly="readonly">
                                 </div>
                                 
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >영문이름</label>
-                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.actornameen }"  readonly="readonly">
+                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.actornameen }"  readonly="readonly">
                                 </div>
                                 
                                 <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >　생일　</label>
-                                    <input type="text"  id='birth' name='birth' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.birth }"  readonly="readonly">
+                                    <input type="text"  id='birth' name='birth' class=" sign__input " style = "display:inline;  font-size: 12px;  " value="${VO.birth.substring(0, 10) }"  readonly="readonly">
                                 </div>
                                 
                                 <div class="sign__group" >

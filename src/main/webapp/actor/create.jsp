@@ -41,7 +41,7 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo â Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>FlixGo</title>
 		
 	<script type="text/javascript">
 	$(function() {
@@ -130,13 +130,13 @@
 							    <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >한글이름</label>
-                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
+                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  "  >
     							</div>
     							
 							    <div class="sign__group" >
                                     <label class="feature__text  sign__input "  
                                             style="background-color: transparent; color: rgba(255,255,255,0.7); font-size: 12px;  margin: 0px ; padding: 10px; display:inline; " >영문이름</label>
-                                    <input type="text"  id='actornamekr' name='actornamekr' class=" sign__input " style = "display:inline;  font-size: 12px;  " >
+                                    <input type="text"  id='actornameen' name='actornameen' class=" sign__input " style = "display:inline;  font-size: 12px;  " >
     							</div>
     							
 							    <div class="sign__group" >

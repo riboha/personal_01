@@ -141,8 +141,15 @@ COMMIT;
 
 -- ¨ç LIKE Å°¿öµå + UPPER 
 
+SELECT DISTINCT dirnamekr, dirnameen, dirno
+FROM director
+WHERE upper(dirnameen) like upper('%y%') OR  dirnamekr like '%y%';
+
+
+
 SELECT dirnamekr, dirnameen, dirno
 FROM director
-WHERE upper(dirnameen) like upper('%W%') OR  dirnamekr like '%W%';
+WHERE upper(dirnameen) like upper('%y%') OR  dirnamekr like '%y%' 
+            AND ROWID IN (SELECT MAX(ROWID) FROM director GROUP BY dirno)
 
 

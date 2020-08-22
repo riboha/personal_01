@@ -274,8 +274,8 @@ COMMENT ON COLUMN review.filmno is '영화 번호';
 CREATE TABLE cast(
 		castno                        		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		actorno                       		NUMBER(10)		 NOT NULL,
-		role                          		VARCHAR2(60)		 NOT NULL,
-		filmno                        		NUMBER(10)		 NULL ,
+		role                          		VARCHAR2(60)		 NULL ,
+		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (actorno) REFERENCES actor (actorno),
   FOREIGN KEY (filmno) REFERENCES film (filmno)
 );

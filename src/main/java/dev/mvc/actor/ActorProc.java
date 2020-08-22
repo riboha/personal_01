@@ -46,6 +46,19 @@ public class ActorProc implements ActorProcInter {
     int cnt = this.actorDAO.delete_img(actorno);
     return cnt;
   }
-  
+
+  // 검색 자동완성
+  @Override
+  public ArrayList<ActorVO> search_auto(String search_dir) {
+    ArrayList<ActorVO> search_auto = this.actorDAO.search_auto(search_dir);
+    return search_auto;
+  }
+
+  // '배우 이름' 배열에 따른 '배우 번호' 배열 반환
+  @Override
+  public int [] search_actorno (String [] actornamelist) {
+    int[] actornolist = this.actorDAO.search_actorno(actornamelist);
+    return actornolist;
+  }
 
 }

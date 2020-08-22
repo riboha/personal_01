@@ -48,9 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 검색 자동완성 -->
 <select id="search_auto" resultType="DirectorVO" parameterType="String">
-  SELECT dirnamekr, dirnameen, dirno
+  SELECT DISTINCT dirnamekr, dirnameen, dirno
   FROM director
   WHERE upper(dirnameen) LIKE '%' || upper(#{search_dir})  || '%' OR  dirnamekr LIKE '%' || upper(#{search_dir})  || '%'
+            AND ROWID IN (SELECT MAX(ROWID) FROM director GROUP BY dirno)
 </select>
 
 

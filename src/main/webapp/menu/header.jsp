@@ -36,17 +36,35 @@
                                 <!-- end dropdown -->
                                 
                                 <!-- dropdown -->
-                                <li class="header__nav-item">
+                                <%-- <li class="header__nav-item">
                                     <a class="dropdown-toggle header__nav-link"href="${root }/actor/list_customer.do" role="" id="" data-toggle="" aria-haspopup="" aria-expanded="">배우</a>
-                                </li>
+                                </li> --%>
                                 <!-- end dropdown -->
                                 
                                 <!-- dropdown -->
-                                <li class="header__nav-item">
-                                    <a class="dropdown-toggle header__nav-link"href="${root }/film/list_customer.do" role="" id="" data-toggle="" aria-haspopup="" aria-expanded="">??</a>
+                                <li class="dropdown header__nav-item">
+                                    <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">배우</a>
+
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                        <li><a href="${root }/actor/create.do">배우 등록 (관리자)</a></li>
+                                        <li><a href="${root }/actor/list.do">배우 목록 (관리자)</a></li>
+                                        <li><a href="${root }/actor/list_customer.do">배우 목록</a></li>
+                                    </ul>
                                 </li>
                                 <!-- end dropdown -->
 
+                                <!-- dropdown -->
+                                <li class="dropdown header__nav-item">
+                                    <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">감독</a>
+
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                        <li><a href="${root }/director/create.do">감독 등록 (관리자)</a></li>
+                                        <li><a href="${root }/director/list.do">감독 목록 (관리자)</a></li>
+                                        <li><a href="${root }/director/list_customer.do">배우 목록</a></li>
+                                    </ul>
+                                </li>
+                                <!-- end dropdown -->
+                                
                                 
                                 <li class="header__nav-item">
                                     <a href="faq.html" class="header__nav-link">Help</a>

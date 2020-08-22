@@ -297,7 +297,7 @@
                                                 <a href="#">${film_genre_VO_list.genrename }</a>
                                             </c:forEach>
                                         </li>
-                                        <li><span>감독:</span> <a href="#">${dirnamekr }</a></li>
+                                        <li><span>감독:</span> <a href="#">${directorVO.dirnamekr }</a></li>
                                         <li><span>출연:</span> 
                                             <c:forEach var="film_actor_VO_list" items="${film_actor_VO_list }">
                                                 <a href="#">${film_actor_VO_list.actornamekr }</a>
