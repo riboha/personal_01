@@ -57,15 +57,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND ROWID IN (SELECT MAX(ROWID) FROM actor GROUP BY actorno)
 </select>
 
- <!-- 배열에 따른 '배우 번호' 배열 반환 -->
-<select id="search_actorno" resultType="ArrayList" parameterType="ArrayList">
+
+
+<!-- 페이징 + 검색 (배우 이름 한글, 배우 이름 영문, 배우 국적, 배역, 영화 이름 한글, 영화 이름 영문 ) ▶갯수◀ -->
+<select id="list_paging_search_actor_count" resultType="int" parameterType="HashMap">
+  SELECT  COUNT (actorno) as cnt
+  FROM (
+              SELECT DISTINCT  a.actorno
+              FROM actor a, film f, cast c
+              WHERE UPPER (a.actornameen) LIKE UPPER ( '%' || #{search_actor} || '%') 
+                                    OR a.actornamekr LIKE  '%' || #{search_actor} || '%'
+                                    OR a.nation LIKE  '%' || #{search_actor} || '%'
+                                    OR c.role LIKE '%' || #{search_actor} || '%'
+                                    OR f.titleen LIKE  '%' || #{search_actor} || '%'
+                                    OR f.titlekr LIKE  '%' || #{search_actor} || '%'
+            )
+</select>
+ 
+
+<!-- 페이징 + 검색 (배우 이름 한글, 배우 이름 영문, 배우 국적, 배역, 영화 이름 한글, 영화 이름 영문 ) -->
+<select id="list_paging_search_actor" resultType="FilmVO" parameterType="HashMap">
   SELECT actorno
-  WHERE actornameen IN
-  <foreach item="search_actorno" index="index"  collection="actornolist" open="(" separator="," close=")">
-    ${search_actorno}
-  </foreach>
+  FROM (
+              SELECT actorno,  rownum as r
+              FROM (            
+                          SELECT DISTINCT  a.actorno
+                          FROM actor a, film f, cast c
+                          WHERE UPPER (a.actornameen) LIKE UPPER ( '%' || #{search_actor} || '%') 
+                                    OR a.actornamekr LIKE  '%' || #{search_actor} || '%'
+                                    OR a.nation LIKE  '%' || #{search_actor} || '%'
+                                    OR c.role LIKE '%' || #{search_actor} || '%'
+                                    OR f.titleen LIKE  '%' || #{search_actor} || '%'
+                                    OR f.titlekr LIKE  '%' || #{search_actor} || '%'
+                          ORDER BY actorno
+                        )
+            )
+    WHERE <![CDATA[ r >= #{startNum, jdbcType=INTEGER} AND r <= #{endNum, jdbcType=INTEGER} ]]>
 </select>
 
+
+
+         
 
 
 </mapper>

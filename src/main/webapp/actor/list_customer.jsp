@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="${root }/css/default-skin.css">
     <link rel="stylesheet" href="${root }/css/main.css">
     <link rel="stylesheet" href="${root }/css/breadcrumb.css">
+    <link rel="stylesheet" href="${root }/css/actor.css">
 
     <!-- Favicons -->
     <link rel="icon" type="${root }/image/png" href="${root }/icon/favicon-32x32.png" sizes="32x32">
@@ -84,35 +85,25 @@
     </section>
     <!-- end page title -->
     
-    <!-- filter -->
+    <!-- actor_search -->
     <div class="filter">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="filter__content">
-                        <div class="filter__items">
-                        
-                        <button class="header__search-btn" type="button" style="margin-right: 7px;">
-                            <i class="icon ion-ios-search"></i>
-                        </button>
-
-                        </div>
-                        <!-- filter btn -->
-                        <button class="filter__btn" type="button" onclick="search();">검색</button>
-                        <!-- end filter btn -->
-                        
+                    <div class="actor__search-content">
+                        <input type="text" placeholder="여기서 배우를 찾아보세요">
+                        <button type="button">search</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end filter -->
+    <!-- actor_search end-->
     
-        <!-- catalog -->
+    <!-- catalog -->
     <div class="catalog">
         <div class="container">
             <div class="row">
-
                         <!-- card -->
                         <c:forEach var="list" items = "${list }">
                         <div class="col-6 col-sm-4 col-lg-3 col-xl-2">

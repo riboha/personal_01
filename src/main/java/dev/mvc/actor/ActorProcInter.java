@@ -1,6 +1,7 @@
 package dev.mvc.actor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface ActorProcInter {
   
@@ -16,6 +17,8 @@ public interface ActorProcInter {
   
   public int delete_img (int actorno);
   
+  
+  
   /**
    * 검색 자동완성
    * @param search_dir
@@ -23,11 +26,30 @@ public interface ActorProcInter {
    */
   public ArrayList<ActorVO> search_auto (String search_dir);
   
+  
+  
   /**
-   * '배우 이름' 배열에 따른 '배우 번호' 배열 반환
-   * <select id="search_actorno" resultType="ArrayList" parameterType="ArrayList">
+   * 페이징 + 검색 (배우 이름 한글, 배우 이름 영문, 배우 국적, 배역, 영화 이름 한글, 영화 이름 영문 ) 갯수
+   * @param hashMap
    * @return
    */
-  public int [] search_actorno (String [] actornamelist);
+  public int list_paging_search_actor_count  (HashMap<String, Object> hashMap);
+  
+  /**
+   * 페이징 + 검색 (배우 이름 한글, 배우 이름 영문, 배우 국적, 배역, 영화 이름 한글, 영화 이름 영문 )
+   * @param hashMap
+   * @return
+   */
+  public ArrayList<ActorVO> list_paging_search_actor (HashMap<String, Object> hashMap);
+  
+  /**
+   * 페이징 박스
+   * @param listFile 매핑 주소 
+   * @param search_count 검색 갯수
+   * @param nowPage 현재 페이지
+   * @param search_actor 검색어
+   * @return
+   */
+  public String pagingBox (String listFile, int search_count, int nowPage, String search_actor);
 
 }

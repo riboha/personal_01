@@ -57,36 +57,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 
-<!-- 페이징 + 검색 (화질, 언어, 장르) filmno list-->
-<select id="list_paging_search_filmno_list" resultType="FilmVO" parameterType="HashMap">
-  <!-- SELECT DISTINCT f.filmno
-  FROM film f, quality q, language l, genre g, filmgenre x            
-  WHERE f.filmno = q.filmno AND f.filmno = l.filmno AND f.filmno = x.filmno AND g.genreno = x.genreno
-  <choose>
-    <when test="search_genre == null || search_genre.equals('')">
-    </when>
-    <otherwise>
-      AND g.genrename = #{search_genre} 
-    </otherwise> 
- </choose>
-<choose>
-  <when test="search_quality == null || search_quality.equals('')">
-  </when>
-  <otherwise>
-    AND ${search_quality} =1 
-  </otherwise> 
-</choose>
-<choose>
-  <when test="search_language == null || search_language.equals('')">
-  </when>
-  <otherwise>
-    AND ${search_language} =1 
-  </otherwise> 
-</choose>
-  ORDER BY filmno DESC -->
-</select>
-
-
 <!-- 페이징 + 검색 (화질, 언어, 장르) -->
 <select id="list_paging_search" resultType="FilmVO" parameterType="HashMap">
   SELECT filmno

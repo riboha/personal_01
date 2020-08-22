@@ -168,15 +168,6 @@ public class FilmProc implements FilmProcInter {
     return str.toString(); 
   }
 
-  /**
-   * 페이징 + 검색 (화질, 언어, 장르) filmno list
-   */
-  @Override
-  public ArrayList<FilmVO>  list_paging_search_filmno_list(HashMap<String, Object> hashMap) {
-    ArrayList<FilmVO>  list_paging_search_filmno_list = this.FilmDAO.list_paging_search_filmno_list(hashMap);
-    return list_paging_search_filmno_list;
-  }
-  
   
   
 

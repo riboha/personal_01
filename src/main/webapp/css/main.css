@@ -391,9 +391,11 @@ ul {
   box-shadow: 0 5px 25px 0 rgba(0,0,0,0.3);
   border-top: 1px solid rgba(255,255,255,0.05);
 }
+
 .header__search--active {
   bottom: -60px;
 }
+
 .header__search-content {
   display: flex;
   flex-direction: row;
@@ -402,6 +404,7 @@ ul {
   height: 60px;
   position: relative;
 }
+
 .header__search-content input {
   position: relative;
   height: 60px;
@@ -413,7 +416,30 @@ ul {
   color: #fff;
   font-family: 'Open Sans', sans-serif;
 }
+
 .header__search-content button {
+  position: absolute;
+  height: 40px;
+  width: 90px;
+  top: 10px;
+  right: 15px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background-image: -moz-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+  background-image: -webkit-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+  background-image: -ms-linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+  background-image: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+  -webkit-box-shadow: 0 0 20px 0 rgba(255,88,96,0.5);
+  box-shadow: 0 0 20px 0 rgba(255,88,96,0.5);
+  opacity: 0.85;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+}
+/*Ãß°¡*/
+.actor__search-content button {
   position: absolute;
   height: 40px;
   width: 90px;
@@ -438,6 +464,7 @@ ul {
   color: #fff;
   opacity: 1;
 }
+
 .header__content {
   display: flex;
   flex-direction: row;
@@ -457,6 +484,7 @@ ul {
   color: rgba(255,255,255,0.75);
   font-size: 26px;
 }
+
 .header__cart-btn {
   color: rgba(255,255,255,0.75);
   font-size: 26px;
@@ -465,6 +493,7 @@ ul {
 .header__search-btn.active {
   color: #fff;
 }
+
 .header__cart-btn:hover,
 .header__cart-btn.active {
   color: #fff;
@@ -579,6 +608,7 @@ ul {
   .header__search-btn {
     font-size: 30px;
   }
+
   .header__cart-btn { 
     font-size: 30px;
   }
@@ -604,9 +634,11 @@ ul {
   .header__search-content input {
     padding: 0 130px 0 20px;
   }
+
   .header__search-content button {
     right: 20px;
   }
+
 }
 @media (min-width: 1200px) {
   .header__sign-in {
