@@ -244,7 +244,7 @@
                                     </span>
 
                                     <div class="card__wrap">
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>${filmVO_list.hit }</span>
 
                                         <ul class="card__list">
                                             <li>${filmVO_list.restrict }+</li>

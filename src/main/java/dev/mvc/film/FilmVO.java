@@ -41,7 +41,7 @@ private long postersize; /**포스터사이즈*/
 private MultipartFile posterMF; /**포스터 MF*/
 
 private int filmseq; /**출력*/
-private int hit; /**조회수*/
+private double hit; /**평점 평균*/
 private int dirno; /**감독 번호*/
 
 public int getFilmno() {
@@ -129,10 +129,10 @@ public int getFilmseq() {
 public void setFilmseq(int filmseq) {
   this.filmseq = filmseq;
 }
-public int getHit() {
+public double getHit() {
   return hit;
 }
-public void setHit(int hit) {
+public void setHit(double hit) {
   this.hit = hit;
 }
 public int getDirno() {

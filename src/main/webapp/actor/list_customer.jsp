@@ -54,7 +54,27 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo e</title>
+    <title>FlixGo</title>
+    
+    <script type="text/javascript">
+
+    $(function() {
+      $('#search_actor').val('${search_actor}'); 
+    });
+
+    // 배우 검색
+    function search () {
+      var search_actor = $('#search_actor').val();
+      if ( search_actor == null || $.trim(search_actor).length == 0 ) {
+        alert('검색어를 입력해주세요');
+        return;
+      }
+      location.href='list_customer.do?search_actor=' + search_actor + '&nowPage=';
+    }
+
+
+
+    </script>
 
 </head>
 <body class="body">
@@ -91,8 +111,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="actor__search-content">
-                        <input type="text" placeholder="여기서 배우를 찾아보세요">
-                        <button type="button">search</button>
+                        <input type="text"  id ="search_actor"  name="search_actor" placeholder="여기서 좋아하는 배우를 검색해보세요!" >
+                        <button type="button" onclick="search();">search</button>
                     </div>
                 </div>
             </div>
@@ -105,7 +125,7 @@
         <div class="container">
             <div class="row">
                         <!-- card -->
-                        <c:forEach var="list" items = "${list }">
+                        <c:forEach var="list" items = "${actorVO_list }">
                         <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                             <div class="card">
                                 <div class="card__cover">
@@ -129,7 +149,7 @@
                         
                         <!-- paginator -->
 		                <div class="col-12">
-		                   <%--  ${paging } --%>
+		                    ${paging }
 		                </div>
 		                <!-- end paginator -->
 

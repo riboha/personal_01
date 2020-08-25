@@ -61,11 +61,10 @@
 		    if ($('#optionlan').val() == null) {
 			    alert('지원 언어를 선택해 주세요');
 			}
-		    alert('optionlan:' + $('#optionlan').val()); 
+		    /* alert('optionlan:' + $('#optionlan').val()); 
 		    alert('optionqual:' + $('#optionqual').val().toString().trim()); 
 		    alert('optionrent:' + $('#optionprice').val().split(':')[0].trim()); 
-		    alert('optionprice:' + $('#optionprice').val().split(':')[1].slice(2,).trim()); 
-
+		    alert('optionprice:' + $('#optionprice').val().split(':')[1].slice(2,).trim()); */ 
 		    var params = {'optionlan' : $('#optionlan').val(),
 								'optionqual' : $('#optionqual').val().toString().trim(),
 								'optionrent' : $('#optionprice').val().split(':')[0].trim(),
@@ -74,8 +73,6 @@
 								'filmno' : ${param.filmno}
 								};
 
-		    // return;
-	        
 	        $.ajax({
 	            url : "../cart/create.do",
 	            type : "post",
@@ -248,7 +245,7 @@
     <!-- details -->
     <section class="section details">
         <!-- details background -->
-        <div class="details__bg" data-bg="img/home/home__bg.jpg"></div>
+        <div class="details__bg" data-bg="${root }/img/home/home__bg.jpg"></div>
         <!-- end details background -->
                 
 
@@ -259,10 +256,10 @@
                 <div class="col-12">
                     <h1 class="details__title">${filmVO.titleen }</h1>
                     <h1 class="details__title">${filmVO.titlekr }</h1>
-                <button class="" type="button" style="margin-left: 20px; font-size: 50px;" onclick="location.href='./read.do?filmno=${filmVO.filmno}'">
+<%--                 <button class="" type="button" style="margin-left: 20px; font-size: 50px;" onclick="location.href='./read.do?filmno=${filmVO.filmno}'">
                     <i class="icon ion-ios-card"   ></i>
                 </button>
-                </div>
+ --%>                </div>
                 <!-- end title -->
 
                 <!-- content -->
@@ -281,7 +278,7 @@
                             <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                                 <div class="card__content">
                                     <div class="card__wrap">
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>${filmVO.hit }</span>
                                         <ul class="card__list">
                                             <li>${filmVO.restrict }+</li>
                                             <c:choose><c:when test="${qualityVO.q1440 == 1}"><li>1440p</li></c:when></c:choose>
@@ -294,13 +291,13 @@
                                     <ul class="card__meta">
                                         <li><span>장르:</span> 
                                             <c:forEach var="film_genre_VO_list" items="${film_genre_VO_list }">
-                                                <a href="#">${film_genre_VO_list.genrename }</a>
+                                                <a href="./list_customer.do?search_genre=${film_genre_VO_list.genrename}&search_language=&search_quality=&nowPage=">${film_genre_VO_list.genrename }</a>
                                             </c:forEach>
                                         </li>
-                                        <li><span>감독:</span> <a href="#">${directorVO.dirnamekr }</a></li>
+                                        <li><span>감독:</span> <a href="../director/read.do?dirno=${directorVO.dirno }">${directorVO.dirnamekr }</a></li>
                                         <li><span>출연:</span> 
                                             <c:forEach var="film_actor_VO_list" items="${film_actor_VO_list }">
-                                                <a href="#">${film_actor_VO_list.actornamekr }</a>
+                                                <a href="../actor/read.do?actorno=${film_actor_VO_list.actorno }">${film_actor_VO_list.actornamekr }</a>
                                             </c:forEach>
                                         </li>
                                         <li><span>개봉 년도:</span> ${filmVO.year }</li>
@@ -308,17 +305,17 @@
                                         <li><span>언어:</span> <a href="#">${filmVO.lan }</a> </li>
                                         <li>
                                             <span>지원 언어:</span> 
-                                            <c:choose><c:when test="${languageVO.kr == 1}"><a href="#">KR</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.en == 1}"><a href="#">EN</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.ch == 1}"><a href="#">CH</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.jp == 1}"><a href="#">JP</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.es == 1}"><a href="#">ES</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.fr == 1}"><a href="#">FR</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.rs == 1}"><a href="#">RS</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.de == 1}"><a href="#">DE</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.pt == 1}"><a href="#">PT</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.ar == 1}"><a href="#">AR</a> </c:when></c:choose>
-                                            <c:choose><c:when test="${languageVO.hi == 1}"><a href="#">HI</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.kr == 1}"><a href="./list_customer.do?search_genre=&search_language=KR&search_quality=&nowPage=">KR</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.en == 1}"><a href="./list_customer.do?search_genre=&search_language=EN&search_quality=&nowPage=">EN</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.ch == 1}"><a href="./list_customer.do?search_genre=&search_language=CH&search_quality=&nowPage=">CH</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.jp == 1}"><a href="./list_customer.do?search_genre=&search_language=JP&search_quality=&nowPage=">JP</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.es == 1}"><a href="./list_customer.do?search_genre=&search_language=ES&search_quality=&nowPage=">ES</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.fr == 1}"><a href="./list_customer.do?search_genre=&search_language=FR&search_quality=&nowPage=">FR</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.rs == 1}"><a href="./list_customer.do?search_genre=&search_language=RS&search_quality=&nowPage=">RS</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.de == 1}"><a href="./list_customer.do?search_genre=&search_language=DE&search_quality=&nowPage=">DE</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.pt == 1}"><a href="./list_customer.do?search_genre=&search_language=PT&search_quality=&nowPage=">PT</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.ar == 1}"><a href="./list_customer.do?search_genre=&search_language=AR&search_quality=&nowPage=">AR</a> </c:when></c:choose>
+                                            <c:choose><c:when test="${languageVO.hi == 1}"><a href="./list_customer.do?search_genre=&search_language=HI&search_quality=&nowPage=">HI</a> </c:when></c:choose>
                                         </li>
                                     </ul>
 
@@ -342,6 +339,7 @@
 
                 <div class="col-12">
                     <div class="details__wrap">
+                        
                         <!-- availables -->
                         <div class="details__devices">
                             <span class="details__devices-title"></span>
@@ -539,11 +537,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-8 col-xl-8">
+                
                     <!-- content tabs -->
                     <div class="tab-content" id="myTabContent">
+                    <!-- 
                         <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                             <div class="row">
-                                <!-- comments -->
+                                comments
                                 <div class="col-12">
                                     <div class="comments">
                                         <ul class="comments__list">
@@ -649,9 +649,9 @@
                                         </form>
                                     </div>
                                 </div>
-                                <!-- end comments -->
+                                end comments
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                             <div class="row">
@@ -675,9 +675,10 @@
                                         </ul>
 
                                         <form id='review_form' action="../review/create.do" class="form">
-                                            <input type="hidden" id="memberno" name="memberno" class="form__input" value="1">
-                                            <input type="hidden" id="payno" name="payno" class="form__input" value="3">
-                                            <input type="hidden" id="filmno" name="filmno" class="form__input" value="${filmVO.filmno }" >
+                                            <input type="hidden" id="memberno" name="memberno" class="form__input" value="${sessionScope.memberno }">
+                                            <%-- <input type="hidden" id="payno" name="payno" class="form__input" value="${param.payno }"> --%>
+                                            <input type="hidden" id="payno" name="payno" class="form__input" value="${param.payno }">
+                                            <input type="hidden" id="filmno" name="filmno" class="form__input" value="${param.filmno }" >
                                             
                                             <input type="text" id="title" name="title" class="form__input" placeholder="제목">
                                             <textarea class="form__textarea" id="review" name="review" placeholder="리뷰"></textarea>

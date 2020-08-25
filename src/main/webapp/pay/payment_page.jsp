@@ -375,6 +375,7 @@ $(function(){
 					  }
 					});
                   }
+                  location.href='./list_customer.do?memberno=${sessionScope.memberno}';
                   alert('전체 장바구니 삭제 성공');
               } else {
                   alert('결제 실패: paytotalno');
@@ -488,17 +489,17 @@ $(function(){
 					               <c:forEach var="film_promotion_list" items="${film_promotion_list }">
 			                       <c:set var="promofilmno" value="${film_promotion_list.promofilmno}" />
 				                   <c:choose>
-				                       <c:when test="${film_promotion_list.filmno == VO.filmno}">
+				                       <c:when test="${film_promotion_list.filmno == VO.filmno && film_promotion_list.promono != 0}">
 							               <li>
 							                   ${film_promotion_list.promotitle }
 							                   <c:choose>
 					                           <c:when test="${film_promotion_list.promoamount == 0 }">
-					                              <button id="btn_promopercent_${promofilmno }" onclick="promopercent(${film_promotion_list.promopercent }, ${cartno }, ${promofilmno });" style="margin: 0px; display: inline-block;">적용</button>
-					                              <button id="btn_promopercent_cancel_${promofilmno }" onclick="promopercent_cancel(${film_promotion_list.promopercent }, ${cartno }, ${promofilmno });" style="margin: 0px; display: none;">취소</button>
+					                              <button id="btn_promopercent_${promofilmno }" onclick="promopercent(${film_promotion_list.promopercent }, ${cartno }, ${promofilmno });" style="margin: 0px; display: inline-block; color: rgba(255,255,255,0.5);">적용</button>
+					                              <button id="btn_promopercent_cancel_${promofilmno }" onclick="promopercent_cancel(${film_promotion_list.promopercent }, ${cartno }, ${promofilmno });" style="margin: 0px; display: none; color: rgba(255,255,255,0.5);">취소</button>
 					                           </c:when>
 					                           <c:otherwise>
-					                              <button id="btn_promoamount_${promofilmno }" onclick="promoamount(${film_promotion_list.promoamount }, ${cartno }, ${promofilmno });" style="margin: 0px; display: inline-block;">적용</button>
-					                              <button id="btn_promoamount_cancel_${promofilmno }" onclick="promoamount_cancel(${film_promotion_list.promoamount }, ${cartno }, ${promofilmno });" style="margin: 0px; display: none;">취소</button>
+					                              <button id="btn_promoamount_${promofilmno }" onclick="promoamount(${film_promotion_list.promoamount }, ${cartno }, ${promofilmno });" style="margin: 0px; display: inline-block; color: rgba(255,255,255,0.5);">적용</button>
+					                              <button id="btn_promoamount_cancel_${promofilmno }" onclick="promoamount_cancel(${film_promotion_list.promoamount }, ${cartno }, ${promofilmno });" style="margin: 0px; display: none; color: rgba(255,255,255,0.5);">취소</button>
 					                           </c:otherwise>
 							                   </c:choose>
 							               </li>
@@ -519,7 +520,7 @@ $(function(){
 							         <input type="hidden" id="filmno_${cartno }" name="filmno" value="${filmno}">
 							         
 							       </form>
-							         <button onclick="submit(${cartno})">등록</button>
+							        <%--  <button onclick="submit(${cartno})">등록</button> --%>
 							       
 					               </c:forEach>
 					           </ul>
@@ -550,9 +551,10 @@ $(function(){
                             <input type="number" id="pntuse" name="pntuse" 
                                 style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; " 
                                 value="0"  max="${memberVO.pnt}" min="0" step="10"> 원
-                            <button id="btn_pntuse" name = "btn_pntuse" style ="display:inline-block;">[사용]</button>
-                            <button id="btn_pntuse_all" name = "btn_pntuse_all" style ="display:inline-block;">[모두 사용]</button>
-                            <button id="btn_pntuse_cancel" name = "btn_pntuse_cancel" style ="display:none;">[취소]</button>
+                                <br>
+                            <button id="btn_pntuse" name = "btn_pntuse" style ="display:inline-block; color: rgba(255,255,255,0.5);" >[사용]</button>
+                            <button id="btn_pntuse_all" name = "btn_pntuse_all" style ="display:inline-block; color: rgba(255,255,255,0.5);">[모두 사용]</button>
+                            <button id="btn_pntuse_cancel" name = "btn_pntuse_cancel" style ="display:none; color: rgba(255,255,255,0.5);">[취소]</button>
                           </TD>
                         </TR>
                       </tbody>

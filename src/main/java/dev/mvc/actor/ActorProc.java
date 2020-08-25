@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import dev.mvc.film.Film;
+
 @Component("dev.mvc.actor.ActorProc")
 public class ActorProc implements ActorProcInter {
 
@@ -91,9 +93,62 @@ public class ActorProc implements ActorProcInter {
 
   @Override
   // 페이징 박스 
-  public String pagingBox(String listFile, int search_count, int nowPage, String search_actor) {
-    // TODO Auto-generated method stub
-    return null;
+  public String pagingBox ( String listFile, int search_count, int nowPage, String search_actor ) {
+    
+    // Actor.RECORD_PER_PAGE  페이지 별 레코드 수 = 12
+    // Actor.PAGE_PER_BLOCK 그룹 별 페이지 수=  5
+    
+    int totalPage = (int) (Math.ceil ((double)search_count / Actor.RECORD_PER_PAGE));  // 전체 페이지 수 // 레코드 60개 → 60 / 12 = 5
+    int totalGrp = (int) (Math.ceil ((double) totalPage / Actor.PAGE_PER_BLOCK)); // 전체 그룹 수 // 전체 페이지 수  5개 → 5 / 5 = 1
+    int nowGrp = (int) (Math.ceil((double) nowPage /Actor.PAGE_PER_BLOCK)); // 현재 그룹  // 현재 페이지 1 → 1 / 5 ≒ 0
+    int startPage = ((nowGrp -1) * Actor.PAGE_PER_BLOCK) + 1; // 특정 그룹 시작 페이지 번호 // 현재 페이지 1 → (1 - 1) * 5 + 1 = 1
+    int endPage = (nowGrp * Actor.PAGE_PER_BLOCK); // 특정 그룹 끝 페이지 번호 // 편재 페이지 1 → (1 * 5) = 5
+    
+    
+    StringBuffer str = new StringBuffer();
+    str.append("<ul class='paginator paginator--list'>");
+    
+    // ※ 이전 그룹으로 이동 
+    // nowGrp 1 (1~5), nowGrp 2 (6~10), nowGrp 3 (11~15)
+    // 현재 2그룹, 1그룹의 마지막 페이지 5로 이동 →  (2 - 1) * 5 = 5
+    // 현재 3그룹, 2그룹의 마지막 페이지 5로 이동 →  (3 - 1) * 5 = 10
+    
+    int _nowPage = (nowGrp-1) * Film.PAGE_PER_BLOCK;  
+    if (nowGrp >= 2){ 
+      str.append("<li class='paginator__item paginator__item--prev'>"
+                    + "<a href=' " +listFile+"?search_actor=" + search_actor + "&nowPage="+ _nowPage+ " '>"
+                    + "<i class='icon ion-ios-arrow-back'></i></a></li>");  
+    } 
+    
+    // ※ 중앙의 페이지 목록
+    for ( int i=startPage; i<=endPage; i++ ){ 
+      if (i > totalPage){ // 마지막 페이지를 넘어갔다면 페이 출력 종료
+        break; 
+      } 
+      if (nowPage == i){ // 페이지가 현재페이지와 같다면 CSS 강조(차별을 둠)
+        str.append("<li class=\"paginator__item paginator__item--active\"><a href=\"#\">" + i + "</a></li>"); // 현재 페이지, 강조 
+      } else{
+        // 현재 페이지가 아닌 페이지는 이동이 가능하도록 링크를 설정
+        str.append("<li class='paginator__item'>"
+            + "<a href=' " +listFile+"?search_actor=" + search_actor  + "&nowPage="+  i + " '>"
+            + i 
+            + "</a></li>");
+      } 
+      
+      // ※ 다음 그룹으로 이동
+      // nowGrp: 1 (1 ~ 5 page),  nowGrp: 2 (6 ~ 10 page),  nowGrp: 3 (11 ~ 15 page) 
+      // 현재 1그룹, 2그룹의 시작 페이지 6으로 이동 → ( 1 * 5 ) + 1 = 6
+      // 현재 2그룹, 3그룹의 시작 페이지 11으로 이동 → ( 2 * 5 ) + 1 = 11
+      _nowPage = (nowGrp * Film.PAGE_PER_BLOCK)+1;  
+      if (nowGrp < totalGrp){ 
+        str.append("<li class='paginator__item paginator__item--next'>"
+            + "<a href=' " +listFile+"?search_actor=" + search_actor + "&nowPage="+ _nowPage+ " '>"
+            + "<i class='icon ion-ios-arrow-forward'></i></a></li>");  
+      } 
+    } 
+    
+    str.append("</ul>");
+    return str.toString(); 
   }
 
 }

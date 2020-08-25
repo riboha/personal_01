@@ -1,6 +1,7 @@
 package dev.mvc.actor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,10 +11,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.actorfav.ActorfavProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 
@@ -23,6 +26,10 @@ public class ActorCont {
   @Autowired
   @Qualifier("dev.mvc.actor.ActorProc")
   private ActorProcInter actorProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.actorfav.ActorfavProc")
+  private ActorfavProcInter actorfavProc;
   
   
 
@@ -66,7 +73,7 @@ public class ActorCont {
       actorpic = Upload.saveFileSpring(mf, upDir);
      
       if (Tool.isImage(actorpic)) {
-        actorthumb = Tool.preview(upDir, actorpic, 200, 200);
+        actorthumb = Tool.preview(upDir, actorpic, 300, 300);
       }
     }
     // =============파일 전송 코드===============
@@ -120,16 +127,54 @@ public class ActorCont {
   
   
   /**
-   * 목록 (고객 조회용)
+   * 목록 (회원용)
    * @return
-   *  http://localhost:9090/movie/actor/list.do
+   *  http://localhost:9090/movie/actor/list_customer.do
    */
   @RequestMapping(value = "/actor/list_customer.do",
                             method = RequestMethod.GET)
-  public ModelAndView list_ () {
+  public ModelAndView list_customer (
+      @RequestParam(value="search_actor",  required=false) String search_actor,
+      @RequestParam(value="nowPage", defaultValue="1") int nowPage
+      ) {
     ModelAndView mav = new ModelAndView();
-    ArrayList<ActorVO> list = this.actorProc.list();
-    mav.addObject("list", list);
+    
+    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    hashMap.put("search_actor", search_actor );
+    hashMap.put("nowPage", nowPage );
+    
+    // 검색 레코드 갯수
+    int search_count = this.actorProc.list_paging_search_actor_count(hashMap);
+    
+    // 검색 목록
+    ArrayList<ActorVO> list_paging_search_actor = this.actorProc.list_paging_search_actor(hashMap);
+    ArrayList<ActorVO> actorVO_list = new ArrayList<>();
+    
+    ActorVO actorVO = new ActorVO(); 
+    
+    System.out.println("list_paging_search_actor.size(): " + list_paging_search_actor.size());
+    
+    int actorno = 0;
+    for (int i = 0; i < list_paging_search_actor.size(); i ++) {
+      
+      actorno = list_paging_search_actor.get(i).getActorno();
+      actorVO = this.actorProc.read(actorno);
+      actorVO.setActorhit(this.actorfavProc.count_actorfav(actorno)); // 좋아요 갯수
+      actorVO_list.add(actorVO);
+    }
+    
+    // 페이징 박스
+    String paging = this.actorProc.pagingBox("list_customer.do", search_count, nowPage, search_actor);
+    
+    if (search_actor != null) {
+      mav.addObject("search_actor", search_actor);
+    } else {
+      mav.addObject("search_actor", null);
+    }
+    mav.addObject("search_count", search_count);
+    mav.addObject("actorVO_list", actorVO_list);
+    mav.addObject("paging", paging);
+    
     mav.setViewName("/actor/list_customer");
     return mav;
   }
@@ -157,8 +202,8 @@ public class ActorCont {
     String actorthumb = "";
     long actorpicsize = actorpicMF.getSize();
     long actorpicsize_old = actorVO_old.getActorpicsize();
-    System.out.println("actorpicsize: " + actorpicsize);
-    System.out.println("actorpicsize_old: " + actorpicsize_old);
+    //System.out.println("actorpicsize: " + actorpicsize);
+    //System.out.println("actorpicsize_old: " + actorpicsize_old);
     
     if (actorpicsize != 0) { 
       System.out.println("새롭게 올리는 경우");
@@ -173,7 +218,7 @@ public class ActorCont {
       
       actorpic = Upload.saveFileSpring(actorpicMF, upDir);
       if (Tool.isImage(actorpic)) {
-        actorthumb = Tool.preview(upDir, actorpic, 200, 200);
+        actorthumb = Tool.preview(upDir, actorpic, 300, 300);
       }
       actorpicsize = actorpicMF.getSize();
       
@@ -223,9 +268,7 @@ public class ActorCont {
                             produces = "text/plain;charset=UTF-8")
   public String delete_img (HttpServletRequest request, int actorno) {
     
-    System.out.println("Controller 진입");
-
-    
+    // System.out.println("Controller 진입");
     String upDir = Tool.getRealPath(request, "actor/prof"); // 절대 경로
     ActorVO actorVO = this.actorProc.read(actorno);
     
@@ -249,13 +292,19 @@ public class ActorCont {
   @RequestMapping(value = "/actor/delete.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  public String delete (int actorno) {
-    System.out.println("Controller 진입");
+  public String delete (HttpServletRequest request, int actorno) {
+
+    ActorVO actorVO = this.actorProc.read(actorno);
+    
+    String upDir = Tool.getRealPath(request, "director/prof");
+    Tool.deleteFile(upDir, actorVO.getActorpic()); 
+    Tool.deleteFile(upDir, actorVO.getActorthumb()); 
+    
     int cnt = this.actorProc.delete(actorno);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
-    System.out.println("처리 결과 cnt: " + cnt);
+    // System.out.println("처리 결과 cnt: " + cnt);
     return json.toString();
   }
   

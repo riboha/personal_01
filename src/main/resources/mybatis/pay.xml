@@ -38,7 +38,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY payno
 </select>
 
-
 <!-- 조회 -->
 <select id="read" resultType="PayVO" parameterType="int">
   SELECT payno, 
@@ -62,5 +61,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   FROM pay
   WHERE payno= #{payno}
 </delete>
+
+
+
+<!-- 구매 목록 페이징 by paytotalno COUNT -->
+<select id="list_paging_by_paytotalno_count" resultType="int" parameterType="HashMap">
+  SELECT COUNT (paytotalno) as cnt
+  FROM (
+              SELECT DISTINCT t. paytotalno
+              FROM paytotal t, pay p, film f
+              WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
+              ORDER BY t.paytotalno
+            )
+</select>
+
+
+<!-- 구매 목록 페이징 paytotal -->
+<select id="list_paging_paytotalno" resultType="PaytotalVO" parameterType="HashMap">
+  SELECT paytotalno, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, pntsave, method, paytotaldate, r
+  FROM (
+              SELECT paytotalno, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, pntsave, method, paytotaldate, rownum as r
+              FROM (
+                          SELECT DISTINCT t. paytotalno, t.pricetotaldiscpromo, t.pricetotaldiscpnt, t.pricetotalfinal, t.pntsave, t.method, t.paytotaldate
+                          FROM paytotal t, pay p, film f
+                          WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
+                          ORDER BY paytotalno  
+                        )
+            )
+  WHERE <![CDATA[ r >= #{startNum, jdbcType=INTEGER} AND r <= #{endNum, jdbcType=INTEGER} ]]>
+</select>
+
+
+<!-- 구매 목록 페이징 pay, film-->
+<select id="list_paging" resultType="Paytotal_Pay_Film_VO" parameterType="HashMap">
+  SELECT t.paytotalno,
+              p.payno, p.optionlan, p.optionqual, p.optionrent, p.priceoriginal, p.pricefinal, p.filmno,
+              f.titleen, f.titlekr         
+  FROM pay p, paytotal t, film f
+  WHERE t.paytotalno IN ( 
+                                  SELECT paytotalno 
+                                  FROM (
+                                              SELECT paytotalno, r
+                                              FROM (        
+                                                          SELECT paytotalno, rownum as r
+                                                          FROM (
+                                                                      SELECT DISTINCT t. paytotalno
+                                                                      FROM paytotal t, pay p, film f
+                                                                      WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
+                                                                      ORDER BY paytotalno  
+                                                                    )
+                                                          )                             
+                                              WHERE <![CDATA[ r >= #{startNum, jdbcType=INTEGER} AND r <= #{endNum, jdbcType=INTEGER} ]]>
+                                            )
+                                  ) AND p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
+  ORDER BY paytotalno
+</select>
+
+
+
+
 
 </mapper>

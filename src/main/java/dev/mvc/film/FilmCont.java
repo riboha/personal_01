@@ -434,7 +434,6 @@ public class FilmCont {
       
       filmVO_list.add(this.filmProc.read(filmno)); // filmno에 해당하는 filmVO 객체 저장
       qualityVO_list.add(this.qualityProc.read(filmno)); // filmno에 해당하는 QualityVO 객체 저장
-      
       film_genre_VO_list.addAll(this.filmgenreProc.filmgenre_list_by_filmno(filmno)); // filmno에 해당하는 Film_Genre_VO 객체 저장
     }
     

@@ -37,4 +37,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE reviewno= #{reviewno}
 </delete>
 
+
+<!-- 영화번호 별 평균 평점-->
+<select id="rate_by_filmno" parameterType="int" resultType="double"> 
+  SELECT NVL(AVG(rate), 0)
+  FROM review
+  WHERE filmno = #{filmno}
+</select>
+
+
 </mapper>

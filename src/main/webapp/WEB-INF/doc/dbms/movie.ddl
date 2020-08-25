@@ -88,7 +88,7 @@ COMMENT ON COLUMN film.poster is '포스터';
 COMMENT ON COLUMN film.posterthumb is '썸네일';
 COMMENT ON COLUMN film.postersize is '포스터 사이즈';
 COMMENT ON COLUMN film.filmseq is '출력';
-COMMENT ON COLUMN film.hit is '조회수';
+COMMENT ON COLUMN film.hit is '평점 평균';
 COMMENT ON COLUMN film.dirno is '감독 번호';
 
 

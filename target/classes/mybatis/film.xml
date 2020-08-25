@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 6개 레코드 최신순목록 (메인 페이지용 ) -->
 <select id="list_6_main" resultType="FilmVO">
-  SELECT filmno, titlekr, poster
+  SELECT filmno, titlekr, poster, hit
   FROM film
   WHERE ROWNUM <![CDATA[ <= ]]> 6
   ORDER BY filmno DESC
@@ -123,6 +123,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         summary=#{summary, jdbcType=VARCHAR}, restrict=#{restrict, jdbcType=INTEGER}, 
         youtube=#{youtube, jdbcType=VARCHAR}, url=#{url, jdbcType=INTEGER}, 
         poster=#{poster, jdbcType=VARCHAR}, posterthumb=#{posterthumb, jdbcType=VARCHAR}, postersize =#{postersize, jdbcType=INTEGER}
+  WHERE filmno = #{filmno, jdbcType=INTEGER}
+</update>
+
+<!-- 평점 평균 수정 -->
+<update id="update_rate" parameterType="int">
+  UPDATE film
+  SET hit = (
+                  SELECT NVL(AVG(rate), 0)
+                  FROM review
+                  WHERE filmno = #{filmno, jdbcType=INTEGER}
+               )
   WHERE filmno = #{filmno, jdbcType=INTEGER}
 </update>
 

@@ -42,7 +42,7 @@ COMMENT ON COLUMN film.url is '홈페이지';
 COMMENT ON COLUMN film.poster is '포스터';
 COMMENT ON COLUMN film.thumb is '썸네일';
 COMMENT ON COLUMN film.filmseq is '출력';
-COMMENT ON COLUMN film.hit is '조회수';
+COMMENT ON COLUMN film.hit is '평점 평균';
 COMMENT ON COLUMN film.dirno is '감독 번호';
 
 -- ALTER TABLE film ADD (postersize NUMBER(10));
@@ -53,7 +53,14 @@ ALTER TABLE film RENAME COLUMN Youtube TO youtube;
 
 -- ALTER TABLE film MODIFY  postersize DEFAULT 0		 NOT NULL;
 ALTER TABLE film MODIFY  postersize VARCHAR2(200);
--- DESC film;
+
+
+ALTER TABLE film DROP COLUMN hit;
+ALTER TABLE film ADD  (hit NUMBER(3, 1))	;
+ALTER TABLE film MODIFY  hit DEFAULT 0		 NOT NULL;
+
+DESC film;
+
 
 DROP SEQUENCE film_seq;
 
@@ -102,6 +109,11 @@ FROM film
 ORDER BY filmno;
 
 
+SELECT filmno, hit
+FROM film
+ORDER BY filmno;
+
+
 -- ♣ 메인 페이지용 최신순 6개 레코드 출력
 SELECT filmno, titlekr, poster
 FROM film
@@ -123,7 +135,7 @@ SELECT filmno, titlekr, titleen, lan, year, len, summary, restrict, dirno, youtu
             poster, posterthumb, postersize,
             filmseq, hit, dirno
 FROM film
-WHERE filmno = 8;
+WHERE filmno = 26;
 
 
 SELECT url
@@ -148,6 +160,24 @@ WHERE filmno = 2;
 UPDATE film
 SET url = 'http://'
 WHERE filmno = 8;
+
+
+UPDATE film
+SET hit = 00.0;
+WHERE filmno = 26
+
+-- 평균 평점 업데이트
+
+UPDATE film
+SET hit = (
+                SELECT NVL(AVG(rate), 0)
+                FROM review
+                WHERE filmno = 26
+             )
+WHERE filmno = 26
+
+COMMIT;
+
 
 
 -- ♣DELETE♣

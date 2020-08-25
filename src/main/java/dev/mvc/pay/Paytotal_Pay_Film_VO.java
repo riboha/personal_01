@@ -4,22 +4,14 @@ public class Paytotal_Pay_Film_VO {
   
   /**PaytotalVO*/
   private int paytotalno; /**총결제 번호*/
-  private int pricetotaldiscpromo; /**총결제 프로모션 할인 금액*/
-  private int pricetotaldiscpnt; /**총결제 포인트 할인 금액*/
-  private int pricetotaloriginal; /**총결제 원 금액*/
-  private int pricetotalfinal; /**총결제 최종 금액*/
-  private int pntsave; /**총결제 적립 포인트*/
 
-  private int method; /**결제 방식*/
-  private String paytotaldate; /**결제 일자*/
-  
   
   /**PayVO*/
   private int payno; /**결제 번호*/
-
   private String optionlan; /**옵션 언어*/
   private String optionqual; /**옵션 화질*/
   private String optionrent; /**결제 대여*/
+  private String priceoriginal; /**옵션 가격*/
   private int pricefinal; /**결제 최종 금액*/
   private int filmno; /**영화 번호*/
   
@@ -34,48 +26,6 @@ public class Paytotal_Pay_Film_VO {
   }
   public void setPaytotalno(int paytotalno) {
     this.paytotalno = paytotalno;
-  }
-  public int getPricetotaldiscpromo() {
-    return pricetotaldiscpromo;
-  }
-  public void setPricetotaldiscpromo(int pricetotaldiscpromo) {
-    this.pricetotaldiscpromo = pricetotaldiscpromo;
-  }
-  public int getPricetotaldiscpnt() {
-    return pricetotaldiscpnt;
-  }
-  public void setPricetotaldiscpnt(int pricetotaldiscpnt) {
-    this.pricetotaldiscpnt = pricetotaldiscpnt;
-  }
-  public int getPricetotaloriginal() {
-    return pricetotaloriginal;
-  }
-  public void setPricetotaloriginal(int pricetotaloriginal) {
-    this.pricetotaloriginal = pricetotaloriginal;
-  }
-  public int getPricetotalfinal() {
-    return pricetotalfinal;
-  }
-  public void setPricetotalfinal(int pricetotalfinal) {
-    this.pricetotalfinal = pricetotalfinal;
-  }
-  public int getPntsave() {
-    return pntsave;
-  }
-  public void setPntsave(int pntsave) {
-    this.pntsave = pntsave;
-  }
-  public int getMethod() {
-    return method;
-  }
-  public void setMethod(int method) {
-    this.method = method;
-  }
-  public String getPaytotaldate() {
-    return paytotaldate;
-  }
-  public void setPaytotaldate(String paytotaldate) {
-    this.paytotaldate = paytotaldate;
   }
   public int getPayno() {
     return payno;
@@ -101,6 +51,13 @@ public class Paytotal_Pay_Film_VO {
   public void setOptionrent(String optionrent) {
     this.optionrent = optionrent;
   }
+
+  public String getPriceoriginal() {
+    return priceoriginal;
+  }
+  public void setPriceoriginal(String priceoriginal) {
+    this.priceoriginal = priceoriginal;
+  }
   public int getPricefinal() {
     return pricefinal;
   }
@@ -125,7 +82,6 @@ public class Paytotal_Pay_Film_VO {
   public void setTitleen(String titleen) {
     this.titleen = titleen;
   }
-  
   
     
   

@@ -5,7 +5,6 @@ public class PayVO {
 //  payno                               NUMBER(10)       NOT NULL        PRIMARY KEY,
 //  optionlan                           VARCHAR2(10)         NOT NULL,
 //  optionqual                          VARCHAR2(10)         NOT NULL,
-//  optionprice                         NUMBER(10)       NOT NULL,
 //  optionrent                          VARCHAR2(10)         NOT NULL,
 //  priceoriginal                       NUMBER(10)       NOT NULL,
 //  pricediscount                       NUMBER(10)       DEFAULT 0       NOT NULL, 
@@ -24,7 +23,6 @@ public class PayVO {
   
   private String optionlan; /**옵션 언어*/
   private String optionqual; /**옵션 화질*/
-  private String optionprice; /**옵션 가격*/
   private String optionrent; /**결제 대여*/
   
   private int priceoriginal; /**결제 원 금액*/
@@ -56,24 +54,13 @@ public class PayVO {
   public void setOptionqual(String optionqual) {
     this.optionqual = optionqual;
   }
-  public String getOptionprice() {
-    return optionprice;
-  }
-  public void setOptionprice(String optionprice) {
-    this.optionprice = optionprice;
-  }
   public String getOptionrent() {
     return optionrent;
   }
   public void setOptionrent(String optionrent) {
     this.optionrent = optionrent;
   }
-  public int getPriceoriginal() {
-    return priceoriginal;
-  }
-  public void setPriceoriginal(int priceoriginal) {
-    this.priceoriginal = priceoriginal;
-  }
+
   public int getPricediscount() {
     return pricediscount;
   }
@@ -115,6 +102,12 @@ public class PayVO {
   }
   public void setFilmno(int filmno) {
     this.filmno = filmno;
+  }
+  public int getPriceoriginal() {
+    return priceoriginal;
+  }
+  public void setPriceoriginal(int priceoriginal) {
+    this.priceoriginal = priceoriginal;
   }
   
     

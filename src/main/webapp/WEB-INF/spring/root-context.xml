@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Oracle Connection Pool, 안정적인 데이터베이스 연결 지원, MyBATIS 사용 -->
-    <!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
       <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
       <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
       <property name="username" value="movie" />
       <property name="password" value="1234" />
-    </bean> -->
+    </bean>
  
     <!-- MySQL: & → ＆amp; 엔티티로 변경 -->
   <!--
@@ -21,8 +21,8 @@
     </bean> 
   -->
   
-  <!-- sql test 시작 -->
-   <bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource">
+  <!-- sql log 시작 -->
+   <!-- <bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
       <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
       <property name="username" value="movie" />
@@ -37,7 +37,7 @@
           <property name="sqlPrefix" value="SQL : "/> 
         </bean> 
         </property> 
-    </bean> 
+    </bean>  -->
   <!-- test 끝ㅌ -->
     
     

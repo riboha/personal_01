@@ -13,6 +13,13 @@ public interface ReviewProcInter {
   public int update (ReviewVO reviewVO);
   
   public int delete (int reviewno);
+  
+  /**
+   * 영화번호 별 평균 평점
+   * @param filmno
+   * @return
+   */
+  public double rate_by_filmno (int filmno);
 
 
 }

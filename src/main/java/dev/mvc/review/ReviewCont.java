@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.film.FilmProcInter;
+import dev.mvc.film.FilmVO;
+
 @Controller
 public class ReviewCont {
   
@@ -16,6 +19,9 @@ public class ReviewCont {
   @Qualifier("dev.mvc.review.ReviewProc")
   private ReviewProcInter reviewProc;
   
+  @Autowired
+  @Qualifier ("dev.mvc.film.FilmProc")
+  private FilmProcInter filmProc;
   
  
   /**
@@ -31,7 +37,13 @@ public class ReviewCont {
     
     System.out.println("Controller 진입");
     int cnt = this.reviewProc.create(reviewVO);
-      
+    int filmno = reviewVO.getFilmno();
+    
+    if (cnt != 0) {
+      this.filmProc.update_rate(filmno);
+    }
+    System.out.println("★★★ 등록 처리 후 평균 평점 : " + this.reviewProc.rate_by_filmno(filmno));
+    
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
     
@@ -99,6 +111,13 @@ public class ReviewCont {
   public String update (ReviewVO reviewVO) {
     
     int cnt = this.reviewProc.update(reviewVO);
+    int filmno = reviewVO.getFilmno();
+    
+    if (cnt != 0) {
+      this.filmProc.update_rate(filmno);
+    }
+
+    System.out.println("★★★수정 처리 후 평균 평점 : " + this.reviewProc.rate_by_filmno(filmno));
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -118,7 +137,15 @@ public class ReviewCont {
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
   public String delete (int reviewno) {
+    
+    int filmno = this.reviewProc.read(reviewno).getFilmno();
     int cnt = this.reviewProc.delete(reviewno);
+    
+    if (cnt != 0) {
+      this.filmProc.update_rate(filmno);
+    }
+
+    System.out.println("★★★삭제 처리 후 평균 평점 : " + this.reviewProc.rate_by_filmno(filmno));
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);

@@ -1,6 +1,7 @@
 package dev.mvc.pay;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,21 +127,42 @@ public class PayCont {
   
   
   /**
-   * 목록
+   * 페이징 목록
    * @return
-   *  http://localhost:9090/movie/pay/list_by_memberno.do
+   *  http://localhost:9090/movie/pay/list_customer.do?memberno=1
    */
-  @RequestMapping(value = "/pay/list_by_memberno.do",
+  @RequestMapping(value = "/pay/list_customer.do",
                             method = RequestMethod.GET)
-  public ModelAndView list_by_memberno (int memberno) {
+  public ModelAndView list_by_memberno (
+      int memberno,
+      @RequestParam(value="nowPage", defaultValue="1") int nowPage) {
+    
     ModelAndView mav = new ModelAndView();
     
-    ArrayList<PaytotalVO> list_paytotal = this.paytotalProc.list();
-    ArrayList<Paytotal_Pay_Film_VO> list_by_memberno = this.payProc.list_by_memberno(memberno);
+    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    hashMap.put("memberno", memberno );
+    hashMap.put("nowPage", nowPage );
     
-    mav.addObject("list_paytotal", list_paytotal);
-    mav.addObject("list", list_by_memberno);
-    mav.setViewName("/pay/list_by_memberno");
+    // 레코드 갯수
+    int search_count = this.payProc.list_paging_by_paytotalno_count(hashMap);
+    mav.addObject("search_count", search_count);
+    
+    // 페이징: Paytotal
+    ArrayList<PaytotalVO> list_paging_paytotalno = this.payProc.list_paging_paytotalno(hashMap);
+    mav.addObject("list_paging_paytotalno", list_paging_paytotalno);
+    
+    // 목록: Pay + Film
+    ArrayList<Paytotal_Pay_Film_VO> list_paging = this.payProc.list_paging(hashMap);
+    mav.addObject("list_paging", list_paging);
+    
+    // 페이징 박스
+    String paging = this.payProc.pagingBox("list_customer.do", search_count, memberno, nowPage);
+    mav.addObject("paging", paging);
+    
+    // 현재 페이지 번호
+    mav.addObject("nowPage", nowPage); 
+    
+    mav.setViewName("/pay/list_customer");
     
     return mav;
   }

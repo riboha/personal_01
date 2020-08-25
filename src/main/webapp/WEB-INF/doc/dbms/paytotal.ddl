@@ -72,6 +72,13 @@ FROM paytotal
 ORDER BY paytotalno;
 
 
+SELECT paytotalno, 
+            pricetotaloriginal, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, 
+            pntsave, method, paytotaldate, memberno
+FROM paytotal
+WHERE memberno = 1
+ORDER BY paytotalno;
+
 
 -- ¢ÀREAD¢À
 
@@ -149,14 +156,18 @@ ORDER BY payno;
 
 
 
-
-
-
-
-
-
-
-
+-- Paytotal no
+SELECT paytotalno, r
+FROM (
+            SELECT paytotalno, rownum as r
+            FROM (
+                        SELECT DISTINCT t. paytotalno
+                        FROM paytotal t, pay p, film f
+                        WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+                        ORDER BY paytotalno  
+                      )
+          )
+WHERE r >= 1 AND r <= 5;
 
 
 

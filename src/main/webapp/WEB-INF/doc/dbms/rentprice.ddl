@@ -44,6 +44,13 @@ VALUES (3, 1000, 3000, 7000, 10000, 15000, 3);
 INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (5, 1000, 3000, 7000, 10000, 15000, 5);
 
+
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+VALUES (6, 1000, 3000, 7000, 10000, 15000, 6);
+
+INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
+VALUES (7, 1000, 3000, 7000, 10000, 15000, 7);
+
 INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
 VALUES (8, 1000, 3000, 7000, 10000, 15000, 8);
 

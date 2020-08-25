@@ -63,7 +63,7 @@ public class DirectorCont {
       dirphoto = Upload.saveFileSpring(mf, upDir);
      
       if (Tool.isImage(dirphoto)) {
-        dirthumb = Tool.preview(upDir, dirphoto, 200, 200);
+        dirthumb = Tool.preview(upDir, dirphoto, 300, 300);
       }
     }
     // =============파일 전송 코드===============
@@ -154,45 +154,52 @@ public class DirectorCont {
   @RequestMapping(value = "/director/update.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  public String update (DirectorVO directorVO, HttpServletRequest request) {
+  public String update (HttpServletRequest request, DirectorVO directorVO) {
     
+    String upDir = Tool.getRealPath(request, "director/prof"); // 절대 경로
     DirectorVO directorVO_old = this.directorProc.read(directorVO.getDirno());
+    MultipartFile dirphotoMF = directorVO.getDirphotoMF();
+    
+    String dirphoto = "";
+    String dirthumb = "";
+    long dirphotoisze = dirphotoMF.getSize();
+    long dirphotoisze_old = directorVO_old.getDirphotosize();
+    
+    if (dirphotoisze != 0) { // 새롭게 올리는 경우
+      if (dirphotoisze_old == 0) { // 기존 파일이 없는 경우
+        
+      } else { // 기존 파일이 있는 경우
+        Tool.deleteFile(upDir, directorVO_old.getDirphoto()); 
+        Tool.deleteFile(upDir, directorVO_old.getDirthumb()); 
+      }
+      dirphoto = Upload.saveFileSpring(dirphotoMF, upDir);
+      if (Tool.isImage(dirphoto)) {
+        dirthumb = Tool.preview(upDir, dirphoto, 300, 300);
+      }
+      dirphotoisze = dirphotoMF.getSize(); // 생략 가능?
+      
+    } else { // 새롭게 올리지 않는 경우
+      if (dirphotoisze_old != 0) { // 기존 파일이 있는 경우
+        dirphoto = directorVO_old.getDirphoto();
+        dirthumb= directorVO_old.getDirthumb();
+        dirphotoisze = directorVO_old.getDirphotosize();
+        
+      } else {
+        dirphoto = null;
+        dirthumb= null;
+        dirphotoisze = 0;
+      }
+    }
+    
     
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
-    hashMap.put("dirnamekr", directorVO.getDirnamekr());
-    hashMap.put("dirnameen", directorVO.getDirnameen());
-    hashMap.put("dirnation", directorVO.getDirnation());
     hashMap.put("dirno", directorVO.getDirno());
-    
-    if (directorVO.getDirphoto() != null) {
-      
-      // 디스크에서 프로필 사진 삭제
-      String upDir = Tool.getRealPath(request, "director/prof"); 
-      Tool.deleteFile(upDir, directorVO.getDirphoto()); 
-      Tool.deleteFile(upDir, directorVO.getDirthumb()); 
-      
-      // 디스크에서 새 프로필 사진 등록
-      String dirphoto = "";
-      String dirthumb = "";
-      long dirphotosize = 0;
-      
-      MultipartFile mf = directorVO.getDirphotoMF();    
-      dirphotosize = mf.getSize();
-      if (dirphotosize > 0) {
-        dirphoto = Upload.saveFileSpring(mf, upDir);
-        if (Tool.isImage(dirphoto)) {
-          dirthumb = Tool.preview(upDir, dirphoto, 200, 200);
-        }
-      }
-      hashMap.put("dirphoto", dirphoto);
-      hashMap.put("dirphotosize", dirphotosize);
-      hashMap.put("dirthumb", dirthumb);
-      
-    } else {
-      hashMap.put("dirphoto", directorVO_old.getDirphoto());
-      hashMap.put("dirphotosize", directorVO_old.getDirphotosize());
-      hashMap.put("dirthumb", directorVO_old.getDirthumb());
-    }
+    hashMap.put("dirnameen", directorVO.getDirnameen());
+    hashMap.put("dirnamekr", directorVO.getDirnamekr());
+    hashMap.put("dirnation", directorVO.getDirnation());
+    hashMap.put("dirphoto", dirphoto);
+    hashMap.put("dirthumb", dirthumb);
+    hashMap.put("dirphotoisze", dirphotoisze);
     
     int cnt = this.directorProc.update(hashMap);
     System.out.println("처리 결과: " + cnt);
@@ -217,13 +224,17 @@ public class DirectorCont {
   @RequestMapping(value = "/director/delete.do",
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
-  public String delete (int dirno) {
+  public String delete (HttpServletRequest request, int dirno) {
     
-    System.out.println("Controller 진입");
+    DirectorVO directorVO = this.directorProc.read(dirno);
+
+    String upDir = Tool.getRealPath(request, "director/prof"); 
+    Tool.deleteFile(upDir, directorVO.getDirphoto()); 
+    Tool.deleteFile(upDir, directorVO.getDirthumb()); 
     
     // int cnt_film = this.filmProc.delete(dirno);
     int cnt = this.directorProc.delete(dirno);
-    System.out.println("처리 결과: " + cnt);
+    // System.out.println("처리 결과: " + cnt);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);

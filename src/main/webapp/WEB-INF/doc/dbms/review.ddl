@@ -31,6 +31,11 @@ COMMENT ON COLUMN review.filmno is '영화 번호';
 DESC review;
 
 
+ALTER TABLE review DROP COLUMN rate;
+ALTER TABLE review ADD  (rate NUMBER(3, 1))	;
+ALTER TABLE review MODIFY  rate DEFAULT 0		 NOT NULL;
+
+
 DROP SEQUENCE review_seq;
 
 CREATE SEQUENCE review_seq
@@ -90,7 +95,7 @@ WHERE reviewno = 1;
 -- ♣DELETE♣
 
 DELETE 
-FROM review
+FROM review;
 WHERE reviewno=1; 
 
 
@@ -105,9 +110,18 @@ ORDER BY r.rdate DESC;
 
 
 
+-- 영화별 평점 평균
 
 
+SELECT AVG (rate)
+FROM review
+WHERE filmno = 1;
 
 
+SELECT NVL(AVG(rate), 0)
+FROM review
+WHERE filmno = 1;
 
-
+SELECT NVL(AVG(rate), 0)
+FROM review
+WHERE filmno = 26;

@@ -27,6 +27,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   ORDER BY paytotalno
 </select>
 
+<!-- 회원번호별 목록 -->
+<select id="list_by_memberno" resultType="PaytotalVO" parameterType="int">
+  SELECT paytotalno, 
+              pricetotaloriginal, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, 
+              pntsave, method, paytotaldate, memberno
+  FROM paytotal
+  WHERE memberno = #{memberno}
+  ORDER BY paytotalno
+</select>
+
 <!-- 조회 -->
 <select id="read" resultType="PaytotalVO" parameterType="int">
   SELECT paytotalno, 

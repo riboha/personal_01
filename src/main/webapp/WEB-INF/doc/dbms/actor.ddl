@@ -136,9 +136,9 @@ FROM (
             FROM (            
                         SELECT DISTINCT  a.actorno
                         FROM actor a, film f, cast c
-                        WHERE UPPER(a.actornameen) LIKE UPPER('%tom%') OR a.actornamekr LIKE '%tom%' OR a.nation LIKE '%tom%' 
-                                    OR c.role LIKE '%tom%' 
-                                    OR f.titleen LIKE '%tom%' OR f.titlekr LIKE '%tom%' 
+                        --WHERE UPPER(a.actornameen) LIKE UPPER('%tom%') OR a.actornamekr LIKE '%tom%' OR a.nation LIKE '%tom%' 
+                        --            OR c.role LIKE '%tom%' 
+                        --            OR f.titleen LIKE '%tom%' OR f.titlekr LIKE '%tom%' 
                         ORDER BY actorno
                       )
           )
@@ -156,21 +156,44 @@ FROM (
                         OR c.role LIKE '%tom%' 
                         OR f.titleen LIKE '%tom%' OR f.titlekr LIKE '%tom%' 
           );
- 
 
+
+-- 검색 조건
+SELECT actorno,  actornamekr, r
+FROM (
+          SELECT actorno,  actornamekr, rownum as r
+          FROM (            
+                      SELECT DISTINCT  a.actorno, a.actornamekr
+                      FROM actor a, film f, cast c
+                      WHERE f.filmno = c.filmno AND a.actorno = c.actorno
                       
+                      -- 배우 영문 이름 / 한글 이름 / 국적 검색
+                      AND (UPPER(a.actornameen) LIKE UPPER('%ro%') OR a.actornamekr LIKE '%ro%' OR UPPER(a.nation) LIKE UPPER('%ro%'))
+                      
+                      -- 역할 검색
+                      -- AND (UPPER (c.role) LIKE UPPER ('%사라%'))
+                      
+                      -- 영화 한글 제목 / 영문 제목 검색
+                      -- AND (UPPER(f.titleen) LIKE UPPER('%사라%') OR f.titlekr LIKE '%사라%' )
+                 
+                      ORDER BY actorno
+                    )
+        )
 
 
+SELECT  COUNT (actorno) as cnt
+FROM (
+SELECT DISTINCT  a.actorno
+FROM actor a, film f, cast c
+WHERE f.filmno = c.filmno AND a.actorno = c.actorno
+AND UPPER (a.actornameen) LIKE UPPER ( '%' || 'ro' || '%') 
+OR a.actornamekr LIKE  '%' || 'ro' || '%'
+OR a.nation LIKE  '%' || 'ro' || '%'
+OR c.role LIKE '%' || 'ro' || '%'
+OR UPPER (f.titleen) LIKE UPPER ( '%' || 'ro' || '%') 
+OR f.titlekr LIKE  '%' || 'ro' || '%'
 
-
-
-
-
-
-
-
-
-
+            )
 
 
 

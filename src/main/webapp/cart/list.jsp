@@ -256,10 +256,10 @@ $( document ).ready( function() {
 						<!-- end section title -->
 						
 						  <!-- breadcrumb -->
-                        <ul class="breadcrumb">
+                        <!-- <ul class="breadcrumb">
                             <li class="breadcrumb__item"><a href="./create.do"> 등록 </a></li>
                             <li class="breadcrumb__item breadcrumb__item--active">검색</li>
-                        </ul>
+                        </ul> -->
                         <!-- end breadcrumb -->
 					</div>
 				</div>
@@ -332,8 +332,8 @@ $( document ).ready( function() {
 					           <span style="margin: 0px;" id="${cartno }" > ${VO.optionprice } </span>
 					      </TD>
 					      <TD style="text-align: center;"> 
-                              <button onclick="checkout_proc('${filmno}')" id="btn_checkout_proc_${filmno }"  name="btn_checkout_proc_${filmno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;">결제</button>
-                              <button onclick="delete_proc('${cartno}')" id="btn_delete_proc_${cartno }"  name="btn_delete_proc_${cartno }"  style="width:25%; height:100%; margin: 0px; display: inline-block;">삭제</button>
+                              <button onclick="checkout_proc('${filmno}')" id="btn_checkout_proc_${filmno }"  name="btn_checkout_proc_${filmno }"  style="width:25%; height:100%; margin: 0px; display: inline-block; color: rgba(255,255,255,0.5);"><span>결제</span></button>
+                              <button onclick="delete_proc('${cartno}')" id="btn_delete_proc_${cartno }"  name="btn_delete_proc_${cartno }"  style="width:25%; height:100%; margin: 0px; display: inline-block; color: rgba(255,255,255,0.5);"><span>삭제</span></button>
 					      </TD>
 					                   
 					    </TR>
@@ -378,15 +378,15 @@ $( document ).ready( function() {
 				               <form id="form_checkout_select" action="../pay/payment_page.do">
 							       <input type="hidden" id="memberno" name="memberno" value="1">
 							       <input type="hidden" id="checkout_select" name="checkout_select" value="">
-						           <button type="submit" style="width:25%; height:100%; margin: 0px; display: inline-block;">
-						               <p>선택결제</p>
+						           <button type="submit" style="width:25%; height:100%; margin: 0px; display: inline-block; color: rgba(255,255,255,0.5);">
+						               <span>선택결제</span>
 						           </button>
 							   </form>
 				               <form id="form_checkout_select" action="../pay/payment_page.do">
 							       <input type="hidden" id="memberno" name="memberno" value="1">
 							       <input type="hidden" id="checkout_select_all" name="checkout_select_all" value="">
-						           <button type="submit"  style="width:25%; height:100%; margin: 0px; display: inline-block;">
-						               <p>전체결제</p>
+						           <button type="submit"  style="width:25%; height:100%; margin: 0px; display: inline-block; color: rgba(255,255,255,0.5);">
+						               <span>전체결제</span>
 						           </button>
 							   </form>
 					      </TD>

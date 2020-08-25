@@ -49,7 +49,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>FlixGo</title>
 
 </head>
 <body class="body">
@@ -108,7 +108,7 @@
                                         </c:forEach>
                                         <!-- filmgenre end -->
                                     </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>${list_6_main.hit }</span>
                                 </div>
                             </div>
                         </div>

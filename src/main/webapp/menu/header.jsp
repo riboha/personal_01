@@ -48,7 +48,7 @@
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
                                         <li><a href="${root }/actor/create.do">배우 등록 (관리자)</a></li>
                                         <li><a href="${root }/actor/list.do">배우 목록 (관리자)</a></li>
-                                        <li><a href="${root }/actor/list_customer.do">배우 목록</a></li>
+                                        <li><a href="${root }/actor/list_customer.do?search_actor=&nowPage=">배우 목록</a></li>
                                     </ul>
                                 </li>
                                 <!-- end dropdown -->
@@ -159,22 +159,19 @@
 
                                 // ▶ 로그아웃
                                 function signout () {
-
+                                  if (confirm('로그아웃 할까요?')) {
                                     $.ajax({
-                                        url : "./member/signout.do",
+                                        url : "${root}/member/signout.do",
                                         type : "post",
                                         cache : false,
                                         async : false,
                                         dataType : "json",
                                         success : function(rdata) {
                                             if (rdata.cnt >= 1) {
+                                                alert('로그아웃 성공');
                                                 window.location.reload();
                                             } else {
-                                                if (rdata.duplicate >= 1) {
-                                                  alert('로그아웃 실패');
-                                                } else {
-                                                  alert('로그아웃 실패');
-                                                }
+                                              alert('로그아웃 실패');
                                             }
                                         },
                                         error : function(request, status, error) {
@@ -185,6 +182,8 @@
                                             console.log(msg);
                                         }
                                     });
+                                  }
+
                                 }
                                 </script>
                                     

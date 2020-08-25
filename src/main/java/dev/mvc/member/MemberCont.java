@@ -94,7 +94,7 @@ public class MemberCont {
       mempic = Upload.saveFileSpring(mf, upDir);
      
       if (Tool.isImage(mempic)) {
-        memthumb = Tool.preview(upDir, mempic, 200, 200);
+        memthumb = Tool.preview(upDir, mempic, 300, 300);
       }
     }
     // =============파일 전송 코드===============
@@ -230,7 +230,7 @@ public class MemberCont {
       
       mempic = Upload.saveFileSpring(mempicMF, upDir);
       if (Tool.isImage(mempic)) {
-        memthumb = Tool.preview(upDir, mempic, 200, 200);
+        memthumb = Tool.preview(upDir, mempic, 300, 300);
       }
       mempicsize = mempicMF.getSize();
       
@@ -461,8 +461,9 @@ public class MemberCont {
   @RequestMapping(value="/member/signout.do", 
                              method=RequestMethod.POST)
   public String signout(HttpSession session){
-    
+    System.out.println("Logout Controller 진입");
     session.invalidate(); // 모든 session 변수 삭제
+    System.out.println("session 삭제 성공");
     
     JSONObject json = new JSONObject();
     json.put("cnt", 1);

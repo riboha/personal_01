@@ -40,6 +40,17 @@ public class ReviewProc implements ReviewProcInter {
     int cnt = this.reviewDAO.delete(reviewno);
     return cnt;
   }
+  
+  /**
+   * 영화번호 별 평점 평균 
+   * @param filmno
+   * @return
+   */
+  @Override
+  public double rate_by_filmno(int filmno) {
+    double rate_by_filmno = this.reviewDAO.rate_by_filmno(filmno);
+    return rate_by_filmno;
+  }
 
 
   

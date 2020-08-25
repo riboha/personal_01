@@ -1,47 +1,56 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath}" /> 
 
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-	<!-- Font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
-	
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- JS -->
+    <script src="${root }/js/jquery-3.3.1.min.js"></script>
+    <script src="${root }/js/bootstrap.bundle.min.js"></script>
+    <script src="${root }/js/owl.carousel.min.js"></script>
+    <script src="${root }/js/jquery.mousewheel.min.js"></script>
+    <script src="${root }/js/jquery.mCustomScrollbar.min.js"></script>
+    <script src="${root }/js/wNumb.js"></script>
+    <script src="${root }/js/nouislider.min.js"></script>
+    <script src="${root }/js/plyr.min.js"></script>
+    <script src="${root }/js/jquery.morelines.min.js"></script>
+    <script src="${root }/js/photoswipe.min.js"></script>
+    <script src="${root }/js/photoswipe-ui-default.min.js"></script>
+    <script src="${root }/js/main.js"></script>
     
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	    
-	<!-- CSS -->
-	<link rel="stylesheet" href="../css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="../css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="../css/owl.carousel.min.css">
-	<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" href="../css/nouislider.min.css">
-	<link rel="stylesheet" href="../css/ionicons.min.css">
-	<link rel="stylesheet" href="../css/plyr.css">
-	<link rel="stylesheet" href="../css/photoswipe.css">
-	<link rel="stylesheet" href="../css/default-skin.css">
-	<link rel="stylesheet" href="../css/main.css">
-	
-	<!-- Favicons -->
-	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="icon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="icon/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="icon/apple-touch-icon-144x144.png">
-	
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo â Online Movies, TV Shows & Cinema HTML Template</title>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="${root }/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="${root }/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="${root }/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="${root }/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="${root }/css/nouislider.min.css">
+    <link rel="stylesheet" href="${root }/css/ionicons.min.css">
+    <link rel="stylesheet" href="${root }/css/plyr.css">
+    <link rel="stylesheet" href="${root }/css/photoswipe.css">
+    <link rel="stylesheet" href="${root }/css/default-skin.css">
+    <link rel="stylesheet" href="${root }/css/main.css">
+    <link rel="stylesheet" href="${root }/css/breadcrumb.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="${root }/image/png" href="${root }/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="${root }/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="${root }/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="${root }/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="${root }/icon/apple-touch-icon-144x144.png">
+
+    
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>FlixGo</title>
 		
 	<script type="text/javascript">
 	$(function() {
@@ -58,21 +67,25 @@
 		$("input[name='dirnameen']").attr("readonly", false);
 		$("input[name='dirnamekr']").attr("readonly", false);
 		$("input[name='dirnation']").attr("readonly", false);
+
+		document.getElementById("dirphotoMF_div").style.display = "inline";
 	}
 
 
 	// ▶ 수정 실행
 	function update_proc (){
-		var frm = $('#frm');
-		var params = $('#frm').serialize();
-		// alert('params: '+ params);
+		var frm = $('#frm')[0];
+		var formData = new FormData(frm);
+		alert('formData: '+ formData);
 		$.ajax({
 			type : "post",
 			url : "./update.do",
 		    cache : false,
 		    dataType : "json",
 		    async : false,
-		    data : params,
+		    processData: false, // multifile 객체 전송시 필요
+		    contentType: false, // multifile 객체 전송시 필요   
+		    data : formData,
 		    success : function(rdata) {
 		        if (rdata.cnt >= 1) {
 			        alert('수정 성공');
@@ -131,19 +144,18 @@
  <jsp:include page="/menu/header.jsp" flush='false' />
 
 	<!-- page title -->
-	<section class="section section--first section--bg" data-bg="img/section/section.jpg">
+	<section class="section section--first section--bg" data-bg="${root }/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">FAQ</h2>
+						<h2 class="section__title">감독 조회</h2>
 						<!-- end section title -->
-
 						<!-- breadcrumb -->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="#">Home</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">FAQ</li>
+							<li class="breadcrumb__item breadcrumb__item--active">감독 조회</li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
@@ -162,18 +174,18 @@
 					    <form id = 'frm' name = 'frm' class="sign__form" method='POST' action="./director/create.do" style="">
 						
 							<div class="sign__group" style="text-align: center; top: 0;">
-							    <img src="prof/${directorVO.dirthumb} " style ="width: 200px; border-radius: 50%; margin: 0px; text-align: center;" alt=""> 
+							    <img src="./prof/${directorVO.dirthumb} " style ="width: 200px; border-radius: 50%; margin: 0px; text-align: center;" alt=""> 
 							</div>
 							
-							<div class="sign__group" >
-							     <label  class="feature__title" style="display: inline; margin-right: 10px;">　번호　</label>
-								<input type="text"  id='dirno' name='dirno' class="sign__input" value="${directorVO.dirno }" readonly="readonly">
+							<input type="hidden"  id='dirno' name='dirno' class="sign__input" value="${directorVO.dirno }" readonly="readonly">
+							
+							<div class="sign__group">
+								<label  class="feature__title" style="display: inline; margin-right: 10px;">영문이름</label>
+								<input type="text"  id='dirnameen' name='dirnameen' class="sign__input" value="${directorVO.dirnameen }" readonly="readonly" placeholder="영문 이름"> <br>
 							</div>
 							
 							<div class="sign__group">
-								<label  class="feature__title" style="display: inline; margin-right: 10px;">　이름　</label>
-								<input type="text"  id='dirnameen' name='dirnameen' class="sign__input" value="${directorVO.dirnameen }" readonly="readonly" placeholder="영문 이름"> <br>
-								<label  class="feature__title" style="display: inline; margin-right: 10px;">　　　　</label>
+								<label  class="feature__title" style="display: inline; margin-right: 10px;">한글이름</label>
 								<input type="text"  id='dirnamekr' name='dirnamekr' class="sign__input" value="${directorVO.dirnamekr }" readonly="readonly" placeholder="한글 이름">
 							</div>
 							
@@ -182,9 +194,14 @@
 								<input type="text"  id='dirnation' name='dirnation' class="sign__input" value="${directorVO.dirnation }" readonly="readonly" placeholder="국적">
 							</div>
 							
+							<div class="sign__group" id='dirphotoMF_div' style = "display:none; ">
+    							<label  class="feature__title" style="display: inline; margin-right: 10px;">프로필</label>
+							    <input type="file" id='dirphotoMF' name='dirphotoMF' class="sign__input"  placeholder="프로필 사진">
+                            </div>
+							
 							<div class="sign__group">
-    							<label  class="feature__title" style="display: inline; margin-right: 10px;">작품수　</label>
-								<input type="text"  id='' name='' class="sign__input" value="${directorVO.dirno }" readonly="readonly">
+    							<label  class="feature__title" style="display: inline; margin-right: 10px;">작품수</label>
+								<input type="text"  id='' name='' class="sign__input" value="" readonly="readonly">
 							</div>
 							
                             <div class="sign__group" style="width:100%;">
@@ -200,19 +217,7 @@
 	</section>
 	<!-- end faq -->
 	
-	<!-- JS -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/jquery.mousewheel.min.js"></script>
-	<script src="js/jquery.mCustomScrollbar.min.js"></script>
-	<script src="js/wNumb.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/plyr.min.js"></script>
-	<script src="js/jquery.morelines.min.js"></script>
-	<script src="js/photoswipe.min.js"></script>
-	<script src="js/photoswipe-ui-default.min.js"></script>
-	<script src="js/main.js"></script>
+
 </body>
 
 </html>

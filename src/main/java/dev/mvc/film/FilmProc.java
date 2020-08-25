@@ -162,10 +162,17 @@ public class FilmProc implements FilmProcInter {
     if (nowGrp < totalGrp){ 
       str.append("<li class='paginator__item paginator__item--next'>"
           + "<a href=' " +listFile+"?search_genre=" + search_genre + "&search_language="+ search_language+ "&search_quality=" + search_quality + "&nowPage="+ _nowPage+ " '>"
-          + "<<i class='icon ion-ios-arrow-forward'></i></a></li>");  
+          + "<i class='icon ion-ios-arrow-forward'></i></a></li>");  
     } 
     str.append("</ul>");
     return str.toString(); 
+  }
+
+  @Override
+  // 평점 평균 수정
+  public int update_rate(int filmno) {
+    int update_rate = this.FilmDAO.update_rate(filmno);
+    return update_rate;
   }
 
   
