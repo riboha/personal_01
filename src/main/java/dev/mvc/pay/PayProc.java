@@ -177,5 +177,11 @@ public class PayProc implements PayProcInter {
     return str.toString(); 
   }
 
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.payDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
+
 
 }

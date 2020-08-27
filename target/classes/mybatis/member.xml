@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <update id="update" parameterType="MemberVO" >
   UPDATE member
   SET id = #{id, jdbcType=VARCHAR}, pw = #{pw, jdbcType=VARCHAR}, nick = #{nick, jdbcType=VARCHAR}, 
-        tel = #{tel, jdbcType=INTEGER}, email = #{email, jdbcType=VARCHAR},
+        tel = #{tel, jdbcType=VARCHAR}, email = #{email, jdbcType=VARCHAR},
         mempic = #{mempic, jdbcType=VARCHAR}, memthumb = #{memthumb, jdbcType=VARCHAR}, mempicsize = #{mempicsize, jdbcType=INTEGER}
   WHERE memberno = #{memberno, jdbcType=INTEGER}
 </update>
@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="signin" resultType="int" parameterType="HashMap">
   SELECT COUNT(memberno) as cnt
   FROM member
-  WHERE id=#{id} AND pw=#{pw}
+  WHERE id=#{id, jdbcType=VARCHAR} AND pw=#{pw, jdbcType=VARCHAR}
 </select>
 
 <!-- id를 이용한 회원 정보 조회 -->

@@ -59,4 +59,10 @@ public class ActorfavProc implements ActorfavProcInter {
     return cnt_actorfav;
   }
 
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.ActorfavDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
+
 }

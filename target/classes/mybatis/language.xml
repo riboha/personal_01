@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "dev.mvc.language.LanguageDAOInter">
 
-<!-- 등록  -->
+<!-- 영화 지원 언어 등록  -->
 <insert id="create" parameterType="LanguageVO">
   INSERT INTO language(languageno, filmno, en, ch, es, fr, ar, rs, pt, de, jp, hi, kr)
   VALUES (#{filmno}, #{filmno}, #{en}, #{ch}, #{es}, #{fr}, #{ar}, #{rs}, #{pt}, #{de}, #{jp}, #{hi}, #{kr})

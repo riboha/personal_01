@@ -63,7 +63,7 @@ $(function(){
     cal(); // pricetotal 계산
 });
 
-  // ▶ pricetotal 계산
+  // ▶ pricetotal / pntsave / discount 계산
   function cal() {
     var total_price = 0;
     var option_total_price=0;
@@ -111,7 +111,6 @@ $(function(){
       total_price += price;
     }
 
-    
     total_price -= pntuse_val;
     pricetotalfinal_id.textContent=total_price;
     
@@ -201,7 +200,6 @@ $(function(){
     var btn_promoamount_id = document.getElementById('btn_promoamount_'+promofilmno);
     var btn_promoamount_cancel_id = document.getElementById('btn_promoamount_cancel_'+promofilmno);
 
-
     priceoriginal_id.style.textDecoration  = "line-through";
     pricefinal_id.textContent = pricefinal;
     pricefinal_id.style.display = "block";
@@ -231,7 +229,6 @@ $(function(){
 
     var btn_promoamount_id = document.getElementById('btn_promoamount_'+promofilmno);
     var btn_promoamount_cancel_id = document.getElementById('btn_promoamount_cancel_'+promofilmno);
-
     
     priceoriginal_id.style.textDecoration  = "none";
     pricefinal_id.textContent = priceoriginal;
@@ -240,8 +237,6 @@ $(function(){
     // Desactive Buttons 
     btn_promoamount_id.style.display = "inline-block";
     btn_promoamount_cancel_id.style.display = "none";
-
-
 
     cal();
   }
@@ -407,7 +402,7 @@ $(function(){
 
 </head>
 <body class="body">
- <jsp:include page="/menu/header.jsp" flush='false' />
+ <%-- <jsp:include page="/menu/header.jsp" flush='false' /> --%>
  
 	<!-- page title -->
 	<section class="section section--first section--bg" data-bg="../img/section/section.jpg">
@@ -416,13 +411,13 @@ $(function(){
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">장바구니</h2>
+						<h2 class="section__title">결제</h2>
 						<!-- end section title -->
 						
 						  <!-- breadcrumb -->
                         <ul class="breadcrumb">
-                            <li class="breadcrumb__item"><a href="./create.do"> 등록 </a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">검색</li>
+                            <li class="breadcrumb__item"><a href="./create.do"> 장바구니 </a></li>
+                            <li class="breadcrumb__item breadcrumb__item--active">결제</li>
                         </ul>
                         <!-- end breadcrumb -->
 					</div>
@@ -518,8 +513,8 @@ $(function(){
 							         <input type="hidden" id="memberno_${cartno }" name="memberno" value="${sessionScope.memberno }">
 							         <input type="hidden" id="promono_${cartno }" name="promono" value="0">
 							         <input type="hidden" id="filmno_${cartno }" name="filmno" value="${filmno}">
-							         
 							       </form>
+							       
 							        <%--  <button onclick="submit(${cartno})">등록</button> --%>
 							       
 					               </c:forEach>
@@ -548,10 +543,10 @@ $(function(){
                           <TD style="text-align: center; " >
                             <span>내 포인트</span>
                             <span id="pntcurrent"> ${memberVO.pnt } 원</span>
+                                <br>
                             <input type="number" id="pntuse" name="pntuse" 
                                 style="background-color: rgba(255,255,255,0.08); border: none; border-bottom: none; font-family: 'Open Sans', sans-serif; font-size: 14px; " 
                                 value="0"  max="${memberVO.pnt}" min="0" step="10"> 원
-                                <br>
                             <button id="btn_pntuse" name = "btn_pntuse" style ="display:inline-block; color: rgba(255,255,255,0.5);" >[사용]</button>
                             <button id="btn_pntuse_all" name = "btn_pntuse_all" style ="display:inline-block; color: rgba(255,255,255,0.5);">[모두 사용]</button>
                             <button id="btn_pntuse_cancel" name = "btn_pntuse_cancel" style ="display:none; color: rgba(255,255,255,0.5);">[취소]</button>

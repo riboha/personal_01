@@ -71,7 +71,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               SELECT DISTINCT t. paytotalno
               FROM paytotal t, pay p, film f
               WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
-              ORDER BY t.paytotalno
             )
 </select>
 
@@ -85,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                           SELECT DISTINCT t. paytotalno, t.pricetotaldiscpromo, t.pricetotaldiscpnt, t.pricetotalfinal, t.pntsave, t.method, t.paytotaldate
                           FROM paytotal t, pay p, film f
                           WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
-                          ORDER BY paytotalno  
+                          ORDER BY paytotalno DESC
                         )
             )
   WHERE <![CDATA[ r >= #{startNum, jdbcType=INTEGER} AND r <= #{endNum, jdbcType=INTEGER} ]]>
@@ -108,16 +107,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                                                       SELECT DISTINCT t. paytotalno
                                                                       FROM paytotal t, pay p, film f
                                                                       WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
-                                                                      ORDER BY paytotalno  
+                                                                      ORDER BY paytotalno DESC
                                                                     )
                                                           )                             
                                               WHERE <![CDATA[ r >= #{startNum, jdbcType=INTEGER} AND r <= #{endNum, jdbcType=INTEGER} ]]>
                                             )
                                   ) AND p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = #{memberno}
-  ORDER BY paytotalno
+  ORDER BY paytotalno DESC
 </select>
 
-
+<!-- 삭제 (회원번호별)-->
+<delete id="delete_by_memberno" parameterType="int">
+  DELETE 
+  FROM pay 
+  WHERE memberno=#{memberno}
+</delete>
 
 
 

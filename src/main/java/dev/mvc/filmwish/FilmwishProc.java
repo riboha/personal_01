@@ -53,7 +53,11 @@ public class FilmwishProc implements FilmwishProcInter {
     return list_by_memberno;
   }
 
-
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.FilmwishDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
 
 
 }

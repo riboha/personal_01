@@ -77,9 +77,9 @@
 	                                    <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MY</a>
 	                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 	                                        <li><a href="catalog1.html">보관함</a></li>
-	                                        <li><a href="${root }/pay/list_by_memberno.do?memberno=${sessionScope.memberno}">구매 내역</a></li>
+	                                        <li><a href="${root }/pay/list_customer.do?memberno=${sessionScope.memberno}">구매 내역</a></li>
 	                                        <li><a href="${root }/member/list_fav.do?memberno=${sessionScope.memberno}">좋아요</a></li>
-	                                        <li><a href="${root }/member/read.do?memberno=${sessionScope.memberno}">나의 계정</a></li>
+	                                        <li><a href="${root }/member/check_pw.do?memberno=${sessionScope.memberno}">나의 계정</a></li>
 	                                    </ul>
 	                                </li>
                                 </c:when>

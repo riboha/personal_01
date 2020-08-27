@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE dirno= #{dirno}
 </delete>
 
-<!-- 검색 자동완성 -->
+<!-- 감독 자동완성 -->
 <select id="search_auto" resultType="DirectorVO" parameterType="String">
   SELECT DISTINCT dirnamekr, dirnameen, dirno
   FROM director

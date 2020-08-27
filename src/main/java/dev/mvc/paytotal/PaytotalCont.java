@@ -50,7 +50,6 @@ public class PaytotalCont {
     
     JSONObject json = new JSONObject();
     json.put("paytotalno", paytotalno);
-    System.out.println("Paytotal 등록 성공");
     return json.toString();
   }
   

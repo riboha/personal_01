@@ -53,4 +53,11 @@ public class CartProc implements CartProcInter {
     return film_Cart_VO;
   }
 
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.cartDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
+  
+
 }

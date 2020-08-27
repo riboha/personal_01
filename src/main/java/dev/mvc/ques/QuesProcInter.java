@@ -13,5 +13,7 @@ public interface QuesProcInter {
   public int update (QuesVO quesVO);
   
   public int delete (int quesno);
+  
+  public int delete_by_memberno (int memberno);
 
 }

@@ -13,5 +13,7 @@ public interface PaytotalDAOInter {
   public int update (PaytotalVO paytotalVO);
   
   public int delete (int paytotalno);
+  
+  public int delete_by_memberno (int memberno);
 
 }

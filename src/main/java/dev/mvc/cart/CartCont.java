@@ -122,12 +122,10 @@ public class CartCont {
                             method = RequestMethod.POST,
                             produces = "text/plain;charset=UTF-8")
   public String delete (int cartno) {
-    System.out.println("Controller 진입");
     int cnt = this.cartProc.delete(cartno);
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
-    System.out.println("처리 결과 cnt: " + cnt);
     return json.toString();
   }
   

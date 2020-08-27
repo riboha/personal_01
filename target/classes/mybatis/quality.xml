@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "dev.mvc.quality.QualityDAOInter">
 
-<!-- 등록 -->
+<!-- 영화 지원 화질 등록 -->
 <insert id="create" parameterType="QualityVO">
   INSERT INTO quality (qualno, q576, q720, q1024, q1440, filmno)
   VALUES (#{filmno}, #{q576}, #{q720}, #{q1024}, #{q1440}, #{filmno})

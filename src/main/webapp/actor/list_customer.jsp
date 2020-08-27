@@ -81,7 +81,6 @@
     
  <jsp:include page="../menu/header.jsp" flush='false' />
 
-
     <!-- page title -->
     <section class="section section--first section--bg" data-bg="${root }/img/section/section.jpg">
         <div class="container">

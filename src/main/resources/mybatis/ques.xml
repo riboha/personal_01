@@ -39,4 +39,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE quesno=#{quesno}
 </delete>
 
+<!-- 삭제 (회원번호별)-->
+<delete id="delete_by_memberno" parameterType="int">
+  DELETE 
+  FROM ques 
+  WHERE memberno=#{memberno}
+</delete>
+
 </mapper>

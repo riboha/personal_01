@@ -7,7 +7,7 @@ public class Member_Film_fav_VO {
   private String titlekr; /**한글 제목*/
   private String titleen; /**영문 제목*/
   private String poster; /**포스터*/
-
+  private double hit; /**평점 평균*/
   /**MemberVO*/
   private int memberno; /**회원 번호*/
   
@@ -61,5 +61,14 @@ public class Member_Film_fav_VO {
   public void setFilmwishno(int filmwishno) {
     this.filmwishno = filmwishno;
   }
+
+  public double getHit() {
+    return hit;
+  }
+
+  public void setHit(double hit) {
+    this.hit = hit;
+  }
+  
   
 }

@@ -20,7 +20,7 @@ public interface MemberDAOInter {
   
   public int findduplicate_by_id (String id);
   public int findduplicate_by_nick (String nick);
-  public int findduplicate_by_tel (int tel);
+  public int findduplicate_by_tel (String tel);
   public int findduplicate_by_email (String email);
   
   public int signin (Map<String, Object> map);

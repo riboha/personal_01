@@ -14,6 +14,8 @@ public interface ReviewProcInter {
   
   public int delete (int reviewno);
   
+  public int delete_by_memberno (int memberno);
+  
   /**
    * 영화번호 별 평균 평점
    * @param filmno

@@ -34,6 +34,12 @@ COMMENT ON COLUMN member.mempicsize is '프로필 크기';
 
 DESC member;
 
+ALTER TABLE member MODIFY  tel VARCHAR2(40);
+ALTER TABLE member DROP COLUMN tel;
+ALTER TABLE member ADD (tel VARCHAR2(40));
+ALTER TABLE member ADD  UNIQUE (tel);
+
+ALTER TABLE member ADD  UNIQUE (email);
 
 DROP SEQUENCE member_seq;
 
@@ -124,15 +130,22 @@ FROM member
 WHERE id = 'member2';
  
 
+-- nick 중복 확인
+SELECT COUNT(nick) as cnt
+FROM member
+WHERE UPPER(nick)=UPPER('Quentin');
 
 
+-- tel 중복 확인
+SELECT COUNT(tel) as cnt
+FROM member
+WHERE tel='01045114757';
 
 
-
-
-
-
-
+-- email 중복 확인
+SELECT COUNT(email) as cnt
+FROM member
+WHERE email='member1@goodmail.com';
 
 
 

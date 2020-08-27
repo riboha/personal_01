@@ -64,13 +64,10 @@
 		
 	<script type="text/javascript">
 $(function() {
-
-  
   $('#btn_create').on('click', create1);
 
 //▶ 감독 Dirname 자동 완성
-  $( "#dirname" )
-  .autocomplete({
+  $( "#dirname" ).autocomplete({
     source: function (request, response) {
       $.ajax({
         type: 'post',
@@ -113,8 +110,7 @@ $(function() {
            $( this ).autocomplete( "instance" ).menu.active ) {
          event.preventDefault();
        }
-     })
-     .autocomplete({
+     }).autocomplete({
        source: function( request, response ) {
          $.ajax({
            type: 'post',
@@ -205,7 +201,6 @@ function create2 (filmno) {
 
   var params = 
   { 'genrelist' : genrelist, 'languagelist' : languagelist, 'qualitylist' : qualitylist, 'actornolist': actornolist, 'filmno' : filmno};
-  
     
     $.ajax({
         url : "./create2.do",

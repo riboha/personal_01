@@ -54,25 +54,19 @@
 
     <script type="text/javascript">
 
-
 		// ▶ 장바구니에 담기
 	    function cart () {
-
-		    if ($('#optionlan').val() == null) {
-			    alert('지원 언어를 선택해 주세요');
-			}
-		    /* alert('optionlan:' + $('#optionlan').val()); 
-		    alert('optionqual:' + $('#optionqual').val().toString().trim()); 
-		    alert('optionrent:' + $('#optionprice').val().split(':')[0].trim()); 
-		    alert('optionprice:' + $('#optionprice').val().split(':')[1].slice(2,).trim()); */ 
+		    if ($('#optionlan').val() == null) { alert('지원 언어를 선택해 주세요');  return;} 
+		    if ($('#optionqual').val() == null) { alert('지원 화질을 선택해 주세요'); return;} 
+		    if ($('#optionprice').val() == null) { alert('이용권을 선택해 주세요'); return;} 
+		    
 		    var params = {'optionlan' : $('#optionlan').val(),
 								'optionqual' : $('#optionqual').val().toString().trim(),
 								'optionrent' : $('#optionprice').val().split(':')[0].trim(),
 								'optionprice' : $('#optionprice').val().split(':')[1].slice(2,).trim(),
-								'memberno' : 1,
+								'memberno' : ${sessionScope.memberno},
 								'filmno' : ${param.filmno}
 								};
-
 	        $.ajax({
 	            url : "../cart/create.do",
 	            type : "post",
@@ -136,10 +130,7 @@
 
 	 // ▶ 보고싶은 영화에 담기
       function wish () {
-
-          var memberno = 1;
-          var datas= 'memberno='+ memberno + '&filmno=' + ${filmVO.filmno};
-          
+          var datas= 'memberno='+ ${sessionScope.memberno} + '&filmno=' + ${filmVO.filmno};
           $.ajax({
               url : "../filmwish/create.do",
               type : "post",
@@ -147,7 +138,6 @@
               async : false,
               dataType : "json",
               data : datas,
-              // data : {'filmno': ${filmVO.filmno}, 'memberno': memberno},
               success : function(rdata) {
                   if (rdata.cnt >= 1) {
                       alert('보고싶은 영화 등록 성공');
@@ -172,46 +162,41 @@
       
       // ▶ 좋아하는 영화에 담기
       function fav () {
-
-          var memberno = 1;
-          var datas= 'memberno='+ memberno + '&filmno=' + ${filmVO.filmno};
-          
-          $.ajax({
-              url : "../filmfav/create.do",
-              type : "post",
-              cache : false,
-              async : false,
-              dataType : "json",
-              data : datas,
-              success : function(rdata) {
-                  if (rdata.cnt >= 1) {
-                      alert('등록 성공');
-                      window.location.reload();
+        var datas= 'memberno='+ ${sessionScope.memberno} + '&filmno=' + ${filmVO.filmno};
+        $.ajax({
+            url : "../filmfav/create.do",
+            type : "post",
+            cache : false,
+            async : false,
+            dataType : "json",
+            data : datas,
+            success : function(rdata) {
+                if (rdata.cnt >= 1) {
+                    alert('등록 성공');
+                    window.location.reload();
+                } else {
+                  if (rdata.duplicate >= 1) {
+                    alert('이미 좋아하는 영화에 등록된 영화입니다');
                   } else {
-                    if (rdata.duplicate >= 1) {
-                      alert('이미 좋아하는 영화에 등록된 영화입니다');
-                    } else {
-                      alert('좋아하는 영화에 등록 실패');
-                    }
+                    alert('좋아하는 영화에 등록 실패');
                   }
-              },
-              error : function(request, status, error) {
-                  var msg = 'ERROR<br><br>';
-                  msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
-                  msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
-                  console.log(msg);
-              }
-          });
+                }
+            },
+            error : function(request, status, error) {
+                var msg = 'ERROR<br><br>';
+                msg += '<strong>request.status</strong><br>' + request.status + '<hr>';
+                msg += '<strong>error</strong><br>' + error + '<hr>'; //에러메시지
+                console.log(msg);
+            }
+        });
       }
       
       // ▶ 리뷰 등록
       function review_create () {
-
         var review_form = $('#review_form');
         var params = review_form.serialize();
         var rate = document.getElementById("form__slider-value").innerText; 
         params = params + '&rate='+rate;
-
           $.ajax({
               url : "../review/create.do",
               type : "post",
@@ -254,6 +239,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
+
                     <h1 class="details__title">${filmVO.titleen }</h1>
                     <h1 class="details__title">${filmVO.titlekr }</h1>
 <%--                 <button class="" type="button" style="margin-left: 20px; font-size: 50px;" onclick="location.href='./read.do?filmno=${filmVO.filmno}'">
@@ -676,10 +662,8 @@
 
                                         <form id='review_form' action="../review/create.do" class="form">
                                             <input type="hidden" id="memberno" name="memberno" class="form__input" value="${sessionScope.memberno }">
-                                            <%-- <input type="hidden" id="payno" name="payno" class="form__input" value="${param.payno }"> --%>
                                             <input type="hidden" id="payno" name="payno" class="form__input" value="${param.payno }">
                                             <input type="hidden" id="filmno" name="filmno" class="form__input" value="${param.filmno }" >
-                                            
                                             <input type="text" id="title" name="title" class="form__input" placeholder="제목">
                                             <textarea class="form__textarea" id="review" name="review" placeholder="리뷰"></textarea>
                                             <div class="form__slider">
@@ -688,6 +672,7 @@
                                             </div>
                                             <button type="button" class="form__btn" onclick="review_create();">등록</button>
                                         </form>
+                                        
                                     </div>
                                 </div>
                                 <!-- end reviews -->

@@ -17,5 +17,7 @@ public interface DirectorfavDAOInter {
   public int update (DirectorfavVO directorfavVO);
   
   public int delete (int dirfavno);
+  
+  public int delete_by_memberno (int memberno);
 
 }

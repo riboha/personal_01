@@ -2247,8 +2247,13 @@
                           <net.java.amateras.db.visual.model.ColumnModel>
                             <columnName>tel</columnName>
                             <logicalName>휴대폰</logicalName>
-                            <columnType class="net.java.amateras.db.dialect.ColumnType" reference="../../../targetConnections/net.java.amateras.db.visual.model.ForeignKeyModel/source/sourceConnections/net.java.amateras.db.visual.model.ForeignKeyModel[2]/target/sourceConnections/net.java.amateras.db.visual.model.ForeignKeyModel[2]/target/columns/net.java.amateras.db.visual.model.ColumnModel/columnType"/>
-                            <size>11</size>
+                            <columnType class="net.java.amateras.db.dialect.ColumnType">
+                              <name>VARCHAR2</name>
+                              <logicalName>String</logicalName>
+                              <supportSize>true</supportSize>
+                              <type>12</type>
+                            </columnType>
+                            <size>40</size>
                             <notNull>true</notNull>
                             <primaryKey>false</primaryKey>
                             <description></description>

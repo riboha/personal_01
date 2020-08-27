@@ -45,6 +45,12 @@ public class PaytotalProc implements PaytotalProcInter {
     int cnt = this.paytotalDAO.delete(paytotalno);
     return cnt;
   }
+
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.paytotalDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
   
 
 

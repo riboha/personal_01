@@ -127,7 +127,7 @@ CREATE TABLE member(
 		id                            		VARCHAR2(60)		 NOT NULL,
 		pw                            		VARCHAR2(60)		 NOT NULL,
 		nick                          		VARCHAR2(60)		 NOT NULL,
-		tel                           		NUMBER(11)		 NOT NULL,
+		tel                           		VARCHAR2(40)		 NOT NULL,
 		pnt                           		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		birth                         		DATE		 NOT NULL,
 		email                         		VARCHAR2(100)		 NULL ,

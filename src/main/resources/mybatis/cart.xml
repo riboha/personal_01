@@ -48,7 +48,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE memberno=#{memberno} AND filmno = #{filmno}
 </select>
 
-
 <!-- 수정 -->
 <update id="update" parameterType="CartVO" >
   UPDATE cart
@@ -56,12 +55,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE cartno = #{cartno, jdbcType=INTEGER}
 </update>
 
-
 <!-- 삭제 -->
 <delete id="delete" parameterType="int">
   DELETE 
   FROM cart
   WHERE cartno= #{cartno}
+</delete>
+
+<!-- 삭제 (회원번호별) -->
+<delete id="delete_by_memberno" parameterType="int">
+  DELETE 
+  FROM cart
+  WHERE memberno= #{memberno}
 </delete>
 
 </mapper>

@@ -8,7 +8,7 @@ public class MemberVO {
 //  id                                  VARCHAR2(60)         NOT NULL,
 //  pw                                  VARCHAR2(60)         NOT NULL,
 //  nick                                VARCHAR2(60)         NOT NULL,
-//  tel                                 NUMBER(11)       NOT NULL,
+//  tel                                 VARCHAR2(40)       NOT NULL  UNIQUE,
 //  pnt                                 NUMBER(10)       DEFAULT 0       NOT NULL,
 //  birth                               DATE         NOT NULL,
 //  email                               VARCHAR2(100)        NULL ,
@@ -20,7 +20,7 @@ private int memberno; /**회원 번호*/
 private String id; /**아이디*/
 private String pw; /**비밀번호*/
 private String nick; /**닉네임*/
-private int tel; /**휴대폰*/
+private String tel; /**휴대폰*/
 private int pnt; /**포인트*/
 private String birth; /**생년월일*/
 private String email; /**이메일*/
@@ -62,11 +62,11 @@ public void setNick(String nick) {
   this.nick = nick;
 }
 
-public int getTel() {
+public String getTel() {
   return tel;
 }
 
-public void setTel(int tel) {
+public void setTel(String tel) {
   this.tel = tel;
 }
 

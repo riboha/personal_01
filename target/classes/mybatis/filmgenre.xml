@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace = "dev.mvc.filmgenre.FilmgenreDAOInter">
 
 
-<!-- 등록  -->
+<!-- 영화 장르 등록  -->
 <insert id="create" parameterType="FilmgenreVO">
   INSERT INTO filmgenre(filmgenreno, genreno, filmno)
   VALUES (filmgenre_seq.nextval, #{genreno}, #{filmno})

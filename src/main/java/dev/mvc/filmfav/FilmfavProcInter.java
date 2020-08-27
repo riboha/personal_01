@@ -17,4 +17,6 @@ public interface FilmfavProcInter {
   public int update (FilmfavVO filmfavVO);
   
   public int delete (int filmfavno);
+  
+  public int delete_by_memberno (int memberno);
 }

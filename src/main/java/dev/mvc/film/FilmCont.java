@@ -566,18 +566,16 @@ public class FilmCont {
 
     for (DirectorVO vo : search_auto_list) {
       json = new JSONObject(); // 반복 할 때마다 객체를 새로 생성 → 기존 데이터 삭제, 덮어쓰기 방지
-      
       json.put("dirnamekr", vo.getDirnamekr()); 
       json.put("dirnameen", vo.getDirnameen());
       json.put("dirno", vo.getDirno()); 
       array.put(json);
     }
-
     return array.toString();
   }
 
   /**
-   * 배우 검색 자동 완성 list
+   * 배우 자동 완성 list
    * @param filmVO
    * @return
    */
@@ -594,7 +592,6 @@ public class FilmCont {
     
     for (ActorVO vo : search_auto_list) {
       json = new JSONObject();
-      
       json.put("actornamekr", vo.getActornamekr());
       json.put("actornameen", vo.getActornameen());
       json.put("actorno", vo.getActorno());

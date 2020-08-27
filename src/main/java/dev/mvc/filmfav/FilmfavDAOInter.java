@@ -17,5 +17,6 @@ public interface FilmfavDAOInter {
   public int update (FilmfavVO filmfavVO);
   
   public int delete (int filmfavno);
-
+  
+  public int delete_by_memberno (int memberno);
 }

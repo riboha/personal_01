@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "dev.mvc.cast.CastDAOInter">
 
-<!-- 등록  -->
+<!-- 출연진 등록  -->
 <insert id="create" parameterType="CastVO">
   INSERT INTO cast(castno, actorno, role, filmno)
   VALUES (cast_seq.nextval, #{actorno}, #{role, jdbcType=VARCHAR}, #{filmno})

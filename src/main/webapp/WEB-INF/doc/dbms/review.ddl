@@ -10,7 +10,7 @@ CREATE TABLE review(
 		review                        		VARCHAR2(1000)		 NOT NULL,
 		rate                          		NUMBER(2, 1)		 NOT NULL,
 		rdate                         		DATE		 NOT NULL,
-		payno                         		NUMBER(10)		 NOT NULL,
+		payno                         		NUMBER(10)		 NOT NULL       UNIQUE,
 		memberno                      		NUMBER(10)		 NOT NULL,
 		filmno                        		NUMBER(10)		 NOT NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),

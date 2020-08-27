@@ -22,10 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dev.mvc.actorfav.ActorfavProcInter;
 import dev.mvc.actorfav.Member_Actor_VO;
+import dev.mvc.cart.CartProcInter;
 import dev.mvc.directorfav.DirectorfavProcInter;
 import dev.mvc.directorfav.Member_Director_VO;
 import dev.mvc.filmfav.FilmfavProcInter;
 import dev.mvc.filmwish.FilmwishProcInter;
+import dev.mvc.pay.PayProcInter;
+import dev.mvc.paytotal.PaytotalProcInter;
+import dev.mvc.ques.QuesProcInter;
+import dev.mvc.review.ReviewProcInter;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 
@@ -52,7 +57,25 @@ public class MemberCont {
   @Qualifier("dev.mvc.directorfav.DirectorfavProc")
   private DirectorfavProcInter directorfavProc;
   
+  @Autowired
+  @Qualifier("dev.mvc.cart.CartProc")
+  private CartProcInter cartProc;
   
+  @Autowired
+  @Qualifier ("dev.mvc.pay.PayProc")
+  private PayProcInter payProc;
+  
+  @Autowired
+  @Qualifier ("dev.mvc.paytotal.PaytotalProc")
+  private PaytotalProcInter paytotalProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.ques.QuesProc")
+  private QuesProcInter quesProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.review.ReviewProc")
+  private ReviewProcInter reviewProc;
 
   /**
    * 등록 폼
@@ -115,6 +138,22 @@ public class MemberCont {
   }
   
 
+  /**
+   * 비밀번호 확인
+   * @return
+   *  http://localhost:9090/movie/member/pw_check.do?dirno=1
+   */
+  @RequestMapping(value = "/member/pw_check.do",
+                            method = RequestMethod.GET)
+  public ModelAndView pw_check (int memberno) {
+    ModelAndView mav = new ModelAndView();
+    MemberVO memberVO = this.memberProc.read(memberno);
+    mav.addObject("VO", memberVO);
+    mav.setViewName("/member/pw_check");
+    return mav;
+  } 
+  
+  
   /**
    * 조회
    * @return
@@ -298,6 +337,25 @@ public class MemberCont {
   }
   
   /**
+   * 삭제 폼
+   * @param memberVO
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/member/delete.do",
+  method = RequestMethod.GET,
+  produces = "text/plain;charset=UTF-8")
+  public ModelAndView delete (int memberno) {
+    ModelAndView mav = new ModelAndView();
+    
+    MemberVO memberVO = this.memberProc.read(memberno);
+    mav.addObject("memberVO", memberVO);
+    mav.setViewName("/member/delete");
+    
+    return mav;
+  }
+
+  /**
    * 삭제 처리
    * @param memberVO
    * @return
@@ -306,9 +364,36 @@ public class MemberCont {
   @RequestMapping(value = "/member/delete.do",
   method = RequestMethod.POST,
   produces = "text/plain;charset=UTF-8")
-  public String delete (int memberno) {
+  public String delete_proc (String id, String pw, HttpSession session) {
     System.out.println("Controller 진입");
-    int cnt = this.memberProc.delete(memberno);
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("id", id);
+    map.put("pw", pw);
+    
+    int count = memberProc.signin(map);
+    
+    int memberno = 0;
+    if (count != 0) {
+      memberno = (int)session.getAttribute("memberno");
+    }
+    
+    // 결제, 총결제, 좋아하는 감독, 좋아하는 배우, 좋아하는 영화, 보고싶은 영화, 리뷰, 문의사항
+    
+    int cnt = 0;
+    if (
+        this.actorfavProc.delete_by_memberno(memberno) == 0 ||
+        this.filmfavProc.delete_by_memberno(memberno) == 0 ||
+        this.filmwishProc.delete_by_memberno(memberno) == 0 ||
+        this.directorfavProc.delete_by_memberno(memberno) == 0 ||
+        this.cartProc.delete_by_memberno(memberno) == 0 ||
+        this.payProc.delete_by_memberno(memberno) == 0 ||
+        this.paytotalProc.delete_by_memberno(memberno) == 0 ||
+        this.reviewProc.delete_by_memberno(memberno) == 0 ||
+        this.quesProc.delete_by_memberno(memberno) == 0
+        ) {
+      cnt = this.memberProc.delete(memberno);
+    }
     
     JSONObject json = new JSONObject();
     json.put("cnt", cnt);
@@ -329,7 +414,6 @@ public class MemberCont {
     
     Cookie[] cookies = request.getCookies();
     Cookie cookie = null;
-
     String ck_id = ""; // id 저장
     String ck_remember_id = ""; // id 저장 여부를 체크
     String ck_pw = ""; // passwd 저장
@@ -338,7 +422,6 @@ public class MemberCont {
     if (cookies != null) {
       for (int i=0; i < cookies.length; i++){
         cookie = cookies[i]; // 쿠키 객체 추출
-        
         if (cookie.getName().equals("ck_id")){
           ck_id = cookie.getValue(); 
         }else if(cookie.getName().equals("ck_remember_id")){
@@ -348,7 +431,6 @@ public class MemberCont {
         }else if(cookie.getName().equals("ck_remember_pw")){
           ck_remember_pw = cookie.getValue();  // Y, N
         }
-        
       }
     }
     
@@ -453,6 +535,55 @@ public class MemberCont {
   }
   
   /**
+   * 비밀번호 확인 폼
+   */
+  // http://localhost:9090/movie/member/check_pw.do 
+  @ResponseBody
+  @RequestMapping(value = "/member/check_pw.do", 
+  method = RequestMethod.GET,
+  produces = "text/plain;charset=UTF-8")
+  public ModelAndView check_pw (int memberno, HttpSession session) {
+    ModelAndView mav = new ModelAndView();
+    
+    //int memberno = (int)session.getAttribute("memberno");
+    mav.addObject("memberno", memberno);
+    mav.addObject("id", this.memberProc.read(memberno).getId());
+    mav.addObject("memthumb", this.memberProc.read(memberno).getMemthumb());
+    
+    mav.setViewName("/member/check_pw");
+
+    return mav;
+  }
+  
+  /**
+   * 비밀번호 확인
+   */
+  // http://localhost:9090/movie/member/check_pw.do 
+  @ResponseBody
+  @RequestMapping(value = "/member/check_pw_proc.do", 
+  method = RequestMethod.POST,
+  produces = "text/plain;charset=UTF-8")
+  public String check_pw_proc (String id, String pw, HttpSession session) {
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("id", id);
+    map.put("pw", pw);
+    
+    int count = memberProc.signin(map);
+    // int memberno = (int)session.getAttribute("memberno");
+    int memberno = 1;
+    
+    JSONObject json = new JSONObject();
+    json.put("count", count);
+    json.put("memberno", memberno);
+    
+    System.out.println("count: " + count);
+    System.out.println("memberno: " + memberno);
+    
+    return json.toString();
+  }
+  
+  /**
    * 로그아웃 처리
    * @param session
    * @return
@@ -461,14 +592,70 @@ public class MemberCont {
   @RequestMapping(value="/member/signout.do", 
                              method=RequestMethod.POST)
   public String signout(HttpSession session){
-    System.out.println("Logout Controller 진입");
     session.invalidate(); // 모든 session 변수 삭제
-    System.out.println("session 삭제 성공");
-    
     JSONObject json = new JSONObject();
     json.put("cnt", 1);
-    
     return json.toString();
   }
+  
+  /**
+   * 아이디 중복 확인
+   */
+  @ResponseBody
+  @RequestMapping(value="/member/findduplicate_by_id.do", 
+                             method=RequestMethod.POST)
+  public String findduplicate_by_id(String id){
+    int id_duplicated = this.memberProc.findduplicate_by_id(id);
+    
+    JSONObject json = new JSONObject();
+    json.put("id_duplicated", id_duplicated);
+    return json.toString();
+  }
+  
+  /**
+   * 닉네임 중복 확인
+   */
+  @ResponseBody
+  @RequestMapping(value="/member/findduplicate_by_nick.do", 
+  method=RequestMethod.POST)
+  public String findduplicate_by_nick(String nick){
+    int nick_duplicated = this.memberProc.findduplicate_by_nick(nick);
+    
+    JSONObject json = new JSONObject();
+    json.put("nick_duplicated", nick_duplicated);
+    return json.toString();
+  }
+  
+  /**
+   * 전화번호 중복 확인
+   */
+  @ResponseBody
+  @RequestMapping(value="/member/findduplicate_by_tel.do", 
+  method=RequestMethod.POST)
+  public String findduplicate_by_tel(String tel){
+    int tel_duplicated = this.memberProc.findduplicate_by_tel(tel);
+    System.out.println("tel:" + tel);
+    System.out.println("tel_duplicated:" + tel_duplicated);
+    
+    JSONObject json = new JSONObject();
+    json.put("tel_duplicated", tel_duplicated);
+    return json.toString();
+  }
+  
+  /**
+   * 이메일 중복 확인
+   */
+  @ResponseBody
+  @RequestMapping(value="/member/findduplicate_by_email.do", 
+  method=RequestMethod.POST)
+  public String findduplicate_by_email(String email){
+    int email_duplicated = this.memberProc.findduplicate_by_email(email);
+    
+    JSONObject json = new JSONObject();
+    json.put("email_duplicated", email_duplicated);
+    return json.toString();
+  }
+  
+  
 
 }

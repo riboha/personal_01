@@ -69,18 +69,21 @@ public class MemberProc implements MemberProcInter {
   }
 
   @Override
+  // 닉네임 중복 확인
   public int findduplicate_by_nick(String nick) {
     int cnt = this.memberDAO.findduplicate_by_nick(nick);
     return cnt;
   }
 
   @Override
-  public int findduplicate_by_tel(int tel) {
+  // 전화번호 중복 확인
+  public int findduplicate_by_tel(String tel) {
     int cnt = this.memberDAO.findduplicate_by_tel(tel);
     return cnt;
   }
 
   @Override
+  // 이메일 중복 확인
   public int findduplicate_by_email(String email) {
     int cnt = this.memberDAO.findduplicate_by_email(email);
     return cnt;

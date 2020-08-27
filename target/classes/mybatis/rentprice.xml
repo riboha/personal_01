@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "dev.mvc.rentprice.RentpriceDAOInter">
 
-<!-- 등록  -->
+<!-- 영화 이용권 가격 등록  -->
 <insert id="create" parameterType="RentpriceVO">
   INSERT INTO rentprice (rentpriceno, day1, day3, day7, day30, dayperm, filmno)
   VALUES (#{filmno}, #{day1}, #{day3}, #{day7}, #{day30}, #{dayperm}, #{filmno})

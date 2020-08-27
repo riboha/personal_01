@@ -40,6 +40,12 @@ public class QuesProc implements QuesProcInter {
     int cnt = this.quesDAO.delete(quesno);
     return cnt;
   }
+
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.quesDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
   
 
 }

@@ -2,16 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}" /> 
 
-
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    
     <!-- JS -->
-    <script src="${root }/js/jquery-3.3.1.min.js"></script>
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <!-- JavaScript-->
+    <!-- <script src="../js/jquery-3.3.1.min.js"></script> -->
     <script src="${root }/js/bootstrap.bundle.min.js"></script>
     <script src="${root }/js/owl.carousel.min.js"></script>
     <script src="${root }/js/jquery.mousewheel.min.js"></script>
@@ -23,9 +28,6 @@
     <script src="${root }/js/photoswipe.min.js"></script>
     <script src="${root }/js/photoswipe-ui-default.min.js"></script>
     <script src="${root }/js/main.js"></script>
-    
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
 
     <!-- CSS -->
     <link rel="stylesheet" href="${root }/css/bootstrap-reboot.min.css">
@@ -40,17 +42,23 @@
     <link rel="stylesheet" href="${root }/css/main.css">
     <link rel="stylesheet" href="${root }/css/breadcrumb.css">
 
+    <!-- autocomoplete library import -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
+    
     <!-- Favicons -->
     <link rel="icon" type="${root }/image/png" href="${root }/icon/favicon-32x32.png" sizes="32x32">
     <link rel="apple-touch-icon" href="${root }/icon/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="72x72" href="${root }/icon/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="${root }/icon/apple-touch-icon-114x114.png">
     <link rel="apple-touch-icon" sizes="144x144" href="${root }/icon/apple-touch-icon-144x144.png">
-
+    
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>FlixGo</title>
 
 </head>
 <body class="body">
@@ -65,13 +73,13 @@
                 <div class="col-12">
                     <div class="section__wrap">
                         <!-- section title -->
-                        <h2 class="section__title"> My Favorites</h2>
+                        <h2 class="section__title"> 보관함</h2>
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
                         <ul class="breadcrumb">
                             <li class="breadcrumb__item"><a href="#">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">Catalog grid</li>
+                            <li class="breadcrumb__item breadcrumb__item--active">보관함</li>
                         </ul>
                         <!-- end breadcrumb -->
                     </div>
@@ -91,21 +99,23 @@
                         <!-- content tabs nav -->
                         <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
                         
+
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">영화</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">보고싶은 영화</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">배우</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">좋아하는 영화</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">감독</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">좋아하는 감독</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">장르</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">좋아하는 배우</a>
                             </li>
+
                         </ul>
                         <!-- end content tabs nav -->
 
@@ -141,8 +151,42 @@
             <!-- content tabs -->
             <div class="tab-content" id="myTabContent">
             
-                <!-- ▶▶▶▶▶TAB-1 Filmfav◀◀◀◀◀ 12개 -->
+                <!-- ▶▶▶▶▶TAB-1 Filmwish◀◀◀◀◀ 12개 -->
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+                    <div class="row">
+                    
+                        <!-- card -->
+                        <c:forEach var="filmwishlist" items = "${filmwishlist }">
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <div class="card">
+                                <div class="card__cover">
+                                    <img src="${root }/film/poster/${filmwishlist.poster}" alt="">
+                                    <a href="${root }/film/read_customer.do?filmno=${filmwishlist.filmno}" class="card__play">
+                                        <i class="icon ion-ios-play"></i>
+                                    </a>
+                                </div>
+                                <div class="card__content">
+                                    <h3 class="card__title" style="display: inline-block;">
+                                        <a href="#" >
+                                            ${filmwishlist.titlekr} <br> ${filmwishlist.titleen}
+                                        </a>
+                                    </h3>
+                                    <h3 class="card__title" style="display: inline-block;">
+	                                    <span class="card__rate" >
+	                                       <i class="icon ion-ios-close"></i>
+	                                    </span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        </c:forEach>
+                        <!-- end card -->
+                 
+                    </div>
+                </div>
+
+                <!-- ▶▶▶▶▶TAB-2 Actorfav ◀◀◀◀◀ 12개 -->
+                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                     <div class="row">
                     
                         <!-- card -->
@@ -165,43 +209,15 @@
                                         <a href="#">Action</a>
                                         <a href="#">Triler</a>
                                     </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>${filmfavlist.hit}</span>
                                 </div>
                             </div>
                         </div>
                         </c:forEach>
                         <!-- end card -->
-                 
-                    </div>
-                </div>
-
-                <!-- ▶▶▶▶▶TAB-2 Actorfav ◀◀◀◀◀ 12개 -->
-                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-                    <div class="row">
-                    
-                        <!-- card -->
-                        <c:forEach var="actorfavlist" items = "${actorfavlist }">
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="${root }/actor/prof/${actorfavlist.actorpic}" alt="">
-                                    <a href="${root }/actor/read.do?actorno=${actorfavlist.actorno}"  class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title">
-                                        <a href="#">
-                                            ${actorfavlist.actornamekr} <br> ${actorfavlist.actornameen}
-                                        </a>
-                                    </h3>                           
-                                  <span class="card__rate"><i class="icon ion-ios-heart"></i>52</span>           
-                                </div>
-                            </div>
-                        </div>
-                        </c:forEach>
-                        <!-- end card -->
-
+                        
+                        
+                        
                     </div>
                 </div>
 
@@ -241,25 +257,28 @@
                 <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="4-tab">
                     <div class="row">
                         <!-- card -->
+                        <c:forEach var="actorfavlist" items = "${actorfavlist }">
                         <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                             <div class="card">
                                 <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="#" class="card__play">
+                                    <img src="${root }/actor/prof/${actorfavlist.actorpic}" alt="">
+                                    <a href="${root }/actor/read.do?actorno=${actorfavlist.actorno}"  class="card__play">
                                         <i class="icon ion-ios-play"></i>
                                     </a>
                                 </div>
                                 <div class="card__content">
-                                    <h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-                                    <span class="card__category">
-                                        <a href="#">Action</a>
-                                        <a href="#">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <h3 class="card__title">
+                                        <a href="#">
+                                            ${actorfavlist.actornamekr} <br> ${actorfavlist.actornameen}
+                                        </a>
+                                    </h3>                           
+                                  <span class="card__rate"><i class="icon ion-ios-heart"></i>52</span>           
                                 </div>
                             </div>
                         </div>
+                        </c:forEach>
                         <!-- end card -->
+
 
                     </div>
                 </div>

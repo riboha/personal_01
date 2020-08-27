@@ -123,56 +123,91 @@ ORDER BY payno;
 
 -- Pay, Paytotal, Film Join (membernoº° °áÁ¦ ³»¿ª)
 
--- Paytotal
-SELECT paytotalno, 
-            pricetotaloriginal, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, 
-            pntsave, method, paytotaldate, memberno
-FROM paytotal
-ORDER BY paytotalno;
-
--- Pay
-SELECT payno, 
-            optionlan, optionqual, optionrent,
-            priceoriginal, pricediscount, pricefinal, payvalid,
-            memberno, paytotalno, promono, filmno
-FROM pay
-ORDER BY payno;
-
--- Film
-SELECT filmno, titleen, titlekr, lan, year, len, restrict, dirno, postersize, poster, posterthumb
-FROM film
-WHERE filmno = 8
-ORDER BY photono ASC, filmno DESC;
-
--- Join
-SELECT t.paytotalno, t.pricetotaldiscpromo, t.pricetotaldiscpnt, t.pricetotalfinal, t.pntsave, t.method, t.paytotaldate,
-            p.payno, p.optionlan, p.optionqual, p.optionrent, p.pricediscount, p.pricefinal, p.filmno,
-            f.titleen, f.titlekr, f.poster
-FROM pay p, paytotal t, film f
-WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
-ORDER BY payno;
-
-
-
-
-
--- Paytotal no
-SELECT paytotalno, r
+-- ·¹ÄÚµå ÃÑ °¹¼ö (paytotalno ±âÁØ)
+SELECT COUNT (paytotalno) as cnt
 FROM (
-            SELECT paytotalno, rownum as r
+            SELECT DISTINCT t. paytotalno
+            FROM paytotal t, pay p, film f
+            WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+            ORDER BY t.paytotalno
+          )
+
+
+
+-- Paytotal ÆäÀÌÂ¡
+SELECT paytotalno, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, pntsave, method, paytotaldate , r
+FROM (
+            SELECT paytotalno, pricetotaldiscpromo, pricetotaldiscpnt, pricetotalfinal, pntsave, method, paytotaldate ,rownum as r
             FROM (
-                        SELECT DISTINCT t. paytotalno
+                        SELECT DISTINCT t. paytotalno, t.pricetotaldiscpromo, t.pricetotaldiscpnt, t.pricetotalfinal, t.pntsave, t.method, t.paytotaldate
                         FROM paytotal t, pay p, film f
                         WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
                         ORDER BY paytotalno  
                       )
           )
-WHERE r >= 1 AND r <= 5;
+WHERE r >= 5 AND r <= 8;
 
 
 
+-- Pay, Film ÆäÀÌÂ¡
+SELECT t.paytotalno,
+            p.payno, p.optionlan, p.optionqual, p.optionrent, p.priceoriginal, p.pricediscount, p.pricefinal, p.filmno,
+            f.titleen, f.titlekr, f.poster          
+FROM pay p, paytotal t, film f
+WHERE t.paytotalno IN ( 
+
+                                    SELECT paytotalno 
+                                    FROM (
+                                                SELECT paytotalno, r
+                                                FROM (        
+                                                            SELECT paytotalno, rownum as r
+                                                            FROM (
+                                                                        SELECT DISTINCT t. paytotalno
+                                                                        FROM paytotal t, pay p, film f
+                                                                        WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+                                                                        ORDER BY paytotalno  
+                                                                      )
+                                                            )                             
+                                                WHERE r >= 5 AND r <= 8            
+                                              )
+                                ) AND p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+ORDER BY paytotalno;
 
 
+SELECT paytotalno 
+FROM (
+            SELECT paytotalno, r
+            FROM (        
+                        SELECT paytotalno, rownum as r
+                        FROM (
+                                    SELECT DISTINCT t. paytotalno
+                                    FROM paytotal t, pay p, film f
+                                    WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+                                    ORDER BY paytotalno  
+                                  )
+                        )                             
+            WHERE r >= 5 AND r <= 8            
+          )
 
 
-
+  SELECT t.paytotalno,
+              p.payno, p.optionlan, p.optionqual, p.optionrent, p.priceoriginal, p.pricefinal, p.filmno,
+              f.titleen, f.titlekr         
+  FROM pay p, paytotal t, film f
+  WHERE t.paytotalno IN ( 
+                                  SELECT paytotalno 
+                                  FROM (
+                                              SELECT paytotalno, r
+                                              FROM (        
+                                                          SELECT paytotalno, rownum as r
+                                                          FROM (
+                                                                      SELECT DISTINCT t. paytotalno
+                                                                      FROM paytotal t, pay p, film f
+                                                                      WHERE p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+                                                                      ORDER BY paytotalno  
+                                                                    )
+                                                          )                             
+                                               WHERE r >= 5 AND r <= 8      
+                                            )
+                                  ) AND p.paytotalno = t.paytotalno AND p.filmno = f.filmno AND p.memberno = 1
+  ORDER BY paytotalno

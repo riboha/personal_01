@@ -49,7 +49,14 @@ public class ReviewProc implements ReviewProcInter {
   @Override
   public double rate_by_filmno(int filmno) {
     double rate_by_filmno = this.reviewDAO.rate_by_filmno(filmno);
+    
     return rate_by_filmno;
+  }
+
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.reviewDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
   }
 
 

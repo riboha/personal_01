@@ -69,8 +69,6 @@
       if (search_quality != 'ALL') {
         search_quality =  search_quality.substring(1, search_quality.length) + "P";
       } 
-      // alert(' genre: ' + search_genre + ' language: ' + search_language + ' quality: ' + search_quality);
-      
       document.getElementById('filter_genre_value').value = search_genre;
       document.getElementById('filter_quality_value').value = search_quality;
       document.getElementById('filter_language_value').value = search_language;
@@ -83,22 +81,27 @@
       var search_language = "";
       var search_quality = "";
 
-      if ( $('#filter_genre_value').val() == " 　　" || $('#filter_language_value').val() == " 　　" || $('#filter_quality_value').val() == " 　　" ) {
+      if ( $('#filter_genre_value').val() == " 　　" 
+        || $('#filter_language_value').val() == " 　　" 
+        || $('#filter_quality_value').val() == " 　　" ) {
         alert('검색 조건을 설정해주세요');
         return;
       }
-      
 
-      if ($('#filter_genre_value').val() != 'ALL') { search_genre=$('#filter_genre_value').val(); } 
-      if ($('#filter_language_value').val() != 'ALL') { search_language=$('#filter_language_value').val(); } 
+      if ($('#filter_genre_value').val() != 'ALL') {
+        search_genre=$('#filter_genre_value').val(); 
+      } 
+      if ($('#filter_language_value').val() != 'ALL') {
+        search_language=$('#filter_language_value').val(); 
+      } 
       if ($('#filter_quality_value').val() != 'ALL') {
          search_quality=$('#filter_quality_value').val(); 
          search_quality = "q" + search_quality.substring(0, search_quality.length - 1);
       } 
 
-      // alert(' genre: ' + search_genre + ' language: ' + search_language + ' quality: ' + search_quality);
-
-      location.href='list_customer.do?search_genre=' + search_genre + '&search_language=' + search_language + '&search_quality=' + search_quality ;
+      location.href='list_customer.do?search_genre=' + search_genre 
+      + '&search_language=' + search_language 
+      + '&search_quality=' + search_quality ;
     }
 
     </script>

@@ -53,5 +53,11 @@ public class DirectorfavProc implements DirectorfavProcInter {
     return list_by_memberno;
   }
 
+  @Override
+  public int delete_by_memberno(int memberno) {
+    int delete_by_memberno = this.DirectorfavDAO.delete_by_memberno(memberno);
+    return delete_by_memberno;
+  }
+
 
 }

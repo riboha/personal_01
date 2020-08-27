@@ -18,6 +18,8 @@ public interface ActorfavProcInter {
   
   public int delete (int actorfavno);
   
+  public int delete_by_memberno (int memberno);
+  
   /**
    * 배우별 좋아요 갯수
    * @param actorno

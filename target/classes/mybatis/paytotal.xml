@@ -56,4 +56,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </delete>
 
+<!-- 삭제 (회원번호별)-->
+<delete id="delete_by_memberno" parameterType="int">
+  DELETE 
+  FROM paytotal 
+  WHERE memberno=#{memberno}
+</delete>
+
 </mapper>

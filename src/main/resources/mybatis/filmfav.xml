@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- 목록 (회원번호 별) -->
 <select id="list_by_memberno" resultType="Member_Film_fav_VO" parameterType="int">
-  SELECT f.filmno, f.titleen, f.titlekr, f.poster,
+  SELECT f.filmno, f.titleen, f.titlekr, f.poster, f.hit,
               m.memberno,
               x.filmfavno
   FROM film f, member m, filmfav x
@@ -54,6 +54,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   DELETE 
   FROM filmfav 
   WHERE filmfavno=#{filmfavno}
+</delete>
+
+<!-- 삭제 (회원번호별)-->
+<delete id="delete_by_memberno" parameterType="int">
+  DELETE 
+  FROM filmfav 
+  WHERE memberno=#{memberno}
 </delete>
 
 <!-- 영화별 좋아요 갯수 -->

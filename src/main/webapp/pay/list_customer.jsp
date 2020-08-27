@@ -60,7 +60,6 @@
 		  if (confirm('리뷰 작성하러 갈까요?')) {
 			  window.location = $(this).data("href");
 		   }
-
 		});
     });
 	</script>
@@ -148,7 +147,8 @@
 	                                <c:choose>
 		                                <c:when test="${list_paging.paytotalno == list_paging_paytotalno.paytotalno}">
 		                                <tr>
-		                                    <th class='clickable-row' data-href= "../film/read_customer.do?filmno=${list_paging.filmno }&payno=${list_paging.payno}">
+		                                    <th class='clickable-row' 
+		                                          data-href= "../film/read_customer.do?filmno=${list_paging.filmno }&payno=${list_paging.payno}">
 		                                      ${list_paging.titlekr} <br> ${list_paging.titleen}
 		                                    </th>
 		                                    <td>${list_paging.optionlan}</td>
@@ -170,6 +170,11 @@
             </div>
             <!-- Paylist_Card  END-->
             </c:forEach>
+	<!-- paginator -->
+	<div class="col-12">
+	    ${paging }
+	</div>
+	<!-- end paginator -->
 		</div>
  <!-- Paylist END-->
  
@@ -177,15 +182,8 @@
 <!-- Continaer END -->
 
 
-<!-- paginator -->
 <br>
 <br>
-<div class="container" >
-	<div class="col-12">
-	    ${paging }
-	</div>
-</div>
-<!-- end paginator -->
 
 </body>
 </html>

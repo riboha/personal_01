@@ -17,6 +17,9 @@ public interface PayProcInter {
   
   public int delete (int payno);
   
+  public int delete_by_memberno (int memberno);
+
+  
   /**
    * 회원번호 별 결제 목록 갯수 (총결제 레코드 5개씩 페이징 + 해당 결제 레코드)
    * @param HashMap

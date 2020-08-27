@@ -56,12 +56,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   WHERE actorfavno=#{actorfavno}
 </delete>
 
+<!-- 삭제 (회원번호별)-->
+<delete id="delete_by_memberno" parameterType="int">
+  DELETE 
+  FROM actorfav 
+  WHERE memberno=#{memberno}
+</delete>
+
 <!-- 배우별 좋아요 갯수 -->
 <select id="count_actorfav" resultType="int" parameterType="int">
   SELECT COUNT(actorfavno) as cnt_actorfav
   FROM actorfav
   WHERE actorno = #{actorno}
 </select>
-
 
 </mapper>
